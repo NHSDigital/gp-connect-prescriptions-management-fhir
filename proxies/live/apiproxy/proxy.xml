@@ -1,0 +1,4 @@
+<APIProxy name="gcpmf">
+  <!-- This is the root of the application -->
+  <Description>"gp-connect-prescriptions-management-fhir"</Description>
+</APIProxy>
