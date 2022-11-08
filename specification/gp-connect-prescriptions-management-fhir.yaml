@@ -6,8 +6,14 @@ info:
   version: 'Computed and injected at build time by `scripts/set_version.py`'
   description: |
     ## Overview
-    Add a fully fledged description here with markdown syntax.
-    For help completing the content of your API spec, see our guidance on the minimum standard (bronze) details 
+        <style>.codeinline.example {word-wrap: anywhere;}</style>
+
+    This API will provide PFS apps with the ability to view and manage medication, medications requests and EPS pharmacy nominations.
+
+    EPS pharmacy nomination details are stored within a citizen's Patient Demographic Service (PDS) data which allows prescriptions to be sent to their preferred location once this has been approved by their GP practice, in order to make an EPS pharmacy nomination both the GP practice and pharmacy need to be EPS enabled.
+
+    Medication requests can be generated from multiple locations including the NHS App and foundation supplier applications, once generated the patient needs the options to cancel or track the status of their request.
+    
     to include [here](https://nhsd-confluence.digital.nhs.uk/display/APM/Writing+a+bronze+API+cover+page). You should also base your content on our exemplar API - [PDS FHIR](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir).
     ## Who can use this API
     To be completed.
@@ -38,4 +44,524 @@ servers:
     description: Integration test environment.
   - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Production environment.
-paths: {}
+x-spec-publication:
+  operation-order:
+    - operations:
+        - method: GET
+          path: /FHIR/R4/Task
+        - method: PUT
+          path: /FHIR/R4/Task
+        - method: POST
+          path: /FHIR/R4/Task
+        - method: GET
+          path: /FHIR/R4/MedicationStatement
+tags:
+  - name: Request tracking
+  - name: Create new request
+  - name: Cancel a request
+  - name: View medication
+paths: 
+  /FHIR/R4/Task:
+    get:
+      operationId: get-task
+      summary: Search for current requests to check status
+      description: >
+        ## Overview
+        
+        Use this end point in order to check the status of your current prescription.
+        
+        At least one of the following parameters is required:
+      tags: 
+        - Request tracking
+      parameters:
+        - in: header
+          name: Authorization
+          description: >
+            An [OAuth 2.0 bearer
+            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+            Required in all environments except sandbox.
+          required: true
+          schema:
+            type: string
+            format: ^Bearer\ [[:ascii:]]+$
+            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: query
+          name: focus:identifier
+          description: |
+            the identifier of the request you are looking for
+          required: false
+          schema: 
+            type: string
+            example: D7AC09-A99968-4BA59C
+        - in: query
+          name: patient:identifier
+          description: >
+            The NHS number of the patient whose prescriptions you are searching
+            for.
+          required: false
+          schema:
+            type: string
+            example: '9912003489'
+        - in: query
+          name: identifier
+          description: >
+            The identifier of the request
+          required: false
+          schema:
+            type: string
+            example: 'D7AC09-A99968-4BA59C'
+        - in: query
+          name: status
+          description: >
+            The type of status to search
+          required: false
+          schema:
+            type: string
+            example: 'requested'
+        - in: query
+          name: date of request
+          description: >
+            window of dates to search
+          required: false
+          schema:
+            type: string
+            example: 'requested'
+      responses:
+        '200':
+          description: Successful query
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example:
+                  description: Successful request to obtain active requests
+                  value: 
+                    resourceType: Bundle
+                    id: a96bb563-c86b-4021-903e-5917b927c386
+                    meta: 
+                      lastUpdated: 2022-11-02T14:29:57.879+00:00
+                    type: searchset
+                    entry:
+                      - resource: 
+                          resourceType: Task
+                          id: 5742a989-9cd3-4f8c-8e7c-780915adfd9b
+                          status: requested
+                          intent: order
+                          businessStatus: 
+                            coding:
+                              - system: http://hl7.org/fhir/CodeSystem/task-code
+                                code: fulfill
+                                display: fulfill the request
+                          code: 
+                            - coding: 
+                                system: https://fhir.nhs.uk/CodeSystem/message-event
+                                code: prescription-order
+                                display: Prescription Order
+                          focus: 
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/MedicationRequest
+                              value: CDF34E-A99968-4FF3BQ
+                          for: 
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9999999999
+                          requester:
+                            reference: Patient/99999999
+                            display: Ed Turner
+        4XX:
+          description: Invalid request
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: |
+                  Outcome of an operation that doesnot result in a resource or bundle being returned
+                properties:
+                  resourceType: 
+                    type: string
+                    description: FHIR Resource Type
+                    enum: 
+                      - OperationOutcome
+                    example: OperationOutcome
+                  issue:
+                    type: array
+                    description: List of issues that have occured.
+                    minItems: 1
+                    items:
+                      type: object
+                      required: 
+                        - severity
+                        - code
+                      properties:
+                        severity:
+                          type: string
+                          enum:
+                            - fatal
+                            - error
+                            - warning
+                            - information
+                          description: Severity of the error
+                          example: error
+                        code:
+                          type: string
+                          description: FHIR error code
+                          example: invalid
+                          enum: 
+                            - invalid
+                            - structure
+                            - required
+                            - value
+                            - invariant
+                            - security
+                            - login
+                            - unknown
+                            - expired
+                            - forbidden
+                            - suppressed
+                            - processing
+                            - not-supported
+                            - duplicate
+                            - multiple-matches
+                            - not-found
+                            - deleted
+                            - too-long
+                            - code-invalid
+                            - extension
+                            - too-costly
+                            - business-rule
+                            - conflict
+                            - transient
+                            - lock-error
+                            - no-store
+                            - exception
+                            - timeout
+                            - incomplete
+                            - throttled
+                            - informational
+                        details:
+                          type: object
+                          description: internal error code
+                          properties: 
+                            coding:
+                              type: array
+                              items: 
+                                type: object
+                                properties:
+                                  system: 
+                                    type: string
+                                    description: URI of the coding system specification.
+                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                                  version:
+                                    type: string
+                                    description: Version of the coding system in use
+                                    example: '1'
+                                  code: 
+                                    type: string
+                                    description: Symbol in syntax defined in system
+                                    example: INVALID_VALUE
+                                  display: 
+                                    type: string
+                                    description: Represnetation defined by system
+                                    example: Provided value is invalid
+                        expression:
+                          type: string
+                          description: FHIRPath of element(s) related to the error
+                          example: patient.name.given
+                        
+    post:
+      operationId: post-task
+      summary: Request a new repeat prescription 
+      description: >
+        ## Overview 
+        Use this end point to be able to create a new request for a repeat prescription
+      tags: 
+        - Create new request
+      parameters:
+        - in: header
+          name: Authorization
+          description: >
+            An [OAuth 2.0 bearer
+            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+
+
+            Required in all environments except sandbox.
+          required: true
+          schema:
+            type: string
+            format: ^Bearer\ [[:ascii:]]+$
+            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+      requestBody:
+        required: true
+        description: Successful Request.
+        content: 
+          application/fhir+json:
+            schema:
+              type: object
+              description: >
+                Repeat medication requested (Task with MedicationRequest focus)
+            examples:
+              task:
+                description: |
+                  A valid task
+                value:
+                  resourceType: Task
+                  id: aef77afb-7e3c-427a-8657-2c427f71a271
+                  status: requested
+                  intent: order
+                  focus: 
+                    identifier: 
+                      system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                      value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  for: 
+                    reference: Patient/999999999
+                    display: Richard Smith
+                  authoredOn: 2022-10-13T16:20:27+07:00
+                  lastModified: 2022-10-13T16:20:27+07:00
+                  reuqested: 
+                    reference: Patient/999999999
+                    display: Richard Smith
+                  note: [Repeat of current prescription]
+              focus-medicationrequest:
+                description: |
+                  The focus:MedicationRequest
+                value:
+                  resourceType: MedicationRequest
+                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  status: requested
+                  intent: order
+                  category: community
+                  medication:
+                    medicationCodeableConcept:
+                      - coding: 
+                          system: https://dmd.nhs.uk
+                          code: 329526003
+                          display: Apirin 300mg dispersible tablets
+                  subject:
+                    reference: urn:gppfsapi-patient-1234567890
+                    display: Richard Smith
+                  authoredOn: 2022-10-13T16:20:27+07:00
+                  substitution: false
+              bundle:
+                description: |
+                  Valid bundle containing the Task to create the request and the MedicationRequest itself.
+                value: 
+                  resourceType: Bundle
+                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  identifier: 
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: ad945a29-85f8-439a-b590-6789719adc16
+                  type: message
+                  entry: 
+                    - resource:
+                        resourceType: Task
+                        status: requested
+                        intent: order
+                        focus: 
+                          identifier: 
+                            system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                            value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        for: 
+                          reference: Patient/999999999
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        lastModified: 2022-10-13T16:20:27+07:00
+                        reuqested: 
+                          reference: Patient/999999999
+                          display: Richard Smith
+                        note: [Repeat of current prescription]
+                    - resource: 
+                        resourceType: MedicationRequest
+                        id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        status: requested
+                        intent: order
+                        category: community
+                        medication:
+                          medicationCodeableConcept:
+                            - coding: 
+                                system: https://dmd.nhs.uk
+                                code: 329526003
+                                display: Apirin 300mg dispersible tablets
+                        subject:
+                          reference: urn:gppfsapi-patient-1234567890
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        substitution: false
+
+
+      responses:
+        '200':
+          description: Successfully submitted.
+          
+          
+    put:
+      operationId: cancel-task
+      summary: Cancel an unactioned repeat medication request
+      description: >
+        ## Overview 
+        
+        Use this endpoint to cancel a current request that has not been actioned yet, i.e is still has the status of "requested".
+        
+        At least one of the following parameters needs to be provided with the end point:
+        
+        * identifier
+        
+        * focus:identifier
+        
+        The request body would essentially be the same task to create a request but with an updated status of cancelled
+        
+      tags: 
+        - Cancel a request
+      requestBody:
+        required: true
+        description: Successful Request.
+        content: 
+          application/fhir+json:
+            schema:
+              type: object
+              description: >
+                Repeat medication requested (Task with MedicationRequest focus)
+            examples:
+              task:
+                description: |
+                  A valid task
+                value:
+                  resourceType: Task
+                  id: aef77afb-7e3c-427a-8657-2c427f71a271
+                  identifier:
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: 30d65c8e-98e8-4806-b6a6-51e94733f0e9
+                  status: cancelled
+                  statusReason: 
+                  intent: order
+                  focus: 
+                    identifier: 
+                      system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                      value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  for: 
+                    reference: Patient/999999999
+                    display: Richard Smith
+                  authoredOn: 2022-10-13T16:20:27+07:00
+                  lastModified: 2022-10-13T16:20:27+07:00
+                  reuqested: 
+                    reference: Patient/999999999
+                    display: Richard Smith
+                  note: [Repeat of current prescription]
+              focus-medicationrequest:
+                description: |
+                  The focus:MedicationRequest
+                value:
+                  resourceType: MedicationRequest
+                  identifier: 
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  status: requested
+                  statusReason:
+                    coding:
+                      - system: https://fhir.nhs.uk/CodeSystem/medicationrequest-status-reason
+                        code: '0005'
+                        display: At the Patient's request
+                  intent: order
+                  category: community
+                  medication:
+                    medicationCodeableConcept:
+                      - coding: 
+                          system: https://dmd.nhs.uk
+                          code: 329526003
+                          display: Apirin 300mg dispersible tablets
+                  subject:
+                    reference: urn:gppfsapi-patient-1234567890
+                    display: Richard Smith
+                  authoredOn: 2022-10-13T16:20:27+07:00
+                  substitution: false       
+      responses:
+        '200':
+          description: Successful request to cancel a request
+        
+    
+  /FHIR/R4/MedicationStatement:
+    get:
+      operationId: get-medication
+      summary: Search for current requests to check status
+      description: >
+        ## Overview
+        
+        Use this end point in order to view your current medication
+        
+        Use one of the following query parameters must be provided:
+        
+        * identifier
+        
+        * patient: identifier
+        
+        * basedOn:identifier
+      tags: 
+        - View medication
+      responses: 
+        '200':
+          description: Successful request to view medication
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example:
+                  description: Successful view of medications
+                  value: 
+                    resourceType: Bundle
+                    id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
+                    type: searchset
+                    entry: 
+                    - resource: 
+                        resourceType: MedicationStatement
+                        id: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
+                        meta:
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
+                        status: active
+                        medicationCodeableConcept: 
+                           coding:
+                            - system: http://snomed.info/ct
+                              code: 400847007
+                              display: insulin glargine 100units/mL injection
+                              text: insulin glargine 100units/mL injection
+                              subject: Patient/99999999
+                        effectiveDateTime: 2022-10-23
+                        dateAsserted: 2020-01-12
+                        basedOn: 
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                    - resource: 
+                        resourceType: MedicationStatement
+                        id: asfhsku28281-23458-fhfjf-134dd-dhdhshkad
+                        meta:
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
+                        status: active
+                        medicationCodeableConcept: 
+                           coding:
+                            - system: http://snomed.info/ct
+                              code: 3113111000001106
+                              display: Pulmicort 100 Turbohaler
+                              text: Pulmicort 100 Turbohaler
+                              subject: Patient/99999999
+                        effectiveDateTime: 2022-10-23
+                        dateAsserted: 2020-01-12
+                        basedOn: 
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-hweiureiu1919
+                        
+
+
+                          
+
+
+
+
+
+                
+
+                        
+                        
+                      
+          
+          
+    
+      
+
