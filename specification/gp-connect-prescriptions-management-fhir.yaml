@@ -307,9 +307,6 @@ paths:
                 value:
                   resourceType: Task
                   id: aef77afb-7e3c-427a-8657-2c427f71a271
-                  identifier:
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: 30d65c8e-98e8-4806-b6a6-51e94733f0e9
                   status: requested
                   intent: order
                   focus: 
@@ -330,9 +327,7 @@ paths:
                   The focus:MedicationRequest
                 value:
                   resourceType: MedicationRequest
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   status: requested
                   intent: order
                   category: community
@@ -347,6 +342,53 @@ paths:
                     display: Richard Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   substitution: false
+              bundle:
+                description: |
+                  Valid bundle containing the Task to create the request and the MedicationRequest itself.
+                value: 
+                  resourceType: Bundle
+                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  identifier: 
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: ad945a29-85f8-439a-b590-6789719adc16
+                  type: message
+                  entry: 
+                    - resource:
+                        resourceType: Task
+                        status: requested
+                        intent: order
+                        focus: 
+                          identifier: 
+                            system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                            value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        for: 
+                          reference: Patient/999999999
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        lastModified: 2022-10-13T16:20:27+07:00
+                        reuqested: 
+                          reference: Patient/999999999
+                          display: Richard Smith
+                        note: [Repeat of current prescription]
+                    - resource: 
+                        resourceType: MedicationRequest
+                        id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        status: requested
+                        intent: order
+                        category: community
+                        medication:
+                          medicationCodeableConcept:
+                            - coding: 
+                                system: https://dmd.nhs.uk
+                                code: 329526003
+                                display: Apirin 300mg dispersible tablets
+                        subject:
+                          reference: urn:gppfsapi-patient-1234567890
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        substitution: false
+
+
       responses:
         '200':
           description: Successfully submitted.
@@ -414,6 +456,11 @@ paths:
                     system: https://tools.ietf.org/html/rfc4122
                     value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   status: requested
+                  statusReason:
+                    coding:
+                      - system: https://fhir.nhs.uk/CodeSystem/medicationrequest-status-reason
+                        code: '0005'
+                        display: At the Patient's request
                   intent: order
                   category: community
                   medication:
@@ -467,7 +514,49 @@ paths:
                     entry: 
                     - resource: 
                         resourceType: MedicationStatement
+                        id: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
+                        meta:
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
                         status: active
+                        medicationCodeableConcept: 
+                           coding:
+                            - system: http://snomed.info/ct
+                              code: 400847007
+                              display: insulin glargine 100units/mL injection
+                              text: insulin glargine 100units/mL injection
+                              subject: Patient/99999999
+                        effectiveDateTime: 2022-10-23
+                        dateAsserted: 2020-01-12
+                        basedOn: 
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                    - resource: 
+                        resourceType: MedicationStatement
+                        id: asfhsku28281-23458-fhfjf-134dd-dhdhshkad
+                        meta:
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
+                        status: active
+                        medicationCodeableConcept: 
+                           coding:
+                            - system: http://snomed.info/ct
+                              code: 3113111000001106
+                              display: Pulmicort 100 Turbohaler
+                              text: Pulmicort 100 Turbohaler
+                              subject: Patient/99999999
+                        effectiveDateTime: 2022-10-23
+                        dateAsserted: 2020-01-12
+                        basedOn: 
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-hweiureiu1919
+                        
+
+
+                          
+
+
+
+
+
+                
+
                         
                         
                       
