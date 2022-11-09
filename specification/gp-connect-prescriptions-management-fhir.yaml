@@ -2,35 +2,63 @@
 # for gp-connect-prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
 openapi: '3.0.0'
 info:
-  title: 'gp-connect-prescriptions-management-fhir'
+  title: 'GP Connect Prescriptions Management FHIR API'
   version: 'Computed and injected at build time by `scripts/set_version.py`'
   description: |
     ## Overview
-        <style>.codeinline.example {word-wrap: anywhere;}</style>
 
-    This API will provide PFS apps with the ability to view and manage medication, medications requests and EPS pharmacy nominations.
-
-    EPS pharmacy nomination details are stored within a citizen's Patient Demographic Service (PDS) data which allows prescriptions to be sent to their preferred location once this has been approved by their GP practice, in order to make an EPS pharmacy nomination both the GP practice and pharmacy need to be EPS enabled.
-
-    Medication requests can be generated from multiple locations including the NHS App and foundation supplier applications, once generated the patient needs the options to cancel or track the status of their request.
+    This API will provide patient facing apps the ability for patients to manage their prescriptions.
     
-    to include [here](https://nhsd-confluence.digital.nhs.uk/display/APM/Writing+a+bronze+API+cover+page). You should also base your content on our exemplar API - [PDS FHIR](https://digital.nhs.uk/developer/api-catalogue/personal-demographics-service-fhir).
+    ### Patients will be able to:
+
+    * Request a new instance of a repeat prescription
+
+    * View all medications
+
+    * Cancel a prescription request
+    
+    * View active prescription requests
+
+    * Order a one prescription to a one off nomination
+    
     ## Who can use this API
-    To be completed.
+
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development.
+
+    You must get approval before you can go live. For more information, see the 'Onboarding' section.
+
     ## Related APIs
-    To be completed.
+    
+    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top)  - this will handle the prescribing and dispensing.
+
     ## API status and roadmap
-    To be completed.
+    
+    * Status: Alpha
+
     ## Service level
     To be completed.
     ## Technology
-    To be completed.
+
+    This API is RESTful.
+
+    It conforms to the FHIR global standard for health care data exchange, specifically to FHIR R4 (v4.0.1), except that it does not support the capabilities interaction.
+
+    It includes some country-specific FHIR extensions, which are built against FHIR UK Core, specifically UK.core.r4 1.0.0.
+
+    For example resource names are capitalised and singular for example `/MedicationRequest` not `/medicationrequests`
+
     ## Network access
     To be completed.
     ## Security and authorisation
     To be completed.
     ## Environments and testing
-    To be completed.
+    
+    |Environment|Base URL|
+    |-----------|--------|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
+    |Integration Testing|`https://int.api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
+    |Production|`https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
+
     ## Onboarding
     To be completed.
   contact:
@@ -135,7 +163,7 @@ paths:
                 type: object
               examples:
                 example:
-                  description: Successful request to obtain active requests
+                  description: Successful request to obtain requests
                   value: 
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
@@ -145,30 +173,39 @@ paths:
                     entry:
                       - resource: 
                           resourceType: Task
-                          id: 5742a989-9cd3-4f8c-8e7c-780915adfd9b
+                          id: aef77afb-7e3c-427a-8657-2c427f71a271
                           status: requested
                           intent: order
-                          businessStatus: 
-                            coding:
-                              - system: http://hl7.org/fhir/CodeSystem/task-code
-                                code: fulfill
-                                display: fulfill the request
-                          code: 
-                            - coding: 
-                                system: https://fhir.nhs.uk/CodeSystem/message-event
-                                code: prescription-order
-                                display: Prescription Order
                           focus: 
                             identifier: 
-                              system: https://fhir.nhs.uk/Id/MedicationRequest
-                              value: CDF34E-A99968-4FF3BQ
+                              system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                              value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           for: 
+                            reference: Patient/999999999
+                            display: Richard Smith
+                          authoredOn: 2022-10-13T16:20:27+07:00
+                          lastModified: 2022-10-13T16:20:27+07:00
+                          reuqested: 
+                            reference: Patient/999999999
+                            display: Richard Smith
+                          note: [Repeat of current prescription]
+                      - resource:
+                          resourceType: Task
+                          id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          status: requested
+                          intent: order
+                          focus: 
                             identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9999999999
-                          requester:
-                            reference: Patient/99999999
-                            display: Ed Turner
+                              system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                              value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          for: 
+                            reference: Patient/999999999
+                            display: Richard Smith
+                          authoredOn: 2022-10-13T16:20:27+07:00
+                          lastModified: 2022-10-13T16:20:27+07:00
+                          reuqested: 
+                            reference: Patient/999999999
+                            display: Richard Smith          
         4XX:
           description: Invalid request
           content:
@@ -362,14 +399,14 @@ paths:
                             system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
                             value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                         for: 
-                          reference: Patient/999999999
+                          reference: Patient/9999999999
                           display: Richard Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         lastModified: 2022-10-13T16:20:27+07:00
                         reuqested: 
-                          reference: Patient/999999999
+                          reference: Patient/9999999999
                           display: Richard Smith
-                        note: [Repeat of current prescription]
+                        note: [Repeat of current prescription]  
                     - resource: 
                         resourceType: MedicationRequest
                         id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
@@ -383,7 +420,7 @@ paths:
                                 code: 329526003
                                 display: Apirin 300mg dispersible tablets
                         subject:
-                          reference: urn:gppfsapi-patient-1234567890
+                          reference: urn:gppfsapi-patient-9999999999
                           display: Richard Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
@@ -677,16 +714,20 @@ paths:
                           example: task not found
         
     
-  /FHIR/R4/MedicationStatement:
+  /prescriptions:
     get:
-      operationId: get-medication
-      summary: Search for current requests to check status
+      operationId: get-prescriptions
+      summary: Search for prescriptions relating to a patient
       description: >
         ## Overview
         
-        Use this end point in order to view your current medication
-        
-        Use one of the following query parameters must be provided:
+        This end point will return a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
+
+        The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
+
+        For example, an acute medication is represented by a MedicationStatement and two MedicationRequest resources, one must have an intent of plan and the other as order. All three of these should relate to the same Medication resource.
+
+        A repeat prescription or repeat dispensing medication will be represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
         
         * identifier
         
@@ -756,18 +797,18 @@ paths:
             example: 'requested'      
       responses: 
         '200':
-          description: Successful request to view medication
+          description: Successful request to view prescriptions
           content: 
             application/fhir+json:
               schema: 
                 type: object
               examples:
                 example:
-                  description: Successful view of medications
+                  description: Successful view of acute medication
                   value: 
                     resourceType: Bundle
                     id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
-                    type: searchset
+                    type: collection
                     entry: 
                     - resource: 
                         resourceType: MedicationStatement
@@ -775,35 +816,76 @@ paths:
                         meta:
                           - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
                         status: active
-                        medicationCodeableConcept: 
-                           coding:
-                            - system: http://snomed.info/ct
-                              code: 400847007
-                              display: insulin glargine 100units/mL injection
-                              text: insulin glargine 100units/mL injection
-                              subject: Patient/99999999
-                        effectiveDateTime: 2022-10-23
+                        medicationReference:
+                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                        effectivePeriod: 
+                          start: 2022-10-23
+                          end: 2023-01-10
                         dateAsserted: 2020-01-12
                         basedOn: 
                           reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
                     - resource: 
-                        resourceType: MedicationStatement
-                        id: asfhsku28281-23458-fhfjf-134dd-dhdhshkad
+                        resourceType: Medication
+                        id: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
                         meta:
-                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
-                        status: active
-                        medicationCodeableConcept: 
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Medication
+                        code: 
                            coding:
                             - system: http://snomed.info/ct
                               code: 3113111000001106
                               display: Pulmicort 100 Turbohaler
                               text: Pulmicort 100 Turbohaler
-                              subject: Patient/99999999
-                        effectiveDateTime: 2022-10-23
-                        dateAsserted: 2020-01-12
+                    - resource: 
+                        resourceType: MedicationRequest
+                        id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                        meta: 
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
+                        identifier: 
+                        status: completed
+                        intent: plan
+                        medicationReference:
+                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                        subject: 
+                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
+                        authoredOn: 2018-01-06
+                        requester: 
+                          reference: Patient/999999999
+                        substitution: false
+                        courseOfTherapyType:
+                          - coding:
+                              system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                              code: acute
+                              display: Acute Medication
+                    - resourceType:
+                        resourceType: MedicationRequest
+                        id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                        meta: 
+                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
+                        identifier: 
                         basedOn: 
-                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-hweiureiu1919
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                        status: completed
+                        intent: plan
+                        medicationReference:
+                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                        subject: 
+                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
+                        authoredOn: 2018-01-06
+                        requester: 
+                          reference: Patient/999999999
+                        substitution: false
+                        courseOfTherapyType:
+                          - coding:
+                              system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                              code: acute
+                              display: Acute Medication
                         
+                            
+
+                        
+
+
+
 
 
                           
