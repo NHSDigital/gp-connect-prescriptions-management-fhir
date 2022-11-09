@@ -262,7 +262,7 @@ paths:
                                     example: INVALID_VALUE
                                   display: 
                                     type: string
-                                    description: Represnetation defined by system
+                                    description: Representation defined by system
                                     example: Provided value is invalid
                         expression:
                           type: string
@@ -392,6 +392,105 @@ paths:
       responses:
         '200':
           description: Successfully submitted.
+        4XX:
+          description: Invalid request
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: |
+                  Outcome that doesn't result in a successful submission of a request
+                properties:
+                  resourceType: 
+                    type: string
+                    description: FHIR Resource Type
+                    enum: 
+                      - OperationOutcome
+                    example: OperationOutcome
+                  issue:
+                    type: array
+                    description: List of issues that have occured.
+                    minItems: 1
+                    items:
+                      type: object
+                      required: 
+                        - severity
+                        - code
+                      properties:
+                        severity:
+                          type: string
+                          enum:
+                            - fatal
+                            - error
+                            - warning
+                            - information
+                          description: Severity of the error
+                          example: error
+                        code:
+                          type: string
+                          description: FHIR error code
+                          example: invalid
+                          enum: 
+                            - invalid
+                            - structure
+                            - required
+                            - value
+                            - invariant
+                            - security
+                            - login
+                            - unknown
+                            - expired
+                            - forbidden
+                            - suppressed
+                            - processing
+                            - not-supported
+                            - duplicate
+                            - multiple-matches
+                            - not-found
+                            - deleted
+                            - too-long
+                            - code-invalid
+                            - extension
+                            - too-costly
+                            - business-rule
+                            - conflict
+                            - transient
+                            - lock-error
+                            - no-store
+                            - exception
+                            - timeout
+                            - incomplete
+                            - throttled
+                            - informational
+                        details:
+                          type: object
+                          description: internal error code
+                          properties: 
+                            coding:
+                              type: array
+                              items: 
+                                type: object
+                                properties:
+                                  system: 
+                                    type: string
+                                    description: URI of the coding system specification.
+                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                                  version:
+                                    type: string
+                                    description: Version of the coding system in use
+                                    example: '1'
+                                  code: 
+                                    type: string
+                                    description: Symbol in syntax defined in system
+                                    example: INVALID_VALUE
+                                  display: 
+                                    type: string
+                                    description: Representation defined by system
+                                    example: Provided value is invalid
+                        expression:
+                          type: string
+                          description: FHIRPath of element(s) related to the error
+                          example: invalid value on medicationrequest.medication
           
           
     put:
@@ -477,6 +576,105 @@ paths:
       responses:
         '200':
           description: Successful request to cancel a request
+        4XX:
+          description: Invalid request for a cancellation
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: |
+                  Outcome of an operation that doesnot result in a resource or bundle being returned
+                properties:
+                  resourceType: 
+                    type: string
+                    description: FHIR Resource Type
+                    enum: 
+                      - OperationOutcome
+                    example: OperationOutcome
+                  issue:
+                    type: array
+                    description: List of issues that have occured.
+                    minItems: 1
+                    items:
+                      type: object
+                      required: 
+                        - severity
+                        - code
+                      properties:
+                        severity:
+                          type: string
+                          enum:
+                            - fatal
+                            - error
+                            - warning
+                            - information
+                          description: Severity of the error
+                          example: error
+                        code:
+                          type: string
+                          description: FHIR error code
+                          example: not-found
+                          enum: 
+                            - invalid
+                            - structure
+                            - required
+                            - value
+                            - invariant
+                            - security
+                            - login
+                            - unknown
+                            - expired
+                            - forbidden
+                            - suppressed
+                            - processing
+                            - not-supported
+                            - duplicate
+                            - multiple-matches
+                            - not-found
+                            - deleted
+                            - too-long
+                            - code-invalid
+                            - extension
+                            - too-costly
+                            - business-rule
+                            - conflict
+                            - transient
+                            - lock-error
+                            - no-store
+                            - exception
+                            - timeout
+                            - incomplete
+                            - throttled
+                            - informational
+                        details:
+                          type: object
+                          description: internal error code
+                          properties: 
+                            coding:
+                              type: array
+                              items: 
+                                type: object
+                                properties:
+                                  system: 
+                                    type: string
+                                    description: URI of the coding system specification.
+                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                                  version:
+                                    type: string
+                                    description: Version of the coding system in use
+                                    example: '1'
+                                  code: 
+                                    type: string
+                                    description: Symbol in syntax defined in system
+                                    example: NOT_FOUND
+                                  display: 
+                                    type: string
+                                    description: Representation defined by system
+                                    example: Task to cancel not found
+                        expression:
+                          type: string
+                          description: FHIRPath of element(s) related to the error
+                          example: task not found
         
     
   /FHIR/R4/MedicationStatement:
@@ -495,8 +693,67 @@ paths:
         * patient: identifier
         
         * basedOn:identifier
+
+        * identifier
+        
+        * patient: identifier
+        
+        * basedOn:identifier
+
       tags: 
         - View medication
+      parameters:
+        - in: header
+          name: Authorization
+          description: >
+            An [OAuth 2.0 bearer
+            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+            Required in all environments except sandbox.
+          required: true
+          schema:
+            type: string
+            format: ^Bearer\ [[:ascii:]]+$
+            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: query
+          name: basedOn:identifier
+          description: |
+            the identifier of the medication request you are looking for
+          required: false
+          schema: 
+            type: string
+            example: D7AC09-A99968-4BA59C
+        - in: query
+          name: patient:identifier
+          description: >
+            The NHS number of the patient whose medication you are searching for.
+          required: false
+          schema:
+            type: string
+            example: '9912003489'
+        - in: query
+          name: identifier
+          description: >
+            The identifier of the request
+          required: false
+          schema:
+            type: string
+            example: 'D7AC09-A99968-4BA59C'
+        - in: query
+          name: status
+          description: >
+            The type of status to search
+          required: false
+          schema:
+            type: string
+            example: 'active'
+        - in: query
+          name: date of request
+          description: >
+            window of dates to search
+          required: false
+          schema:
+            type: string
+            example: 'requested'      
       responses: 
         '200':
           description: Successful request to view medication
