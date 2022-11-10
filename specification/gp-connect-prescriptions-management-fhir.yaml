@@ -19,11 +19,11 @@ info:
     
     * View active prescription requests
 
-    * Order a one prescription to a one off nomination
+    * Order a prescription to a one off nomination pharmacy
     
     ## Who can use this API
 
-    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development.
+    This API can only be used where there is a legal basis to do so. Make sure you have a [valid use case](https://digital.nhs.uk/services/electronic-prescription-service/enabling-eps-for-your-service) before you go too far with your development.
 
     You must get approval before you can go live. For more information, see the 'Onboarding' section.
 
@@ -36,14 +36,16 @@ info:
     * Status: Alpha
 
     ## Service level
-    To be completed.
+
+    This API is a bronze service, meaning it is available and supported only during business hours (8am to 6pm), Monday to Friday excluding bank holidays.
+
+    For more details, [see service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+
     ## Technology
 
     This API is RESTful.
 
-    It conforms to the FHIR global standard for health care data exchange, specifically to FHIR R4 (v4.0.1), except that it does not support the capabilities interaction.
-
-    It includes some country-specific FHIR extensions, which are built against FHIR UK Core, specifically UK.core.r4 1.0.0.
+    It conforms to the FHIR global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
     For example resource names are capitalised and singular for example `/MedicationRequest` not `/medicationrequests`
 
@@ -82,7 +84,7 @@ x-spec-publication:
         - method: POST
           path: /FHIR/R4/Task
         - method: GET
-          path: /FHIR/R4/MedicationStatement
+          path: /FHIR/R4/return-medication
 tags:
   - name: Request tracking
   - name: Create new request
@@ -96,9 +98,16 @@ paths:
       description: >
         ## Overview
         
-        Use this end point in order to check the status of your current prescription.
+        Use this end point in order to check the status of your current prescription request.
         
-        At least one of the following parameters is required:
+        At least one of the following parameters must be provided:
+
+        * identifier
+
+        * patient:identifier
+
+        * focus:identifier
+
       tags: 
         - Request tracking
       parameters:
@@ -116,7 +125,7 @@ paths:
         - in: query
           name: focus:identifier
           description: |
-            the identifier of the request you are looking for
+            the identifier of the MedicationRequest itself you are searching for 
           required: false
           schema: 
             type: string
@@ -124,8 +133,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose prescriptions you are searching
-            for.
+            The NHS number of the patient whose requests you arer searching for
           required: false
           schema:
             type: string
@@ -133,7 +141,7 @@ paths:
         - in: query
           name: identifier
           description: >
-            The identifier of the request
+            The identifier of the Task itself
           required: false
           schema:
             type: string
@@ -141,19 +149,32 @@ paths:
         - in: query
           name: status
           description: >
-            The type of status to search
+            The type of status to search you can find the values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
           required: false
           schema:
             type: string
             example: 'requested'
         - in: query
-          name: date of request
+          name: authored-on
           description: >
-            window of dates to search
+            Date the prescription was ordered, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
           required: false
           schema:
             type: string
-            example: 'requested'
+          examples:
+            exact date:
+              value:
+                - eq2010-10-22
+              description: Exact match date
+            greater than or equals:
+              value:
+                - g2022-01-15
+              description: Greater than or equals which matches 2022-01-15 or 2022-01-16
+            less than or equals:
+              value: 
+                -  le2022-01-15
+              description: Less than or equals which matches 2022-01-15 or 2022-01-14
+
       responses:
         '200':
           description: Successful query
@@ -163,12 +184,15 @@ paths:
                 type: object
               examples:
                 example:
-                  description: Successful request to obtain requests
+                  description: Successful request to view requests for medication
                   value: 
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
                     meta: 
                       lastUpdated: 2022-11-02T14:29:57.879+00:00
+                    identifier: 
+                      system: https://tools.ietf.org/html/rfc4122
+                      value: a3294018-6c63-4556-8797-f782d1c95480
                     type: searchset
                     entry:
                       - resource: 
@@ -178,21 +202,21 @@ paths:
                           intent: order
                           focus: 
                             identifier: 
-                              system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
+                              system: https://tools.ietf.org/html/rfc412, 
                               value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           for: 
                             reference: Patient/999999999
                             display: Richard Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-13T16:20:27+07:00
-                          reuqested: 
+                          reuqester: 
                             reference: Patient/999999999
                             display: Richard Smith
                           note: [Repeat of current prescription]
                       - resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
-                          status: requested
+                          status: completed
                           intent: order
                           focus: 
                             identifier: 
@@ -203,9 +227,9 @@ paths:
                             display: Richard Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-13T16:20:27+07:00
-                          reuqested: 
+                          reuqester: 
                             reference: Patient/999999999
-                            display: Richard Smith          
+                            display: Richard Smith
         4XX:
           description: Invalid request
           content:
@@ -213,7 +237,7 @@ paths:
               schema:
                 type: object
                 description: |
-                  Outcome of an operation that doesnot result in a resource or bundle being returned
+                  Outcome of an operation that does not result in a resource or bundle being returned
                 properties:
                   resourceType: 
                     type: string
@@ -311,7 +335,11 @@ paths:
       summary: Request a new repeat prescription 
       description: >
         ## Overview 
-        Use this end point to be able to create a new request for a repeat prescription
+
+        Use this end point to be able to create a new request for a repeat prescription or repeat dispensing prescription.
+
+        For this we will need a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
+
       tags: 
         - Create new request
       parameters:
@@ -395,9 +423,7 @@ paths:
                         status: requested
                         intent: order
                         focus: 
-                          identifier: 
-                            system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
-                            value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                         for: 
                           reference: Patient/9999999999
                           display: Richard Smith
@@ -424,8 +450,6 @@ paths:
                           display: Richard Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
-
-
       responses:
         '200':
           description: Successfully submitted.
@@ -542,12 +566,18 @@ paths:
         
         * identifier
         
-        * focus:identifier
-        
         The request body would essentially be the same task to create a request but with an updated status of cancelled
-        
       tags: 
         - Cancel a request
+      parameters:
+        - in: query
+          name: identifier
+          description: >
+            The identifier of the task to cancel
+          required: true
+          schema:
+            type: string
+            example: 'aef77afb-7e3c-427a-8657-2c427f71a271'
       requestBody:
         required: true
         description: Successful Request.
@@ -571,9 +601,7 @@ paths:
                   statusReason: 
                   intent: order
                   focus: 
-                    identifier: 
-                      system: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest, 
-                      value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   for: 
                     reference: Patient/999999999
                     display: Richard Smith
@@ -712,34 +740,27 @@ paths:
                           type: string
                           description: FHIRPath of element(s) related to the error
                           example: task not found
-        
-    
-  /prescriptions:
+  /return-medication:
     get:
-      operationId: get-prescriptions
-      summary: Search for prescriptions relating to a patient
+      operationId: get-medication
+      summary: Search for medications relating to a patient
       description: >
         ## Overview
         
         This end point will return a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
 
+
         The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
+
 
         For example, an acute medication is represented by a MedicationStatement and two MedicationRequest resources, one must have an intent of plan and the other as order. All three of these should relate to the same Medication resource.
 
-        A repeat prescription or repeat dispensing medication will be represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
-        
-        * identifier
-        
-        * patient: identifier
-        
-        * basedOn:identifier
 
-        * identifier
-        
-        * patient: identifier
-        
-        * basedOn:identifier
+        A repeat prescription or repeat dispensing medication will be represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
+
+        The request must include the following parameter:
+
+        * patient:identifier
 
       tags: 
         - View medication
@@ -756,45 +777,33 @@ paths:
             format: ^Bearer\ [[:ascii:]]+$
             example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
         - in: query
-          name: basedOn:identifier
-          description: |
-            the identifier of the medication request you are looking for
-          required: false
-          schema: 
-            type: string
-            example: D7AC09-A99968-4BA59C
-        - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose medication you are searching for.
+            The NHS number of the patient whose requests you arer searching for
           required: false
           schema:
             type: string
             example: '9912003489'
         - in: query
-          name: identifier
+          name: authored-on
           description: >
-            The identifier of the request
+            Date the prescription was ordered, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
           required: false
           schema:
             type: string
-            example: 'D7AC09-A99968-4BA59C'
-        - in: query
-          name: status
-          description: >
-            The type of status to search
-          required: false
-          schema:
-            type: string
-            example: 'active'
-        - in: query
-          name: date of request
-          description: >
-            window of dates to search
-          required: false
-          schema:
-            type: string
-            example: 'requested'      
+          examples:
+            exact date:
+              value:
+                - eq2010-10-22
+              description: Exact match date
+            greater than or equals:
+              value:
+                - g2022-01-15
+              description: Greater than or equals which matches 2022-01-15 or 2022-01-16
+            less than or equals:
+              value: 
+                -  le2022-01-15
+              description: Less than or equals which matches 2022-01-15 or 2022-01-14   
       responses: 
         '200':
           description: Successful request to view prescriptions
@@ -856,7 +865,7 @@ paths:
                               system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
                               code: acute
                               display: Acute Medication
-                    - resourceType:
+                    - resource:
                         resourceType: MedicationRequest
                         id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                         meta: 
@@ -879,6 +888,137 @@ paths:
                               system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
                               code: acute
                               display: Acute Medication
+                    - resource:
+                        resourceType: Patient
+                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
+                        meta: 
+                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
+                        identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: 999999999
+                        name: 
+                          - use: usual
+                            family: Turner
+                            given: 
+                              - Ed
+                            prefix: 
+                              - Mr 
+                        gender: male
+                        birthDate: 1999-02-15
+                        address: 
+                          - use: home
+                            line: 
+                              - 123 Test Street
+                              - Manchester
+                            postalCode: M1TST
+                        generalPractitioner:
+                          - identifier:
+                                system: https://fhir.nhs.uk/Id/ods-organization-code
+                                value: P8888
+        4XX:
+          description: Invalid get request
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: |
+                  Outcome of an operation that doesnot result in a resource or bundle being returned
+                properties:
+                  resourceType: 
+                    type: string
+                    description: FHIR Resource Type
+                    enum: 
+                      - OperationOutcome
+                    example: OperationOutcome
+                  issue:
+                    type: array
+                    description: List of issues that have occured.
+                    minItems: 1
+                    items:
+                      type: object
+                      required: 
+                        - severity
+                        - code
+                      properties:
+                        severity:
+                          type: string
+                          enum:
+                            - fatal
+                            - error
+                            - warning
+                            - information
+                          description: Severity of the error
+                          example: error
+                        code:
+                          type: string
+                          description: FHIR error code
+                          example: not-found
+                          enum: 
+                            - invalid
+                            - structure
+                            - required
+                            - value
+                            - invariant
+                            - security
+                            - login
+                            - unknown
+                            - expired
+                            - forbidden
+                            - suppressed
+                            - processing
+                            - not-supported
+                            - duplicate
+                            - multiple-matches
+                            - not-found
+                            - deleted
+                            - too-long
+                            - code-invalid
+                            - extension
+                            - too-costly
+                            - business-rule
+                            - conflict
+                            - transient
+                            - lock-error
+                            - no-store
+                            - exception
+                            - timeout
+                            - incomplete
+                            - throttled
+                            - informational
+                        details:
+                          type: object
+                          description: internal error code
+                          properties: 
+                            coding:
+                              type: array
+                              items: 
+                                type: object
+                                properties:
+                                  system: 
+                                    type: string
+                                    description: URI of the coding system specification.
+                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
+                                  version:
+                                    type: string
+                                    description: Version of the coding system in use
+                                    example: '1'
+                                  code: 
+                                    type: string
+                                    description: Symbol in syntax defined in system
+                                    example: NOT_FOUND
+                                  display: 
+                                    type: string
+                                    description: Representation defined by system
+                                    example: Patient not found
+                        expression:
+                          type: string
+                          description: FHIRPath of element(s) related to the error
+                          example: Patient does not exist                      
+                        
+
+
+
+
                         
                             
 
