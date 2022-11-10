@@ -635,7 +635,7 @@ paths:
                           code: 329526003
                           display: Apirin 300mg dispersible tablets
                   subject:
-                    reference: urn:gppfsapi-patient-1234567890
+                    reference: Patient/99999999
                     display: Richard Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   substitution: false       
@@ -845,8 +845,7 @@ paths:
                               code: 3113111000001106
                               display: Pulmicort 100 Turbohaler
                               text: Pulmicort 100 Turbohaler
-                    - fullUrl: urn:uid:cc5ed700-a18c-425a-9651-d51a9ea25fd3
-                      resource: 
+                    - resource: 
                         resourceType: MedicationRequest
                         id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                         meta: 
@@ -857,42 +856,40 @@ paths:
                         medicationReference:
                           reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
                         subject: 
-                          reference:  urn:urid:e92d6065-e438-49fb-a9be-a1c0ea469554
+                          reference:  Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
                         authoredOn: 2018-01-06
                         requester: 
-                          reference:  urn:urid:e92d6065-e438-49fb-a9be-a1c0ea469554
+                          reference:  Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
                         substitution: false
                         courseOfTherapyType:
                           - coding:
                               system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
                               code: acute
                               display: Acute Medication
-                    - fullUrl: urn:uid:b133f270-c7d7-4b5f-9009-4793e49f9fe9
-                      resource:
+                    - resource:
                         resourceType: MedicationRequest
                         id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                         meta: 
                           - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
                         identifier: 
                         basedOn: 
-                          reference: urn:uid:cc5ed700-a18c-425a-9651-d51a9ea25fd3
+                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
                         status: completed
                         intent: order
                         medicationReference:
                           reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
                         subject: 
-                          reference:  urn:urid:e92d6065-e438-49fb-a9be-a1c0ea469554
+                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
                         authoredOn: 2018-01-06
                         requester: 
-                          reference:  urn:urid:e92d6065-e438-49fb-a9be-a1c0ea469554
+                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
                         substitution: false
                         courseOfTherapyType:
                           - coding:
                               system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
                               code: acute
                               display: Acute Medication
-                    - fullUrl: urn:urid:e92d6065-e438-49fb-a9be-a1c0ea469554
-                      resource:
+                    - resource:
                         resourceType: Patient
                         id: 04603d77-1a4e-4d63-b246-d7504f8bd833
                         meta: 
