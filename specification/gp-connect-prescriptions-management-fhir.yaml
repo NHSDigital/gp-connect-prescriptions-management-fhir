@@ -7,7 +7,7 @@ info:
   description: |
     ## Overview
 
-    This API will provide patient facing apps the ability for patients to manage their prescriptions.
+    Use this API in order to allow patients to be able to manage their prescriptions.
     
     ### Patients will be able to:
 
@@ -29,11 +29,16 @@ info:
 
     ## Related APIs
     
-    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top)  - this will handle the prescribing and dispensing.
+    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top).
 
     ## API status and roadmap
     
     * Status: Alpha
+
+    To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
+
+    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support)
+
 
     ## Service level
 
@@ -47,6 +52,8 @@ info:
 
     It conforms to the FHIR global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
+    It includes some country specific resources, in particular [UK Core](https://simplifier.net/packages/fhir.r4.ukcore.stu1/0.5.1).
+    
     For example resource names are capitalised and singular for example `/MedicationRequest` not `/medicationrequests`
 
     ## Network access
@@ -63,6 +70,7 @@ info:
 
     ## Onboarding
     To be completed.
+
   contact:
     name: 'gp-connect-prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
@@ -201,7 +209,7 @@ paths:
                           status: requested
                           intent: order
                           focus: 
-                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                           for: 
                             reference: Patient/999999999
                             display: Richard Smith
@@ -332,7 +340,7 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to be able to create a new request for a repeat prescription or repeat dispensing prescription.
+        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription.
 
         For this we will need a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
 
@@ -393,7 +401,7 @@ paths:
                   identifier: 
                     system: https://tools.ietf.org/html/rfc4122
                     value: 2ed8b2ed-175e-464e-bb9a-4a1acb4d3d8a
-                  status: requested
+                  status: active
                   intent: order
                   category: community
                   medication:
@@ -436,7 +444,7 @@ paths:
                     - resource: 
                         resourceType: MedicationRequest
                         id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                        status: requested
+                        status: active
                         intent: order
                         category: community
                         medication:
@@ -450,9 +458,38 @@ paths:
                           display: Richard Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
+                    - resource:
+                        resourceType: Patient
+                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
+                        meta: 
+                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
+                        identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: 999999999
+                        name: 
+                          - use: usual
+                            family: Smith
+                            given: 
+                              - Richard
+                            prefix: 
+                              - Mr 
+                        gender: male
+                        birthDate: 1999-02-15
+                        address: 
+                          - use: home
+                            line: 
+                              - 123 Test Street
+                              - Manchester
+                            postalCode: M1TST
+                        generalPractitioner:
+                          - identifier:
+                                system: https://fhir.nhs.uk/Id/ods-organization-code
+                                value: P8888
+                      
       responses:
         '200':
           description: Successfully submitted.
+
 
         4XX:
           description: Invalid request
@@ -571,6 +608,19 @@ paths:
       tags: 
         - Cancel a request
       parameters:
+        - in: header
+          name: Authorization
+          description: >
+            An [OAuth 2.0 bearer
+            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+
+
+            Required in all environments except sandbox.
+          required: true
+          schema:
+            type: string
+            format: ^Bearer\ [[:ascii:]]+$
+            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
         - in: query
           name: identifier
           description: >
@@ -642,6 +692,8 @@ paths:
       responses:
         '200':
           description: Successful request to cancel a request
+          
+
         4XX:
           description: Invalid request for a cancellation
           content:
@@ -741,9 +793,9 @@ paths:
                           type: string
                           description: FHIRPath of element(s) related to the error
                           example: task not found
-  /return-medication:
+  /return-medications:
     get:
-      operationId: get-medication
+      operationId: get-medications
       summary: Search for medications relating to a patient
       description: >
         ## Overview
@@ -807,7 +859,7 @@ paths:
               description: Less than or equals which matches 2022-01-15 or 2022-01-14   
       responses: 
         '200':
-          description: Successful request to view prescriptions
+          description: Successful request to view medication
           content: 
             application/fhir+json:
               schema: 
