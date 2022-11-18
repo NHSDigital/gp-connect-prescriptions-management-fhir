@@ -85,7 +85,7 @@ info:
 
     ## Network access
 
-    You need a Health and Social Care Network (HSCN) connection to use this API.
+    This API is available on the internet.
 
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
@@ -174,7 +174,7 @@ paths:
         * focus:identifier
 
       tags: 
-        - Request tracking
+        - Prescription request tracking
       parameters:
         - in: header
           name: Authorization
