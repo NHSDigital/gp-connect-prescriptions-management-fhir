@@ -461,6 +461,8 @@ paths:
 
         For this we will need a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
 
+        If the request is for the patients regular nominated pharmacy you don't need to include the location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
+
         If this request is to a one off pharmacy nomination, include a location resource within the bundle. See the example below.
 
       tags: 
@@ -536,7 +538,7 @@ paths:
                   substitution: false
               bundle:
                 description: |
-                  Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular pharmacy.
+                  Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular nominated pharmacy.
                 value: 
                   resourceType: Bundle
                   id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
@@ -897,7 +899,6 @@ paths:
         '200':
           description: Successful request to cancel a request
           
-
         4XX:
           description: Invalid request for a cancellation
           content:
@@ -1270,34 +1271,4 @@ paths:
                         expression:
                           type: string
                           description: FHIRPath of element(s) related to the error
-                          example: Patient does not exist                      
-                        
-
-
-
-
-                        
-                            
-
-                        
-
-
-
-
-
-                          
-
-
-
-
-
-                
-
-                        
-                        
-                      
-          
-          
-    
-      
-
+                          example: Patient does not exist
