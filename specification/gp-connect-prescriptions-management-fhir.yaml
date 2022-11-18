@@ -13,13 +13,13 @@ info:
 
     * Request a new instance of a repeat prescription
 
-    * View all medications
+    * View all of a patients medications, whether acute or repeat, past or present
 
-    * Cancel a prescription request
+    * Cancel a repeat prescription request
     
     * View active prescription requests
 
-    * Order a prescription to a one off nomination pharmacy
+    * Request a new instance of a repeat prescription to a one off nomination pharmacy
 
     ### For example:
 
@@ -457,9 +457,11 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription.
+        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination. 
 
         For this we will need a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
+
+        If this request is to a one off pharmacy nomination, include a location resource within the bundle. See the example below.
 
       tags: 
         - Create new request
@@ -485,7 +487,7 @@ paths:
             schema:
               type: object
               description: >
-                Repeat medication requested (Task with MedicationRequest focus)
+                Task with a focus on MedicationRequest
             examples:
               task:
                 description: |
@@ -534,7 +536,7 @@ paths:
                   substitution: false
               bundle:
                 description: |
-                  Valid bundle containing the Task to create the request and the MedicationRequest itself.
+                  Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular pharmacy.
                 value: 
                   resourceType: Bundle
                   id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
@@ -602,7 +604,91 @@ paths:
                           - identifier:
                                 system: https://fhir.nhs.uk/Id/ods-organization-code
                                 value: P8888
-                      
+              bundle-one-off-nomination:
+                description: |
+                  Valid bundle for ordering a prescription to a one off nomination
+                value: 
+                  resourceType: Bundle
+                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  identifier: 
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: ad945a29-85f8-439a-b590-6789719adc16
+                  type: message
+                  entry: 
+                    - resource:
+                        resourceType: Task
+                        status: requested
+                        intent: order
+                        focus: 
+                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        for: 
+                          reference: Patient/9999999999
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        lastModified: 2022-10-13T16:20:27+07:00
+                        reuqested: 
+                          reference: Patient/9999999999
+                          display: Richard Smith
+                        note: [Repeat of current prescription]  
+                    - resource: 
+                        resourceType: MedicationRequest
+                        id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                        status: active
+                        intent: order
+                        category: community
+                        medication:
+                          medicationCodeableConcept:
+                            - coding: 
+                                system: https://dmd.nhs.uk
+                                code: 329526003
+                                display: Apirin 300mg dispersible tablets
+                        subject:
+                          reference: Patient/99999999
+                          display: Richard Smith
+                        authoredOn: 2022-10-13T16:20:27+07:00
+                        substitution: false
+                    - resource:
+                        resourceType: Patient
+                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
+                        meta: 
+                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
+                        identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: 999999999
+                        name: 
+                          - use: usual
+                            family: Smith
+                            given: 
+                              - Richard
+                            prefix: 
+                              - Mr 
+                        gender: male
+                        birthDate: 1999-02-15
+                        address: 
+                          - use: home
+                            line: 
+                              - 123 Test Street
+                              - Manchester
+                            postalCode: M1TST
+                        generalPractitioner:
+                          - identifier:
+                                system: https://fhir.nhs.uk/Id/ods-organization-code
+                                value: P8888
+                    - resource:
+                        resourceType: location
+                        id: 32e74161-b86e-4ac2-bf6f-665b3683bc60
+                        meta: 
+                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Location
+                        identifier: 
+                          - system: https://fhir.nhs.uk/Id/ods-site-code
+                            value: P8888
+                        address:
+                            line: 
+                              - Test Practice 
+                              - 8 Test Street
+                            city: Manchester
+                            postalCode: M1 TST
+                            country: England
       responses:
         '200':
           description: Successfully submitted.
