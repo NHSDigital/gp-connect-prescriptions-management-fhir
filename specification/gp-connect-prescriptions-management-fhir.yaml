@@ -7,7 +7,7 @@ info:
   description: |
     ## Overview
 
-    Use this API to manage a patient’s prescriptions as held by their GP practice.
+    Use this API to manage a patient's prescriptions as held by their GP practice.
     
     ### You can:
 
@@ -25,7 +25,7 @@ info:
 
     *  registered with the GP practice 
 
-    *  registered with NHS login, to level XX 
+    *  registered with NHS login
 
     ### For example:
 
@@ -33,31 +33,10 @@ info:
     
     ### Who can use this API
 
-    This API can be used by developers of clinical systems that support clinicians delivering direct care. It is not a patient-facing API.
-
-    ### Prerequisites
-    Technical
-
-    You must:
-
-    * have access to the Health and Social Care Network (HSCN)
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development.
     
-    * be Personal Demographics Service (PDS) compliant or capable of performing a PDS search via NHS Digital or a third-party provider
+    You must get approval before you can go live. For more information, see the 'Onboarding' section.
     
-    Information governance (IG)
-    
-    You must:
-    
-    * be compliant with the GP Connect Direct Care API Information Governance Model
-    
-    * manage access to your system locally using local role-based access control (RBAC). This does not need to be compliant with the national RBAC model and GP Connect products do not require smartcards to control access, though they can be used if already implementedbe using the GP Connect APIs for direct care purposes for NHS patients in England
-    
-    Clinical safety
-    
-    You must:
-    
-    * have a clinical safety officer (CSO) who is responsible for DCB0129 and, if necessary, DCB0160. For more on clinical risk management, visit Clinical risk management standards. If you are confident that you can meet the prerequisites, contact us to express your interest. See 'Onboarding' below.
-
     ## Related APIs
     
     * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top).
@@ -75,7 +54,6 @@ info:
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
 
     If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support)
-
 
     ## Service level
 
@@ -109,37 +87,11 @@ info:
 
     You need a Health and Social Care Network (HSCN) connection to use this API.
 
-    For more details, see Network access for APIs.
+    For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
-    ## Security and authorisation
-
-    Access to the GP Connect APIs is controlled and protected by the Spine Secure Proxy (SSP), a forward HTTP proxy.
-
-    It provides a single security point for both authentication and authorisation for consuming systems. Additional responsibilities include auditing of requests, checking data sharing agreements and transaction logging.
-    
-    All HTTP communications are secured using TLS MA. This includes both legs of the request, from consumer system to the proxy and then from the proxy to provider system.
-   
     ### Authorisation
 
-    Authorisation takes place in two locations:
-
-    * the consumer system
-    
-    * the SSP
-    
-    The consumer system must have local RBAC in place and restrict GP Connect APIs to authorised users. With each request, a JSON Web Token (JWT) must be included with the following information:
-    
-    * details of users, including role
-    
-    * where smartcards are used in the consumer system, including SDS user and role IDs
-    
-    * details of the consumer system
-    
-    * details of the consumer\'s organisation, including ODS code
-    
-    The information in the JWT is retained for audit purposes.
-    
-    The SSP checks data-sharing agreements to ensure that the consumer system is authorised to communicate with the provider system.
+    To be completed.
 
     ## Environments and testing
     
@@ -151,33 +103,7 @@ info:
 
     ## Onboarding
 
-    ## Expressing an interest
-
-    If you meet the prerequisites and have a product that can integrate with GP Connect, you should express an interest with us by submitting a use case.
-    
-    The main purpose of the use case is to help us understand how you plan to use GP Connect APIs and the business issue you are looking to address. You should email your use case to us at gpconnect@nhs.net.
-    
-    Your use case should include the following information as a minimum:
-    
-    * the business problem you are intending to solve using GP Connect
-    
-    * how GP Connect will be used in practice to benefit patients and staff
-    
-    * which of the GP Connect products you will use to benefit patients and staff
-    
-    * any end user organisations you are currently working with
-    
-    * who your clinical safety officer is and, where available, your clinical risk management process documentation
-    
-    Once we receive your use case, we'll respond within 14 days.
-    
-    ## Consumer assurance process
-    
-    Once we approve your use case, we support you through the assurance process to go live. We will discuss the assurance process and artefacts with you to help you understand our requirements.
-    
-    ## Consumer assurance process with 4 gates
-    
-    Start your development work within 6 months of use case approval. If you miss this date, a review or new submission of the use case will be required. Changes or additional development will also require a review or new use case submission.
+    To be completed.
 
     ## Errors
 
@@ -225,7 +151,7 @@ x-spec-publication:
         - method: GET
           path: /FHIR/R4/return-medication
 tags:
-  - name: Request tracking
+  - name: Prescription request tracking
   - name: Create new request
   - name: Cancel a request
   - name: View medication
@@ -233,7 +159,7 @@ paths:
   /FHIR/R4/Task:
     get:
       operationId: get-task
-      summary: Search for current requests to check status
+      summary: Search for current prescription requests
       description: >
         ## Overview
         
@@ -475,11 +401,11 @@ paths:
 
         Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination. 
 
-        For this we will need a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
+        For this we send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
 
-        If the request is for the patients regular nominated pharmacy you don't need to include the location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
+        If the request is for the patients regular nominated pharmacy you don't need to include the Location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
 
-        If this request is to a one off pharmacy nomination, include a location resource within the bundle. See the example below.
+        If this request is to a one off pharmacy nomination, include a Location resource within the bundle. See the example below.
 
       tags: 
         - Create new request
@@ -592,7 +518,7 @@ paths:
                                 display: Apirin 300mg dispersible tablets
                         subject:
                           reference: Patient/9000000009
-                          display: Richard Smith
+                          display: Jane Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
                     - resource:
@@ -693,7 +619,7 @@ paths:
                                 system: https://fhir.nhs.uk/Id/ods-organization-code
                                 value: P8888
                     - resource:
-                        resourceType: location
+                        resourceType: Location
                         id: 32e74161-b86e-4ac2-bf6f-665b3683bc60
                         meta: 
                           profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Location
