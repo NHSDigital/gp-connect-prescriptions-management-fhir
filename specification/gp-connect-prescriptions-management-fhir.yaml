@@ -7,7 +7,7 @@ info:
   description: |
     ## Overview
 
-    Use this API to allow patients to be able to manage their prescriptions.
+    Use this API to manage a patient’s prescriptions as held by their GP practice.
     
     ### You can:
 
@@ -20,6 +20,12 @@ info:
     * View active prescription requests
 
     * Request a new instance of a repeat prescription to a one off nomination pharmacy
+
+    ### The end user must be a patient who is: 
+
+    *  registered with the GP practice 
+
+    *  registered with NHS login, to level XX 
 
     ### For example:
 
@@ -73,21 +79,31 @@ info:
 
     ## Service level
 
-    This API is a bronze service, meaning it is available and supported only during business hours (8am to 6pm), Monday to Friday excluding bank holidays.
-
-    For more details, [see service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
+    This API is a silver service, meaning it is operational 24 x 7 x 365 but only supported during business hours (8am to 6pm), Monday to Friday excluding bank holidays.
+    
+    For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
 
     ## Technology
 
-    This API is RESTful.
+    This API is [RESTful](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#basic-rest).
 
-    It conforms to the FHIR global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
+    It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
-    It sends a FHIR UKCore R4 payload over a Spine Server Proxy (SSP) transport.
+    It includes some country-specific FHIR extensions, which are built against [FHIR UK Core, specifically [UKcore.stu1 0.5.1](https://simplifier.net/packages/fhir.r4.ukcore.stu1/0.5.1).
+
+    You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
     
-    It includes some country specific resources, in particular [UK Core](https://simplifier.net/packages/fhir.r4.ukcore.stu1/0.5.1).
+    * resource names are capitalised and singular, for example `/Patient` not `/patients`
     
-    For example resource names are capitalised and singular for example `/MedicationRequest` not `/medicationrequests`
+    * array names are singular, for example `line` not `lines` for address lines
+    
+    * data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
+
+    There are [libraries and software development kits available](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir-libraries-and-sdks) to help with FHIR API integration.
+
+    ### Documentation
+
+    * [Dictionary of Medicines and Devices (DM+D)](https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/dictionary-medicines-and-devices-dmd) - the DM+D has the names, descriptions and unique identifiers for medicines and devices that can be prescribed.
 
     ## Network access
 
@@ -326,13 +342,13 @@ paths:
                           focus: 
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                           for: 
-                            reference: Patient/999999999
-                            display: Richard Smith
+                            reference: Patient/9000000009
+                            display: Jane Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-13T16:20:27+07:00
                           reuqester: 
-                            reference: Patient/999999999
-                            display: Richard Smith
+                            reference: Patient/9000000009
+                            display: Jane Smith
                           note: [Repeat of current prescription]
                       - resource:
                           resourceType: Task
@@ -344,13 +360,13 @@ paths:
                           focus: 
                               reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           for: 
-                            reference: Patient/999999999
-                            display: Richard Smith
+                            reference: Patient/9000000009
+                            display: Jane Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-13T16:20:27+07:00
                           reuqester: 
-                            reference: Patient/999999999
-                            display: Richard Smith
+                            reference: Patient/9000000009
+                            display: Jane Smith
         4XX:
           description: Invalid request
           content:
@@ -505,13 +521,13 @@ paths:
                   focus: 
                     reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   for: 
-                    reference: Patient/999999999
-                    display: Richard Smith
+                    reference: Patient/9000000009
+                    display: Jane Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   lastModified: 2022-10-13T16:20:27+07:00
                   reuqested: 
-                    reference: Patient/999999999
-                    display: Richard Smith
+                    reference: Patient/9000000009
+                    display: Jane Smith
                   note: [Repeat of current prescription]
               focus-medicationrequest:
                 description: |
@@ -532,8 +548,8 @@ paths:
                           code: 329526003
                           display: Apirin 300mg dispersible tablets
                   subject:
-                    reference: Patient/999999999
-                    display: Richard Smith
+                    reference: Patient/9000000009
+                    display: Jane Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   substitution: false
               bundle:
@@ -554,13 +570,13 @@ paths:
                         focus: 
                             reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                         for: 
-                          reference: Patient/9999999999
-                          display: Richard Smith
+                          reference: Patient/9000000009
+                          display: Jane Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         lastModified: 2022-10-13T16:20:27+07:00
                         reuqested: 
-                          reference: Patient/9999999999
-                          display: Richard Smith
+                          reference: Patient/9000000009
+                          display: Jane Smith
                         note: [Repeat of current prescription]  
                     - resource: 
                         resourceType: MedicationRequest
@@ -575,7 +591,7 @@ paths:
                                 code: 329526003
                                 display: Apirin 300mg dispersible tablets
                         subject:
-                          reference: Patient/99999999
+                          reference: Patient/9000000009
                           display: Richard Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
@@ -586,15 +602,15 @@ paths:
                           profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
                         identifier: 
                           system: https://fhir.nhs.uk/Id/nhs-number
-                          value: 999999999
+                          value: 9000000009
                         name: 
                           - use: usual
                             family: Smith
                             given: 
-                              - Richard
+                              - Jane
                             prefix: 
-                              - Mr 
-                        gender: male
+                              - Mrs 
+                        gender: female
                         birthDate: 1999-02-15
                         address: 
                           - use: home
@@ -624,13 +640,13 @@ paths:
                         focus: 
                             reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                         for: 
-                          reference: Patient/9999999999
-                          display: Richard Smith
+                          reference: Patient/9000000009
+                          display: Jane Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         lastModified: 2022-10-13T16:20:27+07:00
                         reuqested: 
-                          reference: Patient/9999999999
-                          display: Richard Smith
+                          reference: Patient/9000000009
+                          display: Jane Smith
                         note: [Repeat of current prescription]  
                     - resource: 
                         resourceType: MedicationRequest
@@ -645,8 +661,8 @@ paths:
                                 code: 329526003
                                 display: Apirin 300mg dispersible tablets
                         subject:
-                          reference: Patient/99999999
-                          display: Richard Smith
+                          reference: Patient/9000000009
+                          display: Jane Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
                     - resource:
@@ -661,10 +677,10 @@ paths:
                           - use: usual
                             family: Smith
                             given: 
-                              - Richard
+                              - Jane
                             prefix: 
-                              - Mr 
-                        gender: male
+                              - Mrs
+                        gender: female
                         birthDate: 1999-02-15
                         address: 
                           - use: home
@@ -860,12 +876,12 @@ paths:
                   focus: 
                     reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   for: 
-                    reference: Patient/999999999
+                    reference: Patient/9000000009
                     display: Richard Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   lastModified: 2022-10-13T16:20:27+07:00
                   reuqested: 
-                    reference: Patient/999999999
+                    reference: Patient/9000000009
                     display: Richard Smith
                   note: [Repeat of current prescription]
               focus-medicationrequest:
@@ -891,13 +907,14 @@ paths:
                           code: 329526003
                           display: Apirin 300mg dispersible tablets
                   subject:
-                    reference: Patient/99999999
+                    reference: Patient/9000000009
                     display: Richard Smith
                   authoredOn: 2022-10-13T16:20:27+07:00
                   substitution: false       
       responses:
         '200':
           description: Successful request to cancel a request
+
           
         4XX:
           description: Invalid request for a cancellation
@@ -1041,7 +1058,7 @@ paths:
           required: false
           schema:
             type: string
-            example: '9912003489'
+            example: '9000000009'
         - in: query
           name: authored-on
           description: >
@@ -1153,7 +1170,7 @@ paths:
                           profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
                         identifier: 
                           system: https://fhir.nhs.uk/Id/nhs-number
-                          value: 999999999
+                          value: 9000000009
                         name: 
                           - use: usual
                             family: Turner
