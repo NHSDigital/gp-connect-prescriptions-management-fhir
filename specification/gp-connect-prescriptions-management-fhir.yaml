@@ -27,7 +27,9 @@ info:
     
     ### Who can use this API
 
-    This API can be used by developers of clinical systems that support clinicians delivering direct care. It is not a patient-facing API.
+    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before beginning development.
+    
+    You must get approval before you can go live. For more information, see the 'Onboarding' section.
 
     ### Prerequisites
     Technical
