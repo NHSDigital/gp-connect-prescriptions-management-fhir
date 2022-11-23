@@ -9,51 +9,77 @@ info:
 
     Use this API to manage a patient's prescriptions as held by their GP practice.
     
-    ### You can:
+    You can:
 
-    * Request a new instance of a repeat prescription
+    * request a new instance of a repeat prescription
 
-    * View all of a patients medications, whether acute or repeat, past or present
+    * view all of a patients medications, whether acute or repeat, past or present
 
-    * Cancel a repeat prescription request
+    * cancel a repeat prescription request
     
-    * View active prescription requests
+    * view active prescription requests
 
-    * Request a new instance of a repeat prescription to a one off nomination pharmacy
+    * request a new instance of a repeat prescription to a one off nomination pharmacy
 
-    ### The end user must be a patient who is: 
+    The end user must be a patient who is: 
 
     *  registered with the GP practice 
 
-    *  registered with NHS login
+    *  registered with NHS login to P9 identity verification level
 
-    ### For example:
+    For example:
 
-    * A patient will be able to view their own medication, request a new instance of a repeat prescription and cancel that request.
+    * a patient will be able to view their own medication, request a new instance of a repeat prescription and cancel that request.
     
-    ### Who can use this API
+    ## Who can use this API
 
-    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development.
+    This API can be used by developers of clinical systems that support clinicans delivering direct care. It is a patient facing API.
     
-    You must get approval before you can go live. For more information, see the 'Onboarding' section.
+    This API:
+
+    * is only for use by patient-facing applications
+
+    * is only for non-clinical use
+
+    * can only be used where there is a legal basis to do software
+
+    Make sure you have a valis use case before you go too far with development. To do this, contact us. 
+
+    You must do this before you can go live (see Onboarding below).
+
+    ## Pre-requisites 
+
+    Information governance (IG)
     
+    You must:
+
+    * be compliant with the GP Connect Direct Care API Information Governance Model
+
+    * manage access to your system locally using role based access control. This does not need to be compliant with the national RBAC model and GP Connect products do not require smartcards to control access, though they can be used if already implemented be using the GP Connect APIs for direct care purposes for NHS patients in England
+
+    Clinical safety 
+
+    You must:
+
+    * have a clinical safety officer (CSO) who is responsible for DCB0129 and, if necessary, DCB0160. For more on clinical risk management, visit Clinical risk management standards
+
     ## Related APIs
     
-    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top).
+    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top) - use this API to track the dispensing status of the prescription once it leaves the GP system. 
 
-    * GP Connect User Permissions API
+    * GP Connect User Permissions API - use this API to manage a patient's permissions as held by the GP practice systems.
 
-    * GP Connect Appointments FHIR API
+    * GP Connect Appointments Management FHIR API - use this API to manage GP practice appointments.
 
-    * GP Connect Get Structured Record FHIR API
+    * GP Connect Get Structured Record FHIR API - use this API to manage a patient's medical record from the GP practice systems.
 
     ## API status and roadmap
     
-    * Status: Alpha
+    * This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses). 
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
 
-    If you have any other queries, please [contact us](https://digital.nhs.uk/developer/help-and-support)
+    If you have any other queries, [contact us](https://digital.nhs.uk/developer/help-and-support)
 
     ## Service level
 
@@ -85,13 +111,21 @@ info:
 
     ## Network access
 
-    You need a Health and Social Care Network (HSCN) connection to use this API.
+    This API is available on the internet.
 
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
     ### Authorisation
 
-    To be completed.
+    This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it. 
+
+    The end user must bundle:
+
+    * a patient
+
+    * authenticated with NHS login to P9 identity verification level
+
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to authorise the calling system. It supports the following security pattern using NHS login: XXXXX
 
     ## Environments and testing
     
@@ -107,27 +141,15 @@ info:
 
     ## Errors
 
-    ### API wide errors
+    We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
 
-    | HTTP Status   | Error Code             | Description                                                                      |
-    | --------------| ---------------------- | -------------------------------------------------------------------------------- |
-    | 400           | BAD_REQUEST            | Invalid request.                                                                 |
-    | 400           | MISSING_FIELD          | A required field is missing within the request, see `display` field in response. |
-    | 400           | INVALID_VALUE          | Invalid value in message.                                                        |
-    | 400           | INCORRECT_RESOURCETYPE | FHIR resource has an incorrect resourceType.                                     |
-    | 404           | NOT_FOUND              | Resource not found.                                                              |
+    - 200 to 299 if it succeeded, including code 202 if it was accepted by an API that needs to wait for further action
 
-    ### Platform wide errors
-    | HTTP Status   | Error Code            | Description                                                                                                                           |
-    | ------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
-    | 401           | ACCESS_DENIED         | User does not have permission for a particular request.                                                                               |
-    | 403           | FORBIDDEN             | Insufficient authorization.                                                                                                           |
-    | 404           | NOT_FOUND             | Route not found.                                                                                                                      |
-    | 500           | INTERNAL SERVER ERROR | The server has encountered a situation it does not know how to handle.                                                                |
-    | 504           | GATEWAY_TIMEOUT       | If your request has not been fully processed within 59 seconds, you will get this response. Retry the request with identical payload. |
+    - 400 to 499 if it failed because of a client error by your application
 
-    For further details on common HTTP status codes, see [5xx status codes](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide)
+    - 500 to 599 if it failed because of an error on our server
 
+    Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
   contact:
     name: 'gp-connect-prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
@@ -144,7 +166,7 @@ x-spec-publication:
     - operations:
         - method: GET
           path: /FHIR/R4/Task
-        - method: PUT
+        - method: PATCH
           path: /FHIR/R4/Task
         - method: POST
           path: /FHIR/R4/Task
@@ -156,16 +178,16 @@ tags:
   - name: Cancel a request
   - name: View medication
 paths: 
-  /FHIR/R4/Task:
+  /FHIR/R4/Task/:
     get:
       operationId: get-task
       summary: Search for current prescription requests
       description: >
         ## Overview
         
-        Use this end point in order to check the status of your current prescription request.
+        Use this end point to check the status of your current prescription request.
         
-        At least one of the following parameters must be provided:
+        You must provide at least one of the following parameters must be provided:
 
         * identifier
 
@@ -174,7 +196,7 @@ paths:
         * focus:identifier
 
       tags: 
-        - Request tracking
+        - Prescription request tracking
       parameters:
         - in: header
           name: Authorization
@@ -293,106 +315,7 @@ paths:
                           reuqester: 
                             reference: Patient/9000000009
                             display: Jane Smith
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-                description: |
-                  Outcome of an operation that does not result in a resource or bundle being returned
-                properties:
-                  resourceType: 
-                    type: string
-                    description: FHIR Resource Type
-                    enum: 
-                      - OperationOutcome
-                    example: OperationOutcome
-                  issue:
-                    type: array
-                    description: List of issues that have occured.
-                    minItems: 1
-                    items:
-                      type: object
-                      required: 
-                        - severity
-                        - code
-                      properties:
-                        severity:
-                          type: string
-                          enum:
-                            - fatal
-                            - error
-                            - warning
-                            - information
-                          description: Severity of the error
-                          example: error
-                        code:
-                          type: string
-                          description: FHIR error code
-                          example: invalid
-                          enum: 
-                            - invalid
-                            - structure
-                            - required
-                            - value
-                            - invariant
-                            - security
-                            - login
-                            - unknown
-                            - expired
-                            - forbidden
-                            - suppressed
-                            - processing
-                            - not-supported
-                            - duplicate
-                            - multiple-matches
-                            - not-found
-                            - deleted
-                            - too-long
-                            - code-invalid
-                            - extension
-                            - too-costly
-                            - business-rule
-                            - conflict
-                            - transient
-                            - lock-error
-                            - no-store
-                            - exception
-                            - timeout
-                            - incomplete
-                            - throttled
-                            - informational
-                        details:
-                          type: object
-                          description: internal error code
-                          properties: 
-                            coding:
-                              type: array
-                              items: 
-                                type: object
-                                properties:
-                                  system: 
-                                    type: string
-                                    description: URI of the coding system specification.
-                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                                  version:
-                                    type: string
-                                    description: Version of the coding system in use
-                                    example: '1'
-                                  code: 
-                                    type: string
-                                    description: Symbol in syntax defined in system
-                                    example: INVALID_VALUE
-                                  display: 
-                                    type: string
-                                    description: Representation defined by system
-                                    example: Provided value is invalid
-                        expression:
-                          type: string
-                          description: FHIRPath of element(s) related to the error
-                          example: patient.name.given
-                        
+
     post:
       operationId: post-task
       summary: Request a new repeat prescription 
@@ -401,7 +324,7 @@ paths:
 
         Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination. 
 
-        For this we send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
+        For this, send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
 
         If the request is for the patients regular nominated pharmacy you don't need to include the Location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
 
@@ -431,53 +354,8 @@ paths:
             schema:
               type: object
               description: >
-                Task with a focus on MedicationRequest
-            examples:
-              task:
-                description: |
-                  A valid task
-                value:
-                  resourceType: Task
-                  id: aef77afb-7e3c-427a-8657-2c427f71a271
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value:  e3a866b2-3323-4640-a66c-b632a9eb8ce2
-                  status: requested
-                  intent: order
-                  focus: 
-                    reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  for: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  lastModified: 2022-10-13T16:20:27+07:00
-                  reuqested: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  note: [Repeat of current prescription]
-              focus-medicationrequest:
-                description: |
-                  The focus:MedicationRequest
-                value:
-                  resourceType: MedicationRequest
-                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: 2ed8b2ed-175e-464e-bb9a-4a1acb4d3d8a
-                  status: active
-                  intent: order
-                  category: community
-                  medication:
-                    medicationCodeableConcept:
-                      - coding: 
-                          system: https://dmd.nhs.uk
-                          code: 329526003
-                          display: Apirin 300mg dispersible tablets
-                  subject:
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  substitution: false
+                Example of a valid bundle with Task, MedicationRequest and Patient resources.
+            example:
               bundle:
                 description: |
                   Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular nominated pharmacy.
@@ -635,119 +513,17 @@ paths:
                             country: England
       responses:
         '200':
-          description: Successfully submitted.
-
-
-        4XX:
-          description: Invalid request
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-                description: |
-                  Outcome that doesn't result in a successful submission of a request
-                properties:
-                  resourceType: 
-                    type: string
-                    description: FHIR Resource Type
-                    enum: 
-                      - OperationOutcome
-                    example: OperationOutcome
-                  issue:
-                    type: array
-                    description: List of issues that have occured.
-                    minItems: 1
-                    items:
-                      type: object
-                      required: 
-                        - severity
-                        - code
-                      properties:
-                        severity:
-                          type: string
-                          enum:
-                            - fatal
-                            - error
-                            - warning
-                            - information
-                          description: Severity of the error
-                          example: error
-                        code:
-                          type: string
-                          description: FHIR error code
-                          example: invalid
-                          enum: 
-                            - invalid
-                            - structure
-                            - required
-                            - value
-                            - invariant
-                            - security
-                            - login
-                            - unknown
-                            - expired
-                            - forbidden
-                            - suppressed
-                            - processing
-                            - not-supported
-                            - duplicate
-                            - multiple-matches
-                            - not-found
-                            - deleted
-                            - too-long
-                            - code-invalid
-                            - extension
-                            - too-costly
-                            - business-rule
-                            - conflict
-                            - transient
-                            - lock-error
-                            - no-store
-                            - exception
-                            - timeout
-                            - incomplete
-                            - throttled
-                            - informational
-                        details:
-                          type: object
-                          description: internal error code
-                          properties: 
-                            coding:
-                              type: array
-                              items: 
-                                type: object
-                                properties:
-                                  system: 
-                                    type: string
-                                    description: URI of the coding system specification.
-                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                                  version:
-                                    type: string
-                                    description: Version of the coding system in use
-                                    example: '1'
-                                  code: 
-                                    type: string
-                                    description: Symbol in syntax defined in system
-                                    example: INVALID_VALUE
-                                  display: 
-                                    type: string
-                                    description: Representation defined by system
-                                    example: Provided value is invalid
-                        expression:
-                          type: string
-                          description: FHIRPath of element(s) related to the error
-                          example: invalid value on medicationrequest.medication
+          description: Successfully submitted.         
           
-          
-    put:
+    patch:
       operationId: cancel-task
       summary: Cancel an unactioned repeat medication request
       description: >
         ## Overview 
         
-        Use this endpoint to cancel a current request that has not been actioned yet, i.e is still has the status of "requested".
+        Use this endpoint to cancel a current request that has not been actioned yet, that is still has the status of "requested".
         
-        At least one of the following parameters needs to be provided with the end point:
+        You must provide the following parameter:
         
         * identifier
         
@@ -841,114 +617,14 @@ paths:
         '200':
           description: Successful request to cancel a request
 
-          
-        4XX:
-          description: Invalid request for a cancellation
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-                description: |
-                  Outcome of an operation that doesnot result in a resource or bundle being returned
-                properties:
-                  resourceType: 
-                    type: string
-                    description: FHIR Resource Type
-                    enum: 
-                      - OperationOutcome
-                    example: OperationOutcome
-                  issue:
-                    type: array
-                    description: List of issues that have occured.
-                    minItems: 1
-                    items:
-                      type: object
-                      required: 
-                        - severity
-                        - code
-                      properties:
-                        severity:
-                          type: string
-                          enum:
-                            - fatal
-                            - error
-                            - warning
-                            - information
-                          description: Severity of the error
-                          example: error
-                        code:
-                          type: string
-                          description: FHIR error code
-                          example: not-found
-                          enum: 
-                            - invalid
-                            - structure
-                            - required
-                            - value
-                            - invariant
-                            - security
-                            - login
-                            - unknown
-                            - expired
-                            - forbidden
-                            - suppressed
-                            - processing
-                            - not-supported
-                            - duplicate
-                            - multiple-matches
-                            - not-found
-                            - deleted
-                            - too-long
-                            - code-invalid
-                            - extension
-                            - too-costly
-                            - business-rule
-                            - conflict
-                            - transient
-                            - lock-error
-                            - no-store
-                            - exception
-                            - timeout
-                            - incomplete
-                            - throttled
-                            - informational
-                        details:
-                          type: object
-                          description: internal error code
-                          properties: 
-                            coding:
-                              type: array
-                              items: 
-                                type: object
-                                properties:
-                                  system: 
-                                    type: string
-                                    description: URI of the coding system specification.
-                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                                  version:
-                                    type: string
-                                    description: Version of the coding system in use
-                                    example: '1'
-                                  code: 
-                                    type: string
-                                    description: Symbol in syntax defined in system
-                                    example: NOT_FOUND
-                                  display: 
-                                    type: string
-                                    description: Representation defined by system
-                                    example: Task to cancel not found
-                        expression:
-                          type: string
-                          description: FHIRPath of element(s) related to the error
-                          example: task not found
-  /FHIR/R4/#return-medications:
+  /FHIR/R4/return-medication:
     get:
       operationId: get-medications
       summary: Search for medications relating to a patient
       description: >
         ## Overview
         
-        This end point will return a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
+        This end point returns a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
 
 
         The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
@@ -957,7 +633,7 @@ paths:
         For example, an acute medication is represented by a MedicationStatement and two MedicationRequest resources, one must have an intent of plan and the other as order. All three of these should relate to the same Medication resource.
 
 
-        A repeat prescription or repeat dispensing medication will be represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
+        A repeat prescription or repeat dispensing medication is represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
 
         The request must include the following parameter:
 
@@ -1116,102 +792,3 @@ paths:
                           - identifier:
                                 system: https://fhir.nhs.uk/Id/ods-organization-code
                                 value: P8888
-        4XX:
-          description: Invalid get request
-          content:
-            application/fhir+json:
-              schema:
-                type: object
-                description: |
-                  Outcome of an operation that doesnot result in a resource or bundle being returned
-                properties:
-                  resourceType: 
-                    type: string
-                    description: FHIR Resource Type
-                    enum: 
-                      - OperationOutcome
-                    example: OperationOutcome
-                  issue:
-                    type: array
-                    description: List of issues that have occured.
-                    minItems: 1
-                    items:
-                      type: object
-                      required: 
-                        - severity
-                        - code
-                      properties:
-                        severity:
-                          type: string
-                          enum:
-                            - fatal
-                            - error
-                            - warning
-                            - information
-                          description: Severity of the error
-                          example: error
-                        code:
-                          type: string
-                          description: FHIR error code
-                          example: not-found
-                          enum: 
-                            - invalid
-                            - structure
-                            - required
-                            - value
-                            - invariant
-                            - security
-                            - login
-                            - unknown
-                            - expired
-                            - forbidden
-                            - suppressed
-                            - processing
-                            - not-supported
-                            - duplicate
-                            - multiple-matches
-                            - not-found
-                            - deleted
-                            - too-long
-                            - code-invalid
-                            - extension
-                            - too-costly
-                            - business-rule
-                            - conflict
-                            - transient
-                            - lock-error
-                            - no-store
-                            - exception
-                            - timeout
-                            - incomplete
-                            - throttled
-                            - informational
-                        details:
-                          type: object
-                          description: internal error code
-                          properties: 
-                            coding:
-                              type: array
-                              items: 
-                                type: object
-                                properties:
-                                  system: 
-                                    type: string
-                                    description: URI of the coding system specification.
-                                    example: https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode
-                                  version:
-                                    type: string
-                                    description: Version of the coding system in use
-                                    example: '1'
-                                  code: 
-                                    type: string
-                                    description: Symbol in syntax defined in system
-                                    example: NOT_FOUND
-                                  display: 
-                                    type: string
-                                    description: Representation defined by system
-                                    example: Patient not found
-                        expression:
-                          type: string
-                          description: FHIRPath of element(s) related to the error
-                          example: Patient does not exist
