@@ -171,11 +171,11 @@ x-spec-publication:
         - method: POST
           path: /FHIR/R4/Task
         - method: GET
-          path: /FHIR/R4/return-medication
+          path: /FHIR/R4/MedicationStatement
 tags:
   - name: Prescription request tracking
-  - name: Create new request
-  - name: Cancel a request
+  - name: Create request
+  - name: Cancel request
   - name: View medication
 paths: 
   /FHIR/R4/Task/:
@@ -318,20 +318,16 @@ paths:
 
     post:
       operationId: post-task
-      summary: Request a new repeat prescription 
+      summary: Request a repeat prescription 
       description: >
         ## Overview 
 
-        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination. 
+        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.performer. 
 
-        For this, send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
-
-        If the request is for the patients regular nominated pharmacy you don't need to include the Location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
-
-        If this request is to a one off pharmacy nomination, include a Location resource within the bundle. See the example below.
+        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
       tags: 
-        - Create new request
+        - Create request
       parameters:
         - in: header
           name: Authorization
@@ -359,30 +355,14 @@ paths:
               bundle:
                 description: |
                   Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular nominated pharmacy.
-                value: 
-                  resourceType: Bundle
+                value:
+                  resourceType: Task
                   id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   identifier: 
                     system: https://tools.ietf.org/html/rfc4122
-                    value: ad945a29-85f8-439a-b590-6789719adc16
-                  type: message
-                  entry: 
-                    - resource:
-                        resourceType: Task
-                        status: requested
-                        intent: order
-                        focus: 
-                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                        for: 
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        authoredOn: 2022-10-13T16:20:27+07:00
-                        lastModified: 2022-10-13T16:20:27+07:00
-                        reuqested: 
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        note: [Repeat of current prescription]  
-                    - resource: 
+                    value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                  contained:
+                  - resource: 
                         resourceType: MedicationRequest
                         id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                         status: active
@@ -399,118 +379,22 @@ paths:
                           display: Jane Smith
                         authoredOn: 2022-10-13T16:20:27+07:00
                         substitution: false
-                    - resource:
-                        resourceType: Patient
-                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
-                        meta: 
-                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
-                        identifier: 
-                          system: https://fhir.nhs.uk/Id/nhs-number
-                          value: 9000000009
-                        name: 
-                          - use: usual
-                            family: Smith
-                            given: 
-                              - Jane
-                            prefix: 
-                              - Mrs 
-                        gender: female
-                        birthDate: 1999-02-15
-                        address: 
-                          - use: home
-                            line: 
-                              - 123 Test Street
-                              - Manchester
-                            postalCode: M1TST
-                        generalPractitioner:
-                          - identifier:
-                                system: https://fhir.nhs.uk/Id/ods-organization-code
-                                value: P8888
-              bundle-one-off-nomination:
-                description: |
-                  Valid bundle for ordering a prescription to a one off nomination
-                value: 
-                  resourceType: Bundle
-                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: ad945a29-85f8-439a-b590-6789719adc16
-                  type: message
-                  entry: 
-                    - resource:
-                        resourceType: Task
-                        status: requested
-                        intent: order
-                        focus: 
-                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                        for: 
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        authoredOn: 2022-10-13T16:20:27+07:00
-                        lastModified: 2022-10-13T16:20:27+07:00
-                        reuqested: 
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        note: [Repeat of current prescription]  
-                    - resource: 
-                        resourceType: MedicationRequest
-                        id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                        status: active
-                        intent: order
-                        category: community
-                        medication:
-                          medicationCodeableConcept:
-                            - coding: 
-                                system: https://dmd.nhs.uk
-                                code: 329526003
-                                display: Apirin 300mg dispersible tablets
-                        subject:
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        authoredOn: 2022-10-13T16:20:27+07:00
-                        substitution: false
-                    - resource:
-                        resourceType: Patient
-                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
-                        meta: 
-                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
-                        identifier: 
-                          system: https://fhir.nhs.uk/Id/nhs-number
-                          value: 999999999
-                        name: 
-                          - use: usual
-                            family: Smith
-                            given: 
-                              - Jane
-                            prefix: 
-                              - Mrs
-                        gender: female
-                        birthDate: 1999-02-15
-                        address: 
-                          - use: home
-                            line: 
-                              - 123 Test Street
-                              - Manchester
-                            postalCode: M1TST
-                        generalPractitioner:
-                          - identifier:
-                                system: https://fhir.nhs.uk/Id/ods-organization-code
-                                value: P8888
-                    - resource:
-                        resourceType: Location
-                        id: 32e74161-b86e-4ac2-bf6f-665b3683bc60
-                        meta: 
-                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Location
-                        identifier: 
-                          - system: https://fhir.nhs.uk/Id/ods-site-code
-                            value: P8888
-                        address:
-                            line: 
-                              - Test Practice 
-                              - 8 Test Street
-                            city: Manchester
-                            postalCode: M1 TST
-                            country: England
+                        performer:
+                          identifier: https://fhir.nhs.uk/Id/ods-organization-code
+                          value: Y12345
+                  status: requested
+                  intent: order
+                  focus: 
+                      reference: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                  for: 
+                    reference: Patient/9000000009
+                    display: Jane Smith
+                  authoredOn: 2022-10-13T16:20:27+07:00
+                  lastModified: 2022-10-13T16:20:27+07:00
+                  reuqester: 
+                    reference: Patient/9000000009
+                    display: Jane Smith
+                  note: [Repeat of current prescription] 
       responses:
         '200':
           description: Successfully submitted.         
@@ -527,9 +411,9 @@ paths:
         
         * identifier
         
-        The request body would essentially be the same task to create a request but with an updated status of cancelled
+        The request body would essentially be the same task to create a request but with an updated status of cancelled.
       tags: 
-        - Cancel a request
+        - Cancel request
       parameters:
         - in: header
           name: Authorization
@@ -560,7 +444,7 @@ paths:
             schema:
               type: object
               description: >
-                Repeat medication requested (Task with MedicationRequest focus)
+                Task for cancellation
             examples:
               task:
                 description: |
@@ -575,8 +459,6 @@ paths:
                   statusReason: 
                     text: No longer needed
                   intent: order
-                  focus: 
-                    reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   for: 
                     reference: Patient/9000000009
                     display: Richard Smith
@@ -585,46 +467,19 @@ paths:
                   reuqested: 
                     reference: Patient/9000000009
                     display: Richard Smith
-                  note: [Repeat of current prescription]
-              focus-medicationrequest:
-                description: |
-                  The focus:MedicationRequest
-                value:
-                  resourceType: MedicationRequest
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  status: requested
-                  statusReason:
-                    coding:
-                      - system: https://fhir.nhs.uk/CodeSystem/medicationrequest-status-reason
-                        code: '0005'
-                        display: At the Patient's request
-                  intent: order
-                  category: community
-                  medication:
-                    medicationCodeableConcept:
-                      - coding: 
-                          system: https://dmd.nhs.uk
-                          code: 329526003
-                          display: Apirin 300mg dispersible tablets
-                  subject:
-                    reference: Patient/9000000009
-                    display: Richard Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  substitution: false       
+                  note: [Repeat of current prescription]       
       responses:
         '200':
           description: Successful request to cancel a request
 
-  /FHIR/R4/return-medication:
+  /FHIR/R4/MedicationStatement:
     get:
-      operationId: get-medications
+      operationId: get-medicationstatement
       summary: Search for medications relating to a patient
       description: >
         ## Overview
         
-        This end point returns a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
+        This end point returns a MedicationStatement with a contained MedicationRequest and Medication resource.
 
 
         The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
@@ -690,105 +545,78 @@ paths:
                 type: object
               examples:
                 example:
-                  description: Successful view of acute medication
+                  description: Successful response to view medication
                   value: 
-                    resourceType: Bundle
+                    resourceType: MedicationStatement
                     id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
-                    type: collection
-                    entry: 
-                    - resource: 
-                        resourceType: MedicationStatement
-                        id: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
-                        meta:
-                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
-                        status: active
-                        medicationReference:
-                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                        effectivePeriod: 
-                          start: 2022-10-23
-                          end: 2023-01-10
-                        dateAsserted: 2020-01-12
-                        basedOn: 
-                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                    - resource: 
-                        resourceType: Medication
-                        id: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                        meta:
-                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Medication
-                        code: 
-                           coding:
-                            - system: http://snomed.info/ct
-                              code: 3113111000001106
-                              display: Pulmicort 100 Turbohaler
-                              text: Pulmicort 100 Turbohaler
-                    - resource: 
-                        resourceType: MedicationRequest
-                        id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                        meta: 
-                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                        identifier: 
-                        status: completed
-                        intent: plan
-                        medicationReference:
-                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                        subject: 
-                          reference:  Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                        authoredOn: 2018-01-06
-                        requester: 
-                          reference:  Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                        substitution: false
-                        courseOfTherapyType:
-                          - coding:
-                              system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
-                              code: acute
-                              display: Acute Medication
-                    - resource:
-                        resourceType: MedicationRequest
-                        id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                        meta: 
-                          - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                        identifier: 
-                        basedOn: 
-                          reference: MedicationRequest/7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                        status: completed
-                        intent: order
-                        medicationReference:
-                          reference: Medication/8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                        subject: 
-                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                        authoredOn: 2018-01-06
-                        requester: 
-                          reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                        substitution: false
-                        courseOfTherapyType:
-                          - coding:
-                              system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
-                              code: acute
-                              display: Acute Medication
-                    - resource:
-                        resourceType: Patient
-                        id: 04603d77-1a4e-4d63-b246-d7504f8bd833
-                        meta: 
-                          profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Patient
-                        identifier: 
-                          system: https://fhir.nhs.uk/Id/nhs-number
-                          value: 9000000009
-                        name: 
-                          - use: usual
-                            family: Turner
-                            given: 
-                              - Ed
-                            prefix: 
-                              - Mr 
-                        gender: male
-                        birthDate: 1999-02-15
-                        address: 
-                          - use: home
-                            line: 
-                              - 123 Test Street
-                              - Manchester
-                            postalCode: M1TST
-                        generalPractitioner:
-                          - identifier:
-                                system: https://fhir.nhs.uk/Id/ods-organization-code
-                                value: P8888
+                    identifier:
+                      system: https://tools.ietf.org/html/rfc4122
+                      value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
+                    meta:
+                      - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
+                    contained: 
+                      - resource: 
+                          resourceType: MedicationRequest
+                          id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                          meta: 
+                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
+                          identifier: 
+                          status: completed
+                          intent: plan
+                          medicationReference:
+                            reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                          subject: 
+                            reference:  Patient/9000000009
+                          authoredOn: 2018-01-06
+                          requester: 
+                            reference:  Patient/9000000009
+                          substitution: false
+                          courseOfTherapyType:
+                            - coding:
+                                system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                                code: continuous
+                                display: Continuous long term therapy
+                      - resource: 
+                          resourceType: Medication
+                          id: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                          meta:
+                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Medication
+                          code: 
+                            coding:
+                              - system: http://snomed.info/ct
+                                code: 3113111000001106
+                                display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                                text: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                      - resource:
+                          resourceType: MedicationRequest
+                          id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                          meta: 
+                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
+                          identifier: 
+                          basedOn: 
+                            reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                          status: completed
+                          intent: order
+                          medicationReference:
+                            reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                          subject: 
+                            reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
+                          authoredOn: 2018-01-06
+                          requester: 
+                            reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
+                          substitution: false
+                          courseOfTherapyType:
+                            - coding:
+                                system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                                code: continue
+                                display: Continuous long term therapy
+                    status: active
+                    medicationReference:
+                      reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                    effectivePeriod: 
+                      start: 2022-10-23
+                      end: 2023-01-10
+                    dateAsserted: 2020-01-12
+                    basedOn: 
+                      reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                      
