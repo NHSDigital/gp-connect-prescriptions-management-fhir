@@ -25,7 +25,7 @@ info:
 
     *  registered with the GP practice 
 
-    *  registered with NHS login
+    *  registered with NHS login to P9 identity verification level
 
     For example:
 
@@ -33,23 +33,49 @@ info:
     
     ## Who can use this API
 
-    This API can only be used where there is a legal basis to do so. Make sure you have a valid use case before you go too far with your development.
+    This API can be used by developers of clinical systems that support clinicans delivering direct care. It is a patient facing API.
     
-    You must get approval before you can go live. For more information, see the 'Onboarding' section.
+    This API:
+
+    * is only for use by patient-facing applications
+
+    * is only for non-clinical use
+
+    * can only be used where there is a legal basis to do software
+
+    Make sure you have a valis use case before you go too far with development. To do this, contact us. 
+
+    You must do this before you can go live (see Onboarding below).
+
+    ## Pre-requisites 
+
+    Information governance (IG)
     
+    You must:
+
+    * be compliant with the GP Connect Direct Care API Information Governance Model
+
+    * manage access to your system locally using role based access control. This does not need to be compliant with the national RBAC model and GP Connect products do not require smartcards to control access, though they can be used if already implemented be using the GP Connect APIs for direct care purposes for NHS patients in England
+
+    Clinical safety 
+
+    You must:
+
+    * have a clinical safety officer (CSO) who is responsible for DCB0129 and, if necessary, DCB0160. For more on clinical risk management, visit Clinical risk management standards
+
     ## Related APIs
     
-    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top).
+    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top) - use this API to track the dispensing status of the prescription once it leaves the GP system. 
 
-    * GP Connect User Permissions API - manage a patient's permissions as held by the GP practice systems.
+    * GP Connect User Permissions API - use this API to manage a patient's permissions as held by the GP practice systems.
 
-    * GP Connect Appointments FHIR API - manage GP practice appointments.
+    * GP Connect Appointments Management FHIR API - use this API to manage GP practice appointments.
 
-    * GP Connect Get Structured Record FHIR API - manage a patient's medical record from the GP practice systems.
+    * GP Connect Get Structured Record FHIR API - use this API to manage a patient's medical record from the GP practice systems.
 
     ## API status and roadmap
     
-    * This API is in development. 
+    * This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses). 
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
 
@@ -91,7 +117,15 @@ info:
 
     ### Authorisation
 
-    To be completed.
+    This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it. 
+
+    The end user must bundle:
+
+    * a patient
+
+    * authenticated with NHS login to P9 identity verification level
+
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to authorise the calling system. It supports the following security pattern using NHS login: XXXXX
 
     ## Environments and testing
     
@@ -144,16 +178,16 @@ tags:
   - name: Cancel a request
   - name: View medication
 paths: 
-  /FHIR/R4/Task:
+  /FHIR/R4/Task/{identifier}:
     get:
       operationId: get-task
       summary: Search for current prescription requests
       description: >
         ## Overview
         
-        Use this end point in order to check the status of your current prescription request.
+        Use this end point to check the status of your current prescription request.
         
-        At least one of the following parameters must be provided:
+        You must provide at least one of the following parameters must be provided:
 
         * identifier
 
@@ -290,7 +324,7 @@ paths:
 
         Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination. 
 
-        For this we send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
+        For this, send a bundle of a Task (with focus on the MedicationRequest), MedicationRequest and Patient resources. 
 
         If the request is for the patients regular nominated pharmacy you don't need to include the Location resource, EPS will pick up the nominated pharmacy from PDS and paper prescriptions will be sent by the GP.
 
@@ -320,53 +354,8 @@ paths:
             schema:
               type: object
               description: >
-                Task with a focus on MedicationRequest
-            examples:
-              task:
-                description: |
-                  A valid task
-                value:
-                  resourceType: Task
-                  id: aef77afb-7e3c-427a-8657-2c427f71a271
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value:  e3a866b2-3323-4640-a66c-b632a9eb8ce2
-                  status: requested
-                  intent: order
-                  focus: 
-                    reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  for: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  lastModified: 2022-10-13T16:20:27+07:00
-                  reuqested: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  note: [Repeat of current prescription]
-              focus-medicationrequest:
-                description: |
-                  The focus:MedicationRequest
-                value:
-                  resourceType: MedicationRequest
-                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: 2ed8b2ed-175e-464e-bb9a-4a1acb4d3d8a
-                  status: active
-                  intent: order
-                  category: community
-                  medication:
-                    medicationCodeableConcept:
-                      - coding: 
-                          system: https://dmd.nhs.uk
-                          code: 329526003
-                          display: Apirin 300mg dispersible tablets
-                  subject:
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  substitution: false
+                Example of a valid bundle with Task, MedicationRequest and Patient resources.
+            example:
               bundle:
                 description: |
                   Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular nominated pharmacy.
@@ -532,9 +521,9 @@ paths:
       description: >
         ## Overview 
         
-        Use this endpoint to cancel a current request that has not been actioned yet, i.e is still has the status of "requested".
+        Use this endpoint to cancel a current request that has not been actioned yet, that is still has the status of "requested".
         
-        The following parameter needs to be provided with the end point:
+        You must provide the following parameter:
         
         * identifier
         
@@ -635,7 +624,7 @@ paths:
       description: >
         ## Overview
         
-        This end point will return a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
+        This end point returns a bundle containing: Medication, MedicationRequests and MedicationStatements for a specific patient.
 
 
         The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
@@ -644,7 +633,7 @@ paths:
         For example, an acute medication is represented by a MedicationStatement and two MedicationRequest resources, one must have an intent of plan and the other as order. All three of these should relate to the same Medication resource.
 
 
-        A repeat prescription or repeat dispensing medication will be represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
+        A repeat prescription or repeat dispensing medication is represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
 
         The request must include the following parameter:
 
