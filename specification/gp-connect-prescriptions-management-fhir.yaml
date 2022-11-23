@@ -359,6 +359,8 @@ paths:
                   resourceType: Task
                   id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                   identifier: 
+                    system: https://tools.ietf.org/html/rfc4122
+                    value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
                   contained:
                   - resource: 
                         resourceType: MedicationRequest
