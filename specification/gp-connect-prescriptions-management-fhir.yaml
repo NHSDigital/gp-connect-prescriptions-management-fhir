@@ -617,7 +617,7 @@ paths:
         '200':
           description: Successful request to cancel a request
 
-  /FHIR/R4/return-medication
+  /FHIR/R4/return-medication:
     get:
       operationId: get-medications
       summary: Search for medications relating to a patient
