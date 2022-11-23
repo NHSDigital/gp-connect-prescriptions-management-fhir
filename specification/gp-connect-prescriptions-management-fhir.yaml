@@ -178,7 +178,7 @@ tags:
   - name: Cancel a request
   - name: View medication
 paths: 
-  /FHIR/R4/Task/{identifier}:
+  /FHIR/R4/Task/:
     get:
       operationId: get-task
       summary: Search for current prescription requests
