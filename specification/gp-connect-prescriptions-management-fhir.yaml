@@ -350,51 +350,48 @@ paths:
             schema:
               type: object
               description: >
-                Example of a valid bundle with Task, MedicationRequest and Patient resources.
+                Example of a valid Task, with contained MedicationRequest 
             example:
-              bundle:
-                description: |
-                  Valid bundle containing a Task resource, MedicationRequest resourced and the Patient resource to the patients regular nominated pharmacy.
-                value:
-                  resourceType: Task
-                  id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  identifier: 
-                    system: https://tools.ietf.org/html/rfc4122
-                    value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
-                  contained:
-                  - resource: 
-                        resourceType: MedicationRequest
-                        id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                        status: active
-                        intent: order
-                        category: community
-                        medication:
-                          medicationCodeableConcept:
-                            - coding: 
-                                system: https://dmd.nhs.uk
-                                code: 329526003
-                                display: Apirin 300mg dispersible tablets
-                        subject:
-                          reference: Patient/9000000009
-                          display: Jane Smith
-                        authoredOn: 2022-10-13T16:20:27+07:00
-                        substitution: false
-                        performer:
-                          identifier: https://fhir.nhs.uk/Id/ods-organization-code
-                          value: Y12345
-                  status: requested
-                  intent: order
-                  focus: 
-                      reference: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                  for: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
-                  lastModified: 2022-10-13T16:20:27+07:00
-                  reuqester: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  note: [Repeat of current prescription] 
+              value:
+                resourceType: Task
+                id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                identifier: 
+                  system: https://tools.ietf.org/html/rfc4122
+                  value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                contained:
+                - resource: 
+                      resourceType: MedicationRequest
+                      id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                      status: active
+                      intent: order
+                      category: community
+                      medication:
+                        medicationCodeableConcept:
+                          - coding: 
+                              system: https://dmd.nhs.uk
+                              code: 329526003
+                              display: Apirin 300mg dispersible tablets
+                      subject:
+                        reference: Patient/9000000009
+                        display: Jane Smith
+                      authoredOn: 2022-10-13T16:20:27+07:00
+                      substitution: false
+                      performer:
+                        identifier: https://fhir.nhs.uk/Id/ods-organization-code
+                        value: Y12345
+                status: requested
+                intent: order
+                focus: 
+                    reference: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                for: 
+                  reference: Patient/9000000009
+                  display: Jane Smith
+                authoredOn: 2022-10-13T16:20:27+07:00
+                lastModified: 2022-10-13T16:20:27+07:00
+                reuqester: 
+                  reference: Patient/9000000009
+                  display: Jane Smith
+                note: [Repeat of current prescription] 
       responses:
         '200':
           description: Successfully submitted.         
@@ -560,7 +557,6 @@ paths:
                           id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                           meta: 
                             - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                          identifier: 
                           status: completed
                           intent: plan
                           medicationReference:
@@ -592,7 +588,6 @@ paths:
                           id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                           meta: 
                             - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                          identifier: 
                           basedOn: 
                             reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
                           status: completed
