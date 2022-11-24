@@ -352,47 +352,59 @@ paths:
               description: >
                 Example of a valid Task, with contained MedicationRequest 
             example:
-              value:
                 resourceType: Task
-                id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
                 identifier: 
                   system: https://tools.ietf.org/html/rfc4122
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
                 contained:
-                - resource: 
-                      resourceType: MedicationRequest
-                      id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                      status: active
-                      intent: order
-                      category: community
-                      medication:
-                        medicationCodeableConcept:
-                          - coding: 
-                              system: https://dmd.nhs.uk
-                              code: 329526003
-                              display: Apirin 300mg dispersible tablets
-                      subject:
-                        reference: Patient/9000000009
-                        display: Jane Smith
-                      authoredOn: 2022-10-13T16:20:27+07:00
-                      substitution: false
-                      dispenseRequest:
-                        performer:
-                          identifier: https://fhir.nhs.uk/Id/ods-organization-code
-                          value: Y12345
+                    resourceType: MedicationRequest
+                    id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    status: active
+                    intent: order
+                    category: 
+                      - coding: 
+                        - system: http://terminology.hl7.or/CodeSystem/medicationrequest-category
+                          code: community
+                          display: Community
+                    medicationCodeableConcept:
+                      - coding: 
+                          - system: https://dmd.nhs.uk
+                            code: 329526003
+                            display: Apirin 300mg dispersible tablets
+                    subject:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    requester:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    courseOfTherapyType:
+                      - coding:
+                        - system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                          code: continuous-repeating-dispensing
+                          display: Continuous long term (repeat dispensing)
+                    authoredOn: 2022-10-13T16:20:27+07:00
+                    substitution:
+                      allowedBoolean: false
+                    dispenseRequest:
+                      performer:
+                        reference: Organization/Y12345
+                        type: Orgnization
                 status: requested
                 intent: order
                 focus: 
-                    reference: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    reference: "#b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
                 for: 
                   reference: Patient/9000000009
                   display: Jane Smith
                 authoredOn: 2022-10-13T16:20:27+07:00
                 lastModified: 2022-10-13T16:20:27+07:00
-                reuqester: 
+                requester: 
                   reference: Patient/9000000009
                   display: Jane Smith
-                note: [Repeat of current prescription] 
+                note: 
+                  - authorString: Patient
+                    text: ran out of previous prescription
       responses:
         '200':
           description: Successfully submitted.         
