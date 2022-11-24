@@ -322,7 +322,7 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.performer. 
+        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
 
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
@@ -376,9 +376,10 @@ paths:
                         display: Jane Smith
                       authoredOn: 2022-10-13T16:20:27+07:00
                       substitution: false
-                      performer:
-                        identifier: https://fhir.nhs.uk/Id/ods-organization-code
-                        value: Y12345
+                      dispenseRequest:
+                        performer:
+                          identifier: https://fhir.nhs.uk/Id/ods-organization-code
+                          value: Y12345
                 status: requested
                 intent: order
                 focus: 
