@@ -421,7 +421,6 @@ paths:
       responses:
         '200':
           description: Successfully submitted.         
-          
     patch:
       operationId: cancel-task
       summary: Cancel an unactioned repeat prescription request
@@ -492,7 +491,6 @@ paths:
       responses:
         '200':
           description: Successful request to cancel a request
-
   /FHIR/R4/MedicationStatement:
     get:
       operationId: get-medicationstatement
@@ -638,4 +636,3 @@ paths:
                     dateAsserted: 2020-01-12
                     basedOn: 
                       reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                      
