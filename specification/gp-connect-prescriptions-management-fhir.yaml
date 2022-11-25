@@ -466,18 +466,16 @@ paths:
                     system: https://tools.ietf.org/html/rfc4122
                     value: 30d65c8e-98e8-4806-b6a6-51e94733f0e9
                   status: cancelled
-                  statusReason: 
+                  statusReason:
                     text: No longer needed
                   intent: order
                   for: 
                     reference: Patient/9000000009
-                    display: Richard Smith
-                  authoredOn: 2022-10-13T16:20:27+07:00
+                    display: Jane Smith
                   lastModified: 2022-10-13T16:20:27+07:00
-                  reuqested: 
+                  requester: 
                     reference: Patient/9000000009
-                    display: Richard Smith
-                  note: [Repeat of current prescription]       
+                    display: Jane Smith  
       responses:
         '200':
           description: Successful request to cancel a request
