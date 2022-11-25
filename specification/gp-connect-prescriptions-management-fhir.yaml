@@ -17,7 +17,7 @@ info:
 
     * cancel a repeat prescription request
     
-    * view active prescription requests
+    * check the status of a current prescription request
 
     * request a new instance of a repeat prescription to a one off nomination pharmacy
 
@@ -43,7 +43,7 @@ info:
 
     * can only be used where there is a legal basis to do software
 
-    Make sure you have a valis use case before you go too far with development. To do this, contact us. 
+    Make sure you have a valid use case before you go too far with development. To do this, contact us. 
 
     You must do this before you can go live (see Onboarding below).
 
@@ -75,7 +75,7 @@ info:
 
     ## API status and roadmap
     
-    * This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses). 
+    * This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), Alpha. 
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
 
@@ -137,7 +137,7 @@ info:
 
     ## Onboarding
 
-    To be completed.
+    We are hoping to make the assurance process as lightweight and as self-service as possible.
 
     ## Errors
 
@@ -212,7 +212,7 @@ paths:
         - in: query
           name: focus:identifier
           description: |
-            the identifier of the MedicationRequest itself you are searching for 
+            The identifier of the MedicationRequest itself you are searching for 
           required: false
           schema: 
             type: string
@@ -244,7 +244,7 @@ paths:
         - in: query
           name: authored-on
           description: >
-            Date the prescription was ordered, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
+            Date the prescription was ordered, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
           required: false
           schema:
             type: string
@@ -255,7 +255,7 @@ paths:
               description: Exact match date
             greater than or equals:
               value:
-                - g2022-01-15
+                - ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value: 
@@ -424,7 +424,7 @@ paths:
           
     patch:
       operationId: cancel-task
-      summary: Cancel an unactioned repeat medication request
+      summary: Cancel an unactioned repeat prescription request
       description: >
         ## Overview 
         
