@@ -261,7 +261,6 @@ paths:
               value: 
                 -  le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
-
       responses:
         '200':
           description: Successful query
@@ -271,12 +270,10 @@ paths:
                 type: object
               examples:
                 example:
-                  description: Successful request to view requests for medication
+                  description: Successful request to view requests for prescriptions
                   value: 
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
-                    meta: 
-                      lastUpdated: 2022-11-02T14:29:57.879+00:00
                     identifier: 
                       system: https://tools.ietf.org/html/rfc4122
                       value: a3294018-6c63-4556-8797-f782d1c95480
@@ -292,12 +289,14 @@ paths:
                           for: 
                             reference: Patient/9000000009
                             display: Jane Smith
-                          authoredOn: 2022-10-13T16:20:27+07:00
-                          lastModified: 2022-10-13T16:20:27+07:00
-                          reuqester: 
+                          authoredOn: 2022-11-23T20:20:27+07:00
+                          lastModified: 2022-11-23T20:20:27+07:00
+                          requester: 
                             reference: Patient/9000000009
                             display: Jane Smith
-                          note: [Repeat of current prescription]
+                          note:
+                            - authorString: Patient,
+                              text: Ran out of previous prescription
                       - resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
@@ -310,12 +309,26 @@ paths:
                           for: 
                             reference: Patient/9000000009
                             display: Jane Smith
-                          authoredOn: 2022-10-13T16:20:27+07:00
-                          lastModified: 2022-10-13T16:20:27+07:00
-                          reuqester: 
+                          authoredOn: 2022-08-14T07:20:23+07:00
+                          lastModified: 2022-08-14T11:40:47+07:00
+                          requester: 
                             reference: Patient/9000000009
                             display: Jane Smith
-
+                      - resource:
+                          resourceType: Task
+                          id: 84722efb-95b0-4769-921a-eda53382b320
+                          status: in-progress
+                          intent: order
+                          focus: 
+                              reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
+                          for: 
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          authoredOn: 2022-10-13T16:20:27+07:00
+                          lastModified: 2022-10-15T11:28:13+07:00
+                          requester: 
+                            reference: Patient/9000000009
+                            display: Jane Smith
     post:
       operationId: post-task
       summary: Request a repeat prescription 
