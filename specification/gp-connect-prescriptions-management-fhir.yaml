@@ -200,11 +200,6 @@ x-spec-publication:
           path: /FHIR/R4/Task
         - method: GET
           path: /FHIR/R4/MedicationStatement
-tags:
-  - name: Prescription request tracking
-  - name: Create request
-  - name: Cancel request
-  - name: View medication
 paths: 
   /FHIR/R4/Task/:
     get:
@@ -223,8 +218,6 @@ paths:
 
         * focus:identifier
 
-      tags: 
-        - Prescription request tracking
       parameters:
         - in: header
           name: Authorization
@@ -393,8 +386,6 @@ paths:
 
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
-      tags: 
-        - Create request
       parameters:
         - in: header
           name: Authorization
@@ -514,8 +505,7 @@ paths:
         * identifier
         
         The request body would essentially be the same task to create a request but with an updated status of cancelled.
-      tags: 
-        - Cancel request
+
       parameters:
         - in: header
           name: Authorization
@@ -618,8 +608,6 @@ paths:
 
         * patient:identifier
 
-      tags: 
-        - View medication
       parameters:
         - in: header
           name: Authorization
