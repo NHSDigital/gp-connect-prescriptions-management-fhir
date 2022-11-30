@@ -133,7 +133,7 @@ info:
     
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/fhir/r4`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
