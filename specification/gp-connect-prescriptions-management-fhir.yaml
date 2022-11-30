@@ -133,7 +133,7 @@ info:
     
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
@@ -183,11 +183,11 @@ info:
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
+  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
+  - url: 'https://int.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
+  - url: 'https://api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Production environment.
 x-spec-publication:
   operation-order:
@@ -219,43 +219,9 @@ paths:
         * focus:identifier
 
       parameters:
-        - in: header
-          name: Authorization
-          description: >
-            An [OAuth 2.0 bearer
-            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-            Required in all environments except sandbox.
-          required: true
-          schema:
-            type: string
-            format: ^Bearer\ [[:ascii:]]+$
-            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
-        - in: header
-          name: X-RequestID
-          description: >
-            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
-            
-            Must be a universally unique identifier (UUID) (ideally version 4).
-            
-            Mirrored back in a response header.
-            
-            If you re-send a failed request, use the same value in this header.
-
-            Required in all environments except sandbox.
-
-          schema:
-            type: string
-            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-        - in: header
-          name: X-Correlation-ID
-          required: false
-          description: |
-            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
-            Mirrored back in a response header.
-          schema:
-            type: string
-            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA        
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
         - in: query
           name: focus:identifier
           description: |
@@ -387,45 +353,9 @@ paths:
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
       parameters:
-        - in: header
-          name: Authorization
-          description: >
-            An [OAuth 2.0 bearer
-            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-
-
-            Required in all environments except sandbox.
-          required: true
-          schema:
-            type: string
-            format: ^Bearer\ [[:ascii:]]+$
-            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
-        - in: header
-          name: X-RequestID
-          description: >
-            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
-            
-            Must be a universally unique identifier (UUID) (ideally version 4).
-            
-            Mirrored back in a response header.
-            
-            If you re-send a failed request, use the same value in this header.
-
-            Required in all environments except sandbox.
-
-          schema:
-            type: string
-            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-        - in: header
-          name: X-Correlation-ID
-          required: false
-          description: |
-            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
-            Mirrored back in a response header.
-          schema:
-            type: string
-            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA 
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
       requestBody:
         required: true
         description: Successful Request.
@@ -507,44 +437,9 @@ paths:
         The request body would essentially be the same task to create a request but with an updated status of cancelled.
 
       parameters:
-        - in: header
-          name: Authorization
-          description: >
-            An [OAuth 2.0 bearer
-            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-
-            Required in all environments except sandbox.
-          required: true
-          schema:
-            type: string
-            format: ^Bearer\ [[:ascii:]]+$
-            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
-        - in: header
-          name: X-RequestID
-          description: >
-            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
-            
-            Must be a universally unique identifier (UUID) (ideally version 4).
-            
-            Mirrored back in a response header.
-            
-            If you re-send a failed request, use the same value in this header.
-
-            Required in all environments except sandbox.
-
-          schema:
-            type: string
-            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-        - in: header
-          name: X-Correlation-ID
-          required: false
-          description: |
-            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
-            Mirrored back in a response header.
-          schema:
-            type: string
-            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA 
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
         - in: query
           name: identifier
           description: >
@@ -609,43 +504,9 @@ paths:
         * patient:identifier
 
       parameters:
-        - in: header
-          name: Authorization
-          description: >
-            An [OAuth 2.0 bearer
-            token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-            Required in all environments except sandbox.
-          required: true
-          schema:
-            type: string
-            format: ^Bearer\ [[:ascii:]]+$
-            example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
-        - in: header
-          name: X-RequestID
-          description: >
-            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
-            
-            Must be a universally unique identifier (UUID) (ideally version 4).
-            
-            Mirrored back in a response header.
-            
-            If you re-send a failed request, use the same value in this header.
-
-            Required in all environments except sandbox.
-
-          schema:
-            type: string
-            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
-            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-        - in: header
-          name: X-Correlation-ID
-          required: false
-          description: |
-            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
-            Mirrored back in a response header.
-          schema:
-            type: string
-            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA  
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
         - in: query
           name: patient:identifier
           description: >
@@ -755,3 +616,56 @@ paths:
                     dateAsserted: 2020-01-12
                     basedOn: 
                       reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+components:
+  parameters:
+    BearerAuthorization:
+      in: header
+      name: Authorization
+      description: |
+        An [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
+        Required in all environments except sandbox.
+      required: true
+      schema:
+        type: string
+        format: '^Bearer\ [[:ascii:]]+$'
+        example: 'Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM'
+    RoleId:
+      in: header
+      name: NHSD-Session-URID
+      description: |
+        The user role ID (URID) for the current session. Also known as a user role profile ID (URPID).
+        If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, see [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) for guidance.
+        This field is optional.
+      required: false
+      schema:
+        type: string
+        pattern: '^[0-9]+$'
+        example: '555254240100'
+    CorrelationID:
+      in: header
+      name: X-Correlation-ID
+      required: false
+      description: |
+        An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
+        Mirrored back in a response header.
+      schema:
+        type: string
+        example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA
+    RequestID:
+      in: header
+      name: X-Request-ID
+      required: true
+      description: |
+        A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+        Must be a universally unique identifier (UUID) (ideally version 4).
+        
+        Mirrored back in a response header.
+        
+        If you re-send a failed request, use the same value in this header.
+        
+        Required in all environments except sandbox.
+      schema:
+        type: string
+        pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+        example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+    
