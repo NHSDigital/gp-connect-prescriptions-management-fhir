@@ -37,9 +37,9 @@ info:
     
     This API:
 
-    * is only for use by patient-facing applications
+    * is intended only for use by patient-facing applications
 
-    * is only for non-clinical use
+    * is intended only for non-clinical use
 
     * can only be used where there is a legal basis to do software
 
@@ -47,7 +47,7 @@ info:
 
     You must do this before you can go live (see Onboarding below).
 
-    ## Pre-requisites 
+    ### Prerequisites 
 
     Information governance (IG)
     
@@ -115,7 +115,7 @@ info:
 
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
-    ### Authorisation
+    ## Security and authorisation
 
     This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it. 
 
@@ -125,15 +125,43 @@ info:
 
     * authenticated with NHS login to P9 identity verification level
 
-    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to authorise the calling system. It supports the following security pattern using NHS login: XXXXX
+    The API uses Open ID Connect to authenticate the end user and OAuth 2.0 to authorise the calling system. It supports the following security pattern using NHS login: 
+    
+    * [User-restricted RESTful APIs - NHS login separate authentication and authorisation](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-login-separate-authentication-and-authorisation)
 
     ## Environments and testing
     
     |Environment|Base URL|
     |-----------|--------|
     |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
-    |Integration Testing|`https://int.api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
-    |Production|`https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
+    |Integration Testing|`Not yet available`|
+    |Production|`Not yet available`|
+
+    ### Sandbox testing 
+
+    Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
+
+    * is for early developer testing
+
+    * only covers a limited set of scenarios
+
+    * is stateless, so it does not store data
+
+    * is open access, so does not allow you to test authorisation
+
+    For more details on sandbox testing, or to try out the sandbox using our "Try this API" feature, see the documentation for each endpoint.
+
+    ### Integration testing (not yet available)
+    
+    Our [integration test environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing):
+    
+    * is for formal integration testing
+    
+    * is stateful, so it does persist data
+    
+    * includes authorisation
+    
+    For more details see [integration testing with our RESTful APIs](https://digital.nhs.uk/developer/guides-and-documentation/testing#integration-testing-with-our-restful-apis).
 
     ## Onboarding
 
@@ -181,7 +209,7 @@ paths:
   /FHIR/R4/Task/:
     get:
       operationId: get-task
-      summary: Search for current prescription requests
+      summary: GET prescription requests
       description: >
         ## Overview
         
@@ -209,6 +237,32 @@ paths:
             type: string
             format: ^Bearer\ [[:ascii:]]+$
             example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: header
+          name: X-RequestID
+          description: >
+            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+            
+            Must be a universally unique identifier (UUID) (ideally version 4).
+            
+            Mirrored back in a response header.
+            
+            If you re-send a failed request, use the same value in this header.
+
+            Required in all environments except sandbox.
+
+          schema:
+            type: string
+            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          description: |
+            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
+            Mirrored back in a response header.
+          schema:
+            type: string
+            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA        
         - in: query
           name: focus:identifier
           description: |
@@ -355,6 +409,32 @@ paths:
             type: string
             format: ^Bearer\ [[:ascii:]]+$
             example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: header
+          name: X-RequestID
+          description: >
+            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+            
+            Must be a universally unique identifier (UUID) (ideally version 4).
+            
+            Mirrored back in a response header.
+            
+            If you re-send a failed request, use the same value in this header.
+
+            Required in all environments except sandbox.
+
+          schema:
+            type: string
+            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          description: |
+            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
+            Mirrored back in a response header.
+          schema:
+            type: string
+            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA 
       requestBody:
         required: true
         description: Successful Request.
@@ -443,13 +523,38 @@ paths:
             An [OAuth 2.0 bearer
             token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
 
-
             Required in all environments except sandbox.
           required: true
           schema:
             type: string
             format: ^Bearer\ [[:ascii:]]+$
             example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: header
+          name: X-RequestID
+          description: >
+            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+            
+            Must be a universally unique identifier (UUID) (ideally version 4).
+            
+            Mirrored back in a response header.
+            
+            If you re-send a failed request, use the same value in this header.
+
+            Required in all environments except sandbox.
+
+          schema:
+            type: string
+            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          description: |
+            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
+            Mirrored back in a response header.
+          schema:
+            type: string
+            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA 
         - in: query
           name: identifier
           description: >
@@ -494,7 +599,7 @@ paths:
   /FHIR/R4/MedicationStatement:
     get:
       operationId: get-medicationstatement
-      summary: Search for medications relating to a patient
+      summary: GET medications relating to a patient
       description: >
         ## Overview
         
@@ -527,6 +632,32 @@ paths:
             type: string
             format: ^Bearer\ [[:ascii:]]+$
             example: Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM
+        - in: header
+          name: X-RequestID
+          description: >
+            A globally unique identifier (GUID) for the request, which we use to de-duplicate repeated requests and to trace the request if you contact our helpdesk.
+            
+            Must be a universally unique identifier (UUID) (ideally version 4).
+            
+            Mirrored back in a response header.
+            
+            If you re-send a failed request, use the same value in this header.
+
+            Required in all environments except sandbox.
+
+          schema:
+            type: string
+            pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
+            example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+        - in: header
+          name: X-Correlation-ID
+          required: false
+          description: |
+            An optional ID which you can use to track transactions across multiple systems. It can have any value, but we recommend avoiding `.` characters.
+            Mirrored back in a response header.
+          schema:
+            type: string
+            example: 11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA  
         - in: query
           name: patient:identifier
           description: >
