@@ -119,7 +119,7 @@ info:
 
     This API is [user-restricted](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis), meaning an end user must be present and authenticated to use it. 
 
-    The end user must bundle:
+    The end user must be:
 
     * a patient
 
@@ -204,7 +204,7 @@ paths:
   /FHIR/R4/Task/:
     get:
       operationId: get-task
-      summary: GET prescription requests
+      summary: Get prescription requests
       description: >
         ## Overview
         
@@ -589,7 +589,7 @@ paths:
   /FHIR/R4/MedicationStatement:
     get:
       operationId: get-medicationstatement
-      summary: GET medications relating to a patient
+      summary: Get medications relating to a patient
       description: >
         ## Overview
         
