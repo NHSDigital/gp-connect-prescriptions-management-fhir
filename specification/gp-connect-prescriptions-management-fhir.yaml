@@ -571,9 +571,9 @@ paths:
   /FHIR/R4/MedicationRequest:
     get:
       operationId: get-medicationrequest
-      summary: Get prior prescriptions relating to a patient
+      summary: Get a patients medication requests
       description: > 
-        Use this endpoint in order to get further information on a patients medication.
+        Use this endpoint in order to get further history of a patients medication by retrieving their requests.
         
         The request must include the following parameter:
 
