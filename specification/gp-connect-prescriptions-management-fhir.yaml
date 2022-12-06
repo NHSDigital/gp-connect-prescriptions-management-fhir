@@ -297,24 +297,36 @@ paths:
                       - resource: 
                           resourceType: Task
                           id: aef77afb-7e3c-427a-8657-2c427f71a271
+                          identifier: 
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                          
                           status: requested
                           intent: order
                           focus: 
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                           authoredOn: 2022-11-23T20:20:27+07:00
                           lastModified: 2022-11-23T20:20:27+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009
                             display: Jane Smith
                           note:
-                            - authorString: Patient,
+                            - authorString: Patient
                               text: Ran out of previous prescription
                       - resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                                
                           status: rejected
                           statusReason:
                             text: No longer suitable, please contact GP to organise an appointment
@@ -323,26 +335,41 @@ paths:
                               reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                                     
                             display: Jane Smith
                           authoredOn: 2022-08-14T07:20:23+07:00
                           lastModified: 2022-08-14T11:40:47+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                       - resource:
                           resourceType: Task
                           id: 84722efb-95b0-4769-921a-eda53382b320
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                              
                           status: in-progress
                           intent: order
                           focus: 
                               reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-15T11:28:13+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
     post:
       operationId: post-task
@@ -399,10 +426,16 @@ paths:
                 note: 
                   - authorString: Patient
                     text: ran out of previous prescription
-                restriction:
-                  recipient:
-                    - reference: Organization/FQ369
-                      type: Organization
+                input:
+                  type:
+                    coding:
+                    - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                      code: one-off-dispenser
+                      display: One off dispenser
+                  valueIdentifier:
+                    system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                    value: FLM49
+
       responses:
         '201':
           description: Successfully submitted.         
