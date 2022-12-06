@@ -55,10 +55,6 @@ info:
 
     * be compliant with the GP Connect Direct Care API Information Governance Model
 
-    * manage access to your system locally using role based access control
-    
-    * this does not need to be compliant with the national RBAC model and GP Connect products do not require smartcards to control access, though they can be used if already implemented be using the GP Connect APIs for direct care purposes for NHS patients in England
-
     ####Clinical safety 
 
     You must:
@@ -402,13 +398,13 @@ paths:
                       - coding:
                         - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                           code: continuous
-                          display: Continuous long term therapy
+                          display: 	Continuous long term therapy
                     authoredOn: 2022-10-13T09:20:27.000Z
                     substitution:
                       allowedBoolean: false
                     dispenseRequest:
                       performer:
-                        reference: Organization/Y12345
+                        reference: Organization/FQ369
                         type: Organization
                 status: requested
                 intent: order
@@ -578,11 +574,11 @@ paths:
                     dateAsserted: 2020-01-12
                     basedOn: 
                       reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
-                      display: Continuous long term therapy 
+                      display: Continuous long term (repeat dispensing) 
   /FHIR/R4/MedicationRequest:
     get:
       operationId: get-medicationrequest
-      summary: Get a patients medication requests
+      summary: Get a specific medication request
       description: > 
         Use this endpoint in order to get specific MedicationRequests 
         
@@ -594,16 +590,16 @@ paths:
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: patient:identifier
+          name: identifier
           description: >
-            The NHS number of the patient whose requests you are searching for
+            The id of the MedicationRequest you are searching for
           required: false
           schema:
             type: string
-            example: '9000000009'
+            example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
       responses:
         '200':
-          description: Successful request to view medication
+          description: Successful request to view current and previous prescription details
           content: 
             application/fhir+json:
               schema: 
@@ -621,6 +617,9 @@ paths:
                       - resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          identifier: 
+                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                            value: CDT38E-Y765968-4FG3BQ
                           status: active
                           intent: order
                           category: 
@@ -643,14 +642,14 @@ paths:
                             - coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                                 code: continuous
-                                display: Continuous long term therapy
+                                display: 	Continuous long term therapy
                           authoredOn: 2022-10-13T16:20:27+07:00
                           substitution:
                             allowedBoolean: false
                           dispenseRequest:
                             quantity: 2
                             performer:
-                              reference: Organization/Y12345
+                              reference: Organization/FQ369
                               type: Organization
                           dosageInstruction: 
                           - text: One to two puffs to be inhaled as needed
@@ -662,6 +661,9 @@ paths:
                       - resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          identifier: 
+                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                            value: OIT78E-K814265-4FJ3BQ              
                           status: active
                           intent: order
                           category: 
@@ -691,7 +693,7 @@ paths:
                           dispenseRequest:
                             quantity: 28
                             performer:
-                              reference: Organization/Y12345
+                              reference: Organization/FQ369
                               type: Organization
                           dosageInstruction: 
                           - text: One to two tablets to be consumed as needed
@@ -752,4 +754,4 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-   
+     
