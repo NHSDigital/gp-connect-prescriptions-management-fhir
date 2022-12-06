@@ -29,11 +29,11 @@ info:
 
     For example:
 
-    * a patient will be able to view their own medication, request a new instance of a repeat prescription and cancel that request.
+    * a patient can view their own medication, request a new instance of a repeat prescription and cancel that request
     
     ## Who can use this API
 
-    This API can be used by developers of clinical systems that support clinicans delivering direct care. It is a patient facing API.
+    This API can be used by developers of clinical systems that support clinicans delivering direct care. It is a patient-facing API.
     
     This API:
 
@@ -41,7 +41,7 @@ info:
 
     * is intended only for non-clinical use
 
-    * can only be used where there is a legal basis to do software
+    * can only be used where there is a legal basis to do so
 
     Make sure you have a valid use case before you go too far with development. To do this, contact us. 
 
@@ -49,15 +49,13 @@ info:
 
     ### Prerequisites 
 
-    Information governance (IG)
+    ####Information governance (IG)
     
     You must:
 
     * be compliant with the GP Connect Direct Care API Information Governance Model
 
-    * manage access to your system locally using role based access control. This does not need to be compliant with the national RBAC model and GP Connect products do not require smartcards to control access, though they can be used if already implemented be using the GP Connect APIs for direct care purposes for NHS patients in England
-
-    Clinical safety 
+    ####Clinical safety 
 
     You must:
 
@@ -65,17 +63,17 @@ info:
 
     ## Related APIs
     
-    * [EPS (Electronic prescriptions service)](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir#top) - use this API to track the dispensing status of the prescription once it leaves the GP system. 
+    * [Electronic Prescription Service - FHIR API](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir) - use this API to track the dispensing status of the prescription once it leaves the GP system. 
 
-    * GP Connect User Permissions API - use this API to manage a patient's permissions as held by the GP practice systems.
+    * [GP Connect (2nd Generation) User Permissions API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-user-permissions-api) - use this API to manage a patient's permissions as held by the GP practice systems.
 
-    * GP Connect Appointments Management FHIR API - use this API to manage GP practice appointments.
+    * [GP Connect (2nd Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-appointment-management-fhir) - use this API to manage GP practice appointments.
 
-    * GP Connect Get Structured Record FHIR API - use this API to manage a patient's medical record from the GP practice systems.
+    * [GP Connect (2nd Generation) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - use this API to manage a patient's medical record from the GP practice systems.
 
     ## API status and roadmap
     
-    * This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses), Alpha. 
+    This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)
 
     To see our roadmap or to suggest, comment or vote on features for this API, see our [interactive product backlog.](https://nhs-digital-api-management.featureupvote.com/suggestions/341619/gp-connect-prescriptions-management-fhir)
 
@@ -105,13 +103,9 @@ info:
 
     There are [libraries and software development kits available](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir-libraries-and-sdks) to help with FHIR API integration.
 
-    ### Documentation
-
-    * [Dictionary of Medicines and Devices (DM+D)](https://www.nhsbsa.nhs.uk/pharmacies-gp-practices-and-appliance-contractors/dictionary-medicines-and-devices-dmd) - the DM+D has the names, descriptions and unique identifiers for medicines and devices that can be prescribed.
-
     ## Network access
 
-    This API is available on the internet.
+    This API is available on the internet and, indirectly, on the [Health and Social Care Network (HSCN)](https://digital.nhs.uk/services/health-and-social-care-network).
 
     For more details, see [Network access for APIs](https://digital.nhs.uk/developer/guides-and-documentation/network-access-for-apis).
 
@@ -167,6 +161,12 @@ info:
 
     We are hoping to make the assurance process as lightweight and as self-service as possible.
 
+    ## Resources
+
+    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
+
+    This is the FHIR specification for GP Connect Prescriptions.
+
     ## Errors
 
     We use standard HTTP status codes to show whether an API request succeeded or not. They are usually in the range:
@@ -178,6 +178,8 @@ info:
     - 500 to 599 if it failed because of an error on our server
 
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
+
+    API Specific errors can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/Design/Errors-and-issues.page.md?version=current)
   contact:
     name: 'gp-connect-prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
@@ -210,7 +212,7 @@ paths:
         
         Use this end point to check the status of your current prescription request.
         
-        You must provide at least one of the following parameters must be provided:
+        You must provide at least one of the following parameters:
 
         * identifier
 
@@ -288,7 +290,7 @@ paths:
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
                     identifier: 
-                      system: https://tools.ietf.org/html/rfc4122
+                      system: "https://tools.ietf.org/html/rfc4122"
                       value: a3294018-6c63-4556-8797-f782d1c95480
                     type: searchset
                     entry:
@@ -348,7 +350,7 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a new request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
 
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
@@ -369,23 +371,23 @@ paths:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
                 identifier: 
-                  system: https://tools.ietf.org/html/rfc4122
+                - system: "https://tools.ietf.org/html/rfc4122"
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
                 contained:
-                    resourceType: MedicationRequest
+                  - resourceType: MedicationRequest
                     id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                     status: active
                     intent: order
                     category: 
                       - coding: 
-                        - system: http://terminology.hl7.or/CodeSystem/medicationrequest-category
+                        - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
                           code: community
                           display: Community
                     medicationCodeableConcept:
                       - coding: 
-                          - system: https://dmd.nhs.uk
-                            code: 329526003
-                            display: Apirin 300mg dispersible tablets
+                          - system: "https://dmd.nhs.uk"
+                            code: 39695211000001102
+                            display: Aspirin 300mg dispersible tablets
                     subject:
                       reference: Patient/9000000009
                       display: Jane Smith
@@ -394,33 +396,44 @@ paths:
                       display: Jane Smith
                     courseOfTherapyType:
                       - coding:
-                        - system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
-                          code: continuous-repeating-dispensing
-                          display: Continuous long term (repeat dispensing)
-                    authoredOn: 2022-10-13T16:20:27+07:00
+                        - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
+                          code: continuous
+                          display: Continuous long term therapy
+                    authoredOn: 2022-10-13T09:20:27.000Z
                     substitution:
                       allowedBoolean: false
                     dispenseRequest:
                       performer:
-                        reference: Organization/Y12345
-                        type: Orgnization
+                        reference: Organization/FQ369
+                        type: Organization
                 status: requested
                 intent: order
+                code: 
+                   coding:
+                    - system: "http://snomed.info/sct"
+                      code: 103742009
+                      display: Renewal of prescription
                 focus: 
                     reference: "#b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
                 for: 
                   reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: 9000000009
                   display: Jane Smith
-                authoredOn: 2022-10-13T16:20:27+07:00
-                lastModified: 2022-10-13T16:20:27+07:00
+                authoredOn: 2022-10-13T09:20:27.000Z
+                lastModified: 2022-10-13T09:20:27.000Z
                 requester: 
                   reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: 9000000009
                   display: Jane Smith
                 note: 
                   - authorString: Patient
                     text: ran out of previous prescription
       responses:
-        '200':
+        '201':
           description: Successfully submitted.         
     patch:
       operationId: cancel-task
@@ -430,7 +443,7 @@ paths:
         
         Use this endpoint to cancel a current request that has not been actioned yet, that is still has the status of "requested".
         
-        You must provide the following parameter:
+        The request must include the following parameter:
         
         * identifier
         
@@ -465,7 +478,7 @@ paths:
                   resourceType: Task
                   id: aef77afb-7e3c-427a-8657-2c427f71a271
                   identifier:
-                    system: https://tools.ietf.org/html/rfc4122
+                    system: "https://tools.ietf.org/html/rfc4122"
                     value: 30d65c8e-98e8-4806-b6a6-51e94733f0e9
                   status: cancelled
                   statusReason:
@@ -488,16 +501,9 @@ paths:
       description: >
         ## Overview
         
-        This end point returns a MedicationStatement with a contained MedicationRequest and Medication resource.
+        This end point returns MedicationStatements relating to a patient.
 
-
-        The combination of these three can be used to infer whether a prescription is acute, repeat or repeat dispensing.
-
-
-        For example, an acute medication is represented by a MedicationStatement and two MedicationRequest resources, one must have an intent of plan and the other as order. All three of these should relate to the same Medication resource.
-
-
-        A repeat prescription or repeat dispensing medication is represented similarly however, there is now a one to many relationship. There can be one MedicationRequest resource with intent of plan and it can relate to many MedicationRequests with an intent of order. However, for all MedicationRequest resources with an intent of order the authoredOn date SHOULD be the same as the related MedicationRequest with intent of plan.
+        These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest.
 
         The request must include the following parameter:
 
@@ -549,73 +555,153 @@ paths:
                     resourceType: MedicationStatement
                     id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
                     identifier:
-                      system: https://tools.ietf.org/html/rfc4122
+                      system: "https://tools.ietf.org/html/rfc4122"
                       value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
                     meta:
-                      - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
-                    contained: 
-                      - resource: 
-                          resourceType: MedicationRequest
-                          id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                          meta: 
-                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                          status: completed
-                          intent: plan
-                          medicationReference:
-                            reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                          subject: 
-                            reference:  Patient/9000000009
-                          authoredOn: 2018-01-06
-                          requester: 
-                            reference:  Patient/9000000009
-                          substitution: false
-                          courseOfTherapyType:
-                            - coding:
-                                system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
-                                code: continuous
-                                display: Continuous long term therapy
-                      - resource: 
-                          resourceType: Medication
-                          id: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                          meta:
-                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-Medication
-                          code: 
-                            coding:
-                              - system: http://snomed.info/ct
-                                code: 3113111000001106
-                                display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
-                                text: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
-                      - resource:
-                          resourceType: MedicationRequest
-                          id: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                          meta: 
-                            - profile: https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
-                          basedOn: 
-                            reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
-                          status: completed
-                          intent: order
-                          medicationReference:
-                            reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
-                          subject: 
-                            reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                          authoredOn: 2018-01-06
-                          requester: 
-                            reference: Patient/04603d77-1a4e-4d63-b246-d7504f8bd833
-                          substitution: false
-                          courseOfTherapyType:
-                            - coding:
-                                system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
-                                code: continue
-                                display: Continuous long term therapy
+                      - profile: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement"
                     status: active
-                    medicationReference:
-                      reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                    medicationCodeableConcept:
+                      - coding: 
+                        - system: "http://snomed.info/ct"
+                          code: 3113111000001106
+                          display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                    subject:
+                      reference: Patient/9000000009
+                      display: Jane Smith
                     effectivePeriod: 
-                      start: 2022-10-23
-                      end: 2023-01-10
+                      start: 2022-10-23T13:50:00+00:00
+                      end: 2023-01-10T13:50:00+00:00
                     dateAsserted: 2020-01-12
                     basedOn: 
-                      reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
+                      reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
+                      display: Continuous long term (repeat dispensing) 
+  /FHIR/R4/MedicationRequest:
+    get:
+      operationId: get-medicationrequest
+      summary: Get a specific medication request
+      description: > 
+        Use this endpoint in order to get specific MedicationRequests 
+        
+        The request must include the following parameter:
+
+        * identifier
+      parameters:
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+        - in: query
+          name: identifier
+          description: >
+            The id of the MedicationRequest you are searching for
+          required: false
+          schema:
+            type: string
+            example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
+      responses:
+        '200':
+          description: Successful request to view current and previous prescription details
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example:
+                  value:
+                    resourceType: Bundle
+                    id: 2b62ff26-25a9-4a88-8cb6-f69e85fb6159
+                    identifier: 
+                      system: "https://tools.ietf.org/html/rfc4122"
+                      value: 86af4f6c-30c5-4947-acc7-2f55145181de
+                    type: searchset
+                    entry:
+                      - resource: 
+                          resourceType: MedicationRequest
+                          id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          identifier: 
+                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                            value: CDT38E-Y765968-4FG3BQ
+                          status: active
+                          intent: order
+                          category: 
+                            - coding: 
+                              - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
+                                code: community
+                                display: Community
+                          medicationCodeableConcept:
+                            - coding: 
+                              - system: "http://snomed.info/ct"
+                                code: 3113111000001106
+                                display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                          subject:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          requester:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          courseOfTherapyType:
+                            - coding:
+                              - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
+                                code: continuous
+                                display: Continuous long term therapy
+                          authoredOn: 2022-10-13T16:20:27+07:00
+                          substitution:
+                            allowedBoolean: false
+                          dispenseRequest:
+                            quantity: 2
+                            performer:
+                              reference: Organization/FQ369
+                              type: Organization
+                          dosageInstruction: 
+                          - text: One to two puffs to be inhaled as needed
+                            method:
+                               coding: 
+                                - system: "http://snomed.info/sct"
+                                  code: 420652005
+                                  display: Until Gone
+                      - resource: 
+                          resourceType: MedicationRequest
+                          id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          identifier: 
+                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                            value: OIT78E-K814265-4FJ3BQ              
+                          status: active
+                          intent: order
+                          category: 
+                            - coding: 
+                              - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
+                                code: community
+                                display: Community
+                          medicationCodeableConcept:
+                            - coding: 
+                                - system: "https://dmd.nhs.uk"
+                                  code: 329526003
+                                  display: Apirin 300mg dispersible tablets
+                          subject:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          requester:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          courseOfTherapyType:
+                            - coding:
+                              - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
+                                code: acute
+                                display: Short course (acute) therapy
+                          authoredOn: 2022-08-13T16:20:27+07:00
+                          substitution:
+                            allowedBoolean: false
+                          dispenseRequest:
+                            quantity: 28
+                            performer:
+                              reference: Organization/FQ369
+                              type: Organization
+                          dosageInstruction: 
+                          - text: One to two tablets to be consumed as needed
+                            method:
+                               coding: 
+                                - system: "http://snomed.info/sct"
+                                  code: 417995008
+                                  display: Dissolve or mix with water before taking (qualifier value)                      
 components:
   parameters:
     BearerAuthorization:
@@ -668,4 +754,4 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-    
+     
