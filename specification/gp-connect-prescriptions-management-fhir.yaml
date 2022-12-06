@@ -214,7 +214,7 @@ paths:
       description: >
         ## Overview
         
-        Use this end point to check the status of your current prescription request.
+        Use this endpoint to check the status of your current prescription request.
         
         You must provide at least one of the following parameters:
 
@@ -354,7 +354,7 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this endpoint to create a request for a repeat prescription or repeat dispensing prescription. The same endpoint can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
 
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
@@ -494,7 +494,7 @@ paths:
       description: >
         ## Overview
         
-        This end point returns MedicationStatements relating to a patient.
+        This endpoint returns MedicationStatements relating to a patient.
 
         These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest.
 
@@ -509,7 +509,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you arer searching for
+            The NHS number of the patient whose requests you are searching for
           required: false
           schema:
             type: string
