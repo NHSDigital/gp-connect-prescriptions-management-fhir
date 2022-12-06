@@ -689,6 +689,18 @@ paths:
                                 - system: http://snomed.info/sct
                                   code: 417995008
                                   display: Dissolve or mix with water before taking (qualifier value)                      
+                                system: https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy
+                                code: continue
+                                display: Continuous long term therapy
+                    status: active
+                    medicationReference:
+                      reference: 8b67891-df9n-3nfu-jnvc8-18s08fvhs0
+                    effectivePeriod: 
+                      start: 2022-10-23
+                      end: 2023-01-10
+                    dateAsserted: 2020-01-12
+                    basedOn: 
+                      reference: 7e68abae-a50a-4dd2-8445-7a2aa9936bee
 components:
   parameters:
     BearerAuthorization:
@@ -741,4 +753,3 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-      
