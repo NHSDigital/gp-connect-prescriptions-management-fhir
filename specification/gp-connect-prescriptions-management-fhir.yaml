@@ -350,9 +350,9 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.restriction.recipient. 
 
-        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
+        For this, send a task with a focus of the MedicationRequest.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -366,46 +366,13 @@ paths:
             schema:
               type: object
               description: >
-                Example of a valid Task, with contained MedicationRequest 
+                Example of a valid Task, with focus on MedicationRequest 
             example:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
                 identifier: 
                 - system: "https://tools.ietf.org/html/rfc4122"
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
-                contained:
-                  - resourceType: MedicationRequest
-                    id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                    status: active
-                    intent: order
-                    category: 
-                      - coding: 
-                        - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
-                          code: community
-                          display: Community
-                    medicationCodeableConcept:
-                      - coding: 
-                          - system: "https://dmd.nhs.uk"
-                            code: 39695211000001102
-                            display: Aspirin 300mg dispersible tablets
-                    subject:
-                      reference: Patient/9000000009
-                      display: Jane Smith
-                    requester:
-                      reference: Patient/9000000009
-                      display: Jane Smith
-                    courseOfTherapyType:
-                      - coding:
-                        - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
-                          code: continuous
-                          display: Continuous long term therapy
-                    authoredOn: 2022-10-13T09:20:27.000Z
-                    substitution:
-                      allowedBoolean: false
-                    dispenseRequest:
-                      performer:
-                        reference: Organization/FQ369
-                        type: Organization
                 status: requested
                 intent: order
                 code: 
@@ -414,7 +381,7 @@ paths:
                       code: 103742009
                       display: Renewal of prescription
                 focus: 
-                    reference: "#b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
+                    reference: "MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
                 for: 
                   reference: Patient/9000000009
                   identifier: 
@@ -432,6 +399,10 @@ paths:
                 note: 
                   - authorString: Patient
                     text: ran out of previous prescription
+                restriction:
+                  recipient:
+                    - reference: Organization/FQ369
+                      type: Organization
       responses:
         '201':
           description: Successfully submitted.         
