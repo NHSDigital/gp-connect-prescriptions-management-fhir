@@ -75,6 +75,8 @@ info:
 
     * [GP Connect (2nd Generation) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - use this API to manage a patient's medical record from the GP practice systems.
 
+    * [Implementation guide for digital medicines](https://simplifier.net/guide/ukcoreimplementationguideformedicines/ElementDosage?version=current) - use this guidance to structure dose instructions in issued prescriptions.
+
     ## API status and roadmap
     
     This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)
