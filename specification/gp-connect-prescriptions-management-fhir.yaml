@@ -75,8 +75,6 @@ info:
 
     * [GP Connect (2nd Generation) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - use this API to manage a patient's medical record from the GP practice systems.
 
-    * [Implementation guide for digital medicines](https://simplifier.net/guide/ukcoreimplementationguideformedicines/ElementDosage?version=current) - use this guidance to structure dose instructions in issued prescriptions.
-
     ## API status and roadmap
     
     This API is in [development](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#statuses)
@@ -216,7 +214,7 @@ paths:
       description: >
         ## Overview
         
-        Use this endpoint to check the status of your current prescription request.
+        Use this end point to check the status of your current prescription request.
         
         You must provide at least one of the following parameters:
 
@@ -356,7 +354,7 @@ paths:
       description: >
         ## Overview 
 
-        Use this endpoint to create a request for a repeat prescription or repeat dispensing prescription. The same endpoint can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
 
         For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
@@ -377,10 +375,10 @@ paths:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
                 identifier: 
-                  system: "https://tools.ietf.org/html/rfc4122"
+                - system: "https://tools.ietf.org/html/rfc4122"
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
                 contained:
-                    resourceType: MedicationRequest
+                  - resourceType: MedicationRequest
                     id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                     status: active
                     intent: order
@@ -392,8 +390,8 @@ paths:
                     medicationCodeableConcept:
                       - coding: 
                           - system: "https://dmd.nhs.uk"
-                            code: 329526003
-                            display: Apirin 300mg dispersible tablets
+                            code: 39695211000001102
+                            display: Aspirin 300mg dispersible tablets
                     subject:
                       reference: Patient/9000000009
                       display: Jane Smith
@@ -405,7 +403,7 @@ paths:
                         - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                           code: continuous
                           display: Continuous long term therapy
-                    authoredOn: 2022-10-13T16:20:27+07:00
+                    authoredOn: 2022-10-13T09:20:27.000Z
                     substitution:
                       allowedBoolean: false
                     dispenseRequest:
@@ -414,15 +412,26 @@ paths:
                         type: Organization
                 status: requested
                 intent: order
+                code: 
+                   coding:
+                    - system: "http://snomed.info/sct"
+                      code: 103742009
+                      display: Renewal of prescription
                 focus: 
                     reference: "#b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
                 for: 
                   reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: 9000000009
                   display: Jane Smith
-                authoredOn: 2022-10-13T16:20:27+07:00
-                lastModified: 2022-10-13T16:20:27+07:00
+                authoredOn: 2022-10-13T09:20:27.000Z
+                lastModified: 2022-10-13T09:20:27.000Z
                 requester: 
                   reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: 9000000009
                   display: Jane Smith
                 note: 
                   - authorString: Patient
@@ -496,7 +505,7 @@ paths:
       description: >
         ## Overview
         
-        This endpoint returns MedicationStatements relating to a patient.
+        This end point returns MedicationStatements relating to a patient.
 
         These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest.
 
@@ -511,7 +520,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you are searching for
+            The NHS number of the patient whose requests you arer searching for
           required: false
           schema:
             type: string
@@ -569,13 +578,13 @@ paths:
                     dateAsserted: 2020-01-12
                     basedOn: 
                       reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
-                      display: Continuous long term (repeat dispensing) 
+                      display: Continuous long term therapy 
   /FHIR/R4/MedicationRequest:
     get:
       operationId: get-medicationrequest
       summary: Get a patients medication requests
       description: > 
-        Use this endpoint in order to get specific MedicationRequests referenced within the MedicationStatements.
+        Use this endpoint in order to get specific MedicationRequests 
         
         The request must include the following parameter:
 
@@ -743,3 +752,4 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
+   
