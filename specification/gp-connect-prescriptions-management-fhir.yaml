@@ -398,7 +398,7 @@ paths:
                       - coding:
                         - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                           code: continuous
-                          display: 	Continuous long term therapy
+                          display: Continuous long term therapy
                     authoredOn: 2022-10-13T09:20:27.000Z
                     substitution:
                       allowedBoolean: false
@@ -642,7 +642,7 @@ paths:
                             - coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                                 code: continuous
-                                display: 	Continuous long term therapy
+                                display: Continuous long term therapy
                           authoredOn: 2022-10-13T16:20:27+07:00
                           substitution:
                             allowedBoolean: false
