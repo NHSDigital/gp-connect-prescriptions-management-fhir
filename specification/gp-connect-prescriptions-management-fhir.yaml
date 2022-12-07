@@ -236,6 +236,7 @@ paths:
           name: patient:identifier
           description: >
             The NHS number of the patient whose requests you arer searching for
+            The NHS number of the patient whose requests you are searching for
           required: false
           schema:
             type: string
@@ -378,6 +379,7 @@ paths:
         ## Overview 
 
         Use this end point to create a request for a repeat prescription prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the one-off-dispenser code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
+        Use this end point to create a request for a reorder of a repeat prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the one-off-dispenser code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
 
         For this, send a task with a focus of the MedicationRequest.
 
@@ -432,6 +434,8 @@ paths:
                     - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
                       code: one-off-dispenser
                       display: One off dispenser
+                      code: preferred-performer
+                      display: Preferred performer
                   valueIdentifier:
                     system: "https://fhir.nhs.uk/Id/ods-organization-code"
                     value: FLM49
