@@ -204,6 +204,8 @@ x-spec-publication:
           path: /FHIR/R4/MedicationStatement
         - method: GET
           path: /FHIR/R4/MedicationRequest/{identifier}
+        - method: GET
+          path: /FHIR/R4/MedicationRequest/
 paths: 
   /FHIR/R4/Task/:
     get:
@@ -660,11 +662,11 @@ paths:
   /FHIR/R4/MedicationRequest/:
     get:
       operationId: get-ordered-medicationrequest
-      summary: Get previous prescription issue details
+      summary: Get prescription issue details
       description: > 
         Use this endpoint in order to get details of previous prescription issues
         
-        The request must include the following parameter:
+        The request must include one of following parameters:
 
         * basedOn:identifier
 
