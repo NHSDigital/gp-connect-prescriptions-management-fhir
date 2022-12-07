@@ -210,7 +210,7 @@ paths:
       description: >
         ## Overview
         
-        Use this end point to check the status of your current prescription request.
+        Use this end point to check the status of your current prescription requests.
         
         You must provide at least one of the following parameters:
 
@@ -235,7 +235,6 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you arer searching for
             The NHS number of the patient whose requests you are searching for
           required: false
           schema:
@@ -260,7 +259,7 @@ paths:
         - in: query
           name: authored-on
           description: >
-            Date the prescription was ordered, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
+            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
           required: false
           schema:
             type: string
@@ -378,10 +377,11 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the one-off-dispenser code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
-        Use this end point to create a request for a reorder of a repeat prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the one-off-dispenser code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
+        Use this end point to create a request for a reorder of a repeat prescription. 
+        
+        The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the preferred-performer code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
 
-        For this, send a task with a focus of the MedicationRequest.
+        For this, send a task with a focus of a MedicationRequest with intent "plan".
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -432,8 +432,6 @@ paths:
                   type:
                     coding:
                     - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
-                      code: one-off-dispenser
-                      display: One off dispenser
                       code: preferred-performer
                       display: Preferred performer
                   valueIdentifier:
@@ -449,13 +447,11 @@ paths:
       description: >
         ## Overview 
         
-        Use this endpoint to cancel a current request that has not been actioned yet, that is still has the status of "requested".
+        Use this endpoint to cancel a current request that has not been actioned yet.
         
         The request must include the following parameter:
         
         * identifier
-        
-        The request body would essentially be the same task to create a request but with an updated status of cancelled.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
