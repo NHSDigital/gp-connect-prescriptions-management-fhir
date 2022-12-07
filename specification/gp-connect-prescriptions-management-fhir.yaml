@@ -210,7 +210,7 @@ paths:
       description: >
         ## Overview
         
-        Use this end point to check the status of your current prescription requests.
+        Use this end point to check the status of previous prescription requests.
         
         You must provide at least one of the following parameters:
 
@@ -373,15 +373,15 @@ paths:
                             display: Jane Smith
     post:
       operationId: post-task
-      summary: Request a repeat prescription 
+      summary: Request a repeat prescription issue
       description: >
         ## Overview 
 
-        Use this end point to create a request for a reorder of a repeat prescription. 
+        Use this end point to create a request for a reorder of a repeat prescription. The Task must have a focus of a MedicationRequest with intent "plan".
         
-        The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using the preferred-performer code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
+        The same end point can be used to request a prescription is sent to a specific dispenser, overriding any EPS nomination or preferred pharmacy. The ODS code of the dispenser is set in Task.input using the `preferred-performer` code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
 
-        For this, send a task with a focus of a MedicationRequest with intent "plan".
+        
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -460,7 +460,7 @@ paths:
         - in: query
           name: identifier
           description: >
-            The identifier of the task to cancel
+            The identifier of the Task to cancel
           required: true
           schema:
             type: string
@@ -477,7 +477,7 @@ paths:
             examples:
               task:
                 description: |
-                  A valid task
+                  A valid Task for a repeat prescription order
                 value:
                   resourceType: Task
                   id: aef77afb-7e3c-427a-8657-2c427f71a271
@@ -505,9 +505,9 @@ paths:
       description: >
         ## Overview
         
-        This end point returns MedicationStatements relating to a patient.
+        This end point returns MedicationStatements relating to a patient, which show courses of medication prescribed to the patient. 
 
-        These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
+        These MedicationStatements must reference a MedicationRequest within the basedOn attribute: MedicationRequests provide details of specific prescriptions. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
         The request must include the following parameter:
 
@@ -520,7 +520,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you arer searching for
+            The NHS number of the patient whose requests you are searching for
           required: false
           schema:
             type: string
@@ -528,7 +528,7 @@ paths:
         - in: query
           name: authored-on
           description: >
-            Date the prescription was ordered, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
+            Date the medication was started, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
           required: false
           schema:
             type: string
@@ -611,101 +611,49 @@ paths:
               examples:
                 example:
                   value:
-                    resourceType: Bundle
-                    id: 2b62ff26-25a9-4a88-8cb6-f69e85fb6159
+                    resourceType: MedicationRequest
+                    id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                     identifier: 
-                      system: "https://tools.ietf.org/html/rfc4122"
-                      value: 86af4f6c-30c5-4947-acc7-2f55145181de
-                    type: searchset
-                    entry:
-                      - resource: 
-                          resourceType: MedicationRequest
-                          id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                          identifier: 
-                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: CDT38E-Y765968-4FG3BQ
-                          status: active
-                          intent: order
-                          category: 
-                            - coding: 
-                              - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
-                                code: community
-                                display: Community
-                          medicationCodeableConcept:
-                            - coding: 
-                              - system: "http://snomed.info/ct"
-                                code: 3113111000001106
-                                display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
-                          subject:
-                            reference: Patient/9000000009
-                            display: Jane Smith
-                          requester:
-                            reference: Patient/9000000009
-                            display: Jane Smith
-                          courseOfTherapyType:
-                            - coding:
-                              - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
-                                code: continuous
-                                display: Continuous long term therapy
-                          authoredOn: 2022-10-13T16:20:27+07:00
-                          substitution:
-                            allowedBoolean: false
-                          dispenseRequest:
-                            quantity: 2
-                            performer:
-                              reference: Organization/FQ369
-                              type: Organization
-                          dosageInstruction: 
-                          - text: One to two puffs to be inhaled as needed
-                            method:
-                               coding: 
-                                - system: "http://snomed.info/sct"
-                                  code: 420652005
-                                  display: Until Gone
-                      - resource: 
-                          resourceType: MedicationRequest
-                          id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                          identifier: 
-                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: OIT78E-K814265-4FJ3BQ              
-                          status: active
-                          intent: order
-                          category: 
-                            - coding: 
-                              - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
-                                code: community
-                                display: Community
-                          medicationCodeableConcept:
-                            - coding: 
-                                - system: "https://dmd.nhs.uk"
-                                  code: 329526003
-                                  display: Apirin 300mg dispersible tablets
-                          subject:
-                            reference: Patient/9000000009
-                            display: Jane Smith
-                          requester:
-                            reference: Patient/9000000009
-                            display: Jane Smith
-                          courseOfTherapyType:
-                            - coding:
-                              - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
-                                code: acute
-                                display: Short course (acute) therapy
-                          authoredOn: 2022-08-13T16:20:27+07:00
-                          substitution:
-                            allowedBoolean: false
-                          dispenseRequest:
-                            quantity: 28
-                            performer:
-                              reference: Organization/FQ369
-                              type: Organization
-                          dosageInstruction: 
-                          - text: One to two tablets to be consumed as needed
-                            method:
-                               coding: 
-                                - system: "http://snomed.info/sct"
-                                  code: 417995008
-                                  display: Dissolve or mix with water before taking (qualifier value)                      
+                      system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                      value: CDT38E-Y765968-4FG3BQ
+                    status: active
+                    intent: order
+                    category: 
+                      - coding: 
+                        - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
+                          code: community
+                          display: Community
+                    medicationCodeableConcept:
+                      - coding: 
+                        - system: "http://snomed.info/ct"
+                          code: 3113111000001106
+                          display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                    subject:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    requester:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    courseOfTherapyType:
+                      - coding:
+                        - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
+                          code: continuous
+                          display: Continuous long term therapy
+                    authoredOn: 2022-10-13T16:20:27+07:00
+                    substitution:
+                      allowedBoolean: false
+                    dispenseRequest:
+                      quantity: 2
+                      performer:
+                        reference: Organization/FQ369
+                        type: Organization
+                    dosageInstruction: 
+                    - text: One to two puffs to be inhaled as needed
+                      method:
+                          coding: 
+                          - system: "http://snomed.info/sct"
+                            code: 420652005
+                            display: Until Gone             
 components:
   parameters:
     BearerAuthorization:
