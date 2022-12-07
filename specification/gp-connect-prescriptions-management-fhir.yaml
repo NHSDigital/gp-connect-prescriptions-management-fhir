@@ -507,7 +507,7 @@ paths:
         
         This end point returns MedicationStatements relating to a patient.
 
-        These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest.
+        These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
         The request must include the following parameter:
 
@@ -579,7 +579,7 @@ paths:
                     basedOn: 
                       reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
                       display: Continuous long term (repeat dispensing) 
-  /FHIR/R4/MedicationRequest:
+  /FHIR/R4/MedicationRequest/{identifier}:
     get:
       operationId: get-medicationrequest
       summary: Get a specific medication request
@@ -593,7 +593,7 @@ paths:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
-        - in: query
+        - in: path
           name: identifier
           description: >
             The id of the MedicationRequest you are searching for
