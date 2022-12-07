@@ -690,7 +690,6 @@ paths:
               schema: 
                 type: object
               examples:
-              examples:
                 example:
                   value:
                     resourceType: Bundle
