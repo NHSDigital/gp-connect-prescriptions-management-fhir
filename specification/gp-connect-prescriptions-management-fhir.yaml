@@ -204,15 +204,17 @@ x-spec-publication:
           path: /FHIR/R4/MedicationStatement
         - method: GET
           path: /FHIR/R4/MedicationRequest/{identifier}
+        - method: GET
+          path: /FHIR/R4/MedicationRequest/
 paths: 
   /FHIR/R4/Task/:
     get:
       operationId: get-task
-      summary: Get prescription requests
+      summary: Get requested prescription reorders
       description: >
         ## Overview
         
-        Use this end point to check the status of previous prescription requests.
+        Use this end point to check the status of your current prescription request.
         
         You must provide at least one of the following parameters:
 
@@ -375,13 +377,13 @@ paths:
                             display: Jane Smith
     post:
       operationId: post-task
-      summary: Request a repeat prescription issue
+      summary: Request a repeat prescription 
       description: >
         ## Overview 
 
-        Use this end point to create a request for a reorder of a repeat prescription. The Task must have a focus of a MedicationRequest with intent "plan".
-        
-        The same end point can be used to request a prescription is sent to a specific dispenser, overriding any EPS nomination or preferred pharmacy. The ODS code of the dispenser is set in Task.input using the `preferred-performer` code found [here.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters) 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+
+        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
 
         
 
@@ -660,11 +662,11 @@ paths:
   /FHIR/R4/MedicationRequest/:
     get:
       operationId: get-ordered-medicationrequest
-      summary: Get previous prescription issue details
+      summary: Get prescription issue details
       description: > 
         Use this endpoint in order to get details of previous prescription issues
         
-        The request must include the following parameter:
+        The request must include one of following parameters:
 
         * basedOn:identifier
 
@@ -687,7 +689,6 @@ paths:
             application/fhir+json:
               schema: 
                 type: object
-              examples:
               examples:
                 example:
                   value:
