@@ -747,7 +747,7 @@ paths:
                           id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
                           identifier: 
                             system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: CDT38E-Y765968-1650+
+                            value: CDT38E-Y765968-1650B+
                           status: active
                           intent: order
                           category: 
