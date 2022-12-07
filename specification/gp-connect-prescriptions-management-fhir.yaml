@@ -202,6 +202,8 @@ x-spec-publication:
           path: /FHIR/R4/Task
         - method: GET
           path: /FHIR/R4/MedicationStatement
+        - method: GET
+          path: /FHIR/R4/MedicationRequest/{identifier}
 paths: 
   /FHIR/R4/Task/:
     get:
@@ -210,7 +212,7 @@ paths:
       description: >
         ## Overview
         
-        Use this end point to check the status of your requested prescription reorders.
+        Use this end point to check the status of your current prescription request.
         
         You must provide at least one of the following parameters:
 
@@ -235,7 +237,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you arer searching for
+            The NHS number of the patient whose requests you are searching for
           required: false
           schema:
             type: string
@@ -259,7 +261,7 @@ paths:
         - in: query
           name: authored-on
           description: >
-            Date the prescription was ordered, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
+            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
           required: false
           schema:
             type: string
@@ -297,24 +299,36 @@ paths:
                       - resource: 
                           resourceType: Task
                           id: aef77afb-7e3c-427a-8657-2c427f71a271
+                          identifier: 
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                          
                           status: requested
                           intent: order
                           focus: 
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                           authoredOn: 2022-11-23T20:20:27+07:00
                           lastModified: 2022-11-23T20:20:27+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009
                             display: Jane Smith
                           note:
-                            - authorString: Patient,
+                            - authorString: Patient
                               text: Ran out of previous prescription
                       - resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                                
                           status: rejected
                           statusReason:
                             text: No longer suitable, please contact GP to organise an appointment
@@ -323,37 +337,53 @@ paths:
                               reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                                     
                             display: Jane Smith
                           authoredOn: 2022-08-14T07:20:23+07:00
                           lastModified: 2022-08-14T11:40:47+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                       - resource:
                           resourceType: Task
                           id: 84722efb-95b0-4769-921a-eda53382b320
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                              
                           status: in-progress
                           intent: order
                           focus: 
                               reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
                           for: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-15T11:28:13+07:00
                           requester: 
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: 9000000009                            
                             display: Jane Smith
     post:
       operationId: post-task
-      summary: Reorder a prescription
+      summary: Request a repeat prescription 
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. For this, send a Task with a focus of the planned MedicationRequest.
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+
+        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
+
         
-        The same end point can be used to request a prescription is sent to a specifi dispenser, overriding the patient's current EPS nomination or preferred pharmacy. 
-        The ODS code of the requested dispenser is set in MedicationRequest.dispenseRequest.performer. 
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -367,46 +397,13 @@ paths:
             schema:
               type: object
               description: >
-                Example of a valid Task, with contained MedicationRequest 
+                Example of a valid Task, with focus on MedicationRequest 
             example:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
                 identifier: 
                 - system: "https://tools.ietf.org/html/rfc4122"
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
-                contained:
-                  - resourceType: MedicationRequest
-                    id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                    status: active
-                    intent: order
-                    category: 
-                      - coding: 
-                        - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
-                          code: community
-                          display: Community
-                    medicationCodeableConcept:
-                      - coding: 
-                          - system: "https://dmd.nhs.uk"
-                            code: 39695211000001102
-                            display: Aspirin 300mg dispersible tablets
-                    subject:
-                      reference: Patient/9000000009
-                      display: Jane Smith
-                    requester:
-                      reference: Patient/9000000009
-                      display: Jane Smith
-                    courseOfTherapyType:
-                      - coding:
-                        - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
-                          code: continuous
-                          display: Continuous long term therapy
-                    authoredOn: 2022-10-13T09:20:27.000Z
-                    substitution:
-                      allowedBoolean: false
-                    dispenseRequest:
-                      performer:
-                        reference: Organization/FQ369
-                        type: Organization
                 status: requested
                 intent: order
                 code: 
@@ -415,7 +412,7 @@ paths:
                       code: 103742009
                       display: Renewal of prescription
                 focus: 
-                    reference: "#b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
+                    reference: "MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
                 for: 
                   reference: Patient/9000000009
                   identifier: 
@@ -433,6 +430,16 @@ paths:
                 note: 
                   - authorString: Patient
                     text: ran out of previous prescription
+                input:
+                  type:
+                    coding:
+                    - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                      code: preferred-performer
+                      display: Preferred performer
+                  valueIdentifier:
+                    system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                    value: FLM49
+
       responses:
         '201':
           description: Successfully submitted.         
@@ -442,13 +449,11 @@ paths:
       description: >
         ## Overview 
         
-        Use this endpoint to cancel a current request that has not been actioned yet, that is still has the status of "requested".
+        Use this endpoint to cancel a current request that has not been actioned yet.
         
         The request must include the following parameter:
         
         * identifier
-        
-        The request body would essentially be the same task to create a request but with an updated status of cancelled.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -457,7 +462,7 @@ paths:
         - in: query
           name: identifier
           description: >
-            The identifier of the task to cancel
+            The identifier of the Task to cancel
           required: true
           schema:
             type: string
@@ -474,7 +479,7 @@ paths:
             examples:
               task:
                 description: |
-                  A valid task
+                  A valid Task for a repeat prescription order
                 value:
                   resourceType: Task
                   id: aef77afb-7e3c-427a-8657-2c427f71a271
@@ -502,9 +507,9 @@ paths:
       description: >
         ## Overview
         
-        This end point returns MedicationStatements relating to a patient.
+        This end point returns MedicationStatements relating to a patient, which show courses of medication prescribed to the patient. 
 
-        These MedicationStatements must reference a MedicationRequest within the basedOn attribute. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest.
+        These MedicationStatements must reference a MedicationRequest within the basedOn attribute: MedicationRequests provide details of specific prescriptions. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
         The request must include the following parameter:
 
@@ -517,7 +522,7 @@ paths:
         - in: query
           name: patient:identifier
           description: >
-            The NHS number of the patient whose requests you arer searching for
+            The NHS number of the patient whose requests you are searching for
           required: false
           schema:
             type: string
@@ -525,7 +530,7 @@ paths:
         - in: query
           name: authored-on
           description: >
-            Date the prescription was ordered, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
+            Date the medication was started, format: <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
           required: false
           schema:
             type: string
@@ -576,25 +581,26 @@ paths:
                     basedOn: 
                       reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
                       display: Continuous long term (repeat dispensing) 
-  /FHIR/R4/MedicationRequest:
+  /FHIR/R4/MedicationRequest/{identifier}:
     get:
-      operationId: get-medicationrequest
-      summary: Get a specific medication request
+      operationId: get-planned-medicationrequest
+      summary: Get a specific planned medication request
       description: > 
         Use this endpoint in order to get specific MedicationRequests 
         
         The request must include the following parameter:
 
         * identifier
+
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
-        - in: query
+        - in: path
           name: identifier
           description: >
             The id of the MedicationRequest you are searching for
-          required: false
+          required: true
           schema:
             type: string
             example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
@@ -605,6 +611,83 @@ paths:
             application/fhir+json:
               schema: 
                 type: object
+              examples:
+                example:
+                  value:
+                    resourceType: MedicationRequest
+                    id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    identifier: 
+                      system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                      value: CDT38E-Y765968-4FG3BQ
+                    status: active
+                    intent: order
+                    category: 
+                      - coding: 
+                        - system: "http://terminology.hl7.or/CodeSystem/medicationrequest-category"
+                          code: community
+                          display: Community
+                    medicationCodeableConcept:
+                      - coding: 
+                        - system: "http://snomed.info/ct"
+                          code: 3113111000001106
+                          display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
+                    subject:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    requester:
+                      reference: Patient/9000000009
+                      display: Jane Smith
+                    courseOfTherapyType:
+                      - coding:
+                        - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
+                          code: continuous
+                          display: Continuous long term therapy
+                    authoredOn: 2022-10-13T16:20:27+07:00
+                    substitution:
+                      allowedBoolean: false
+                    dispenseRequest:
+                      quantity: 2
+                      performer:
+                        reference: Organization/FQ369
+                        type: Organization
+                    dosageInstruction: 
+                    - text: One to two puffs to be inhaled as needed
+                      method:
+                          coding: 
+                          - system: "http://snomed.info/sct"
+                            code: 420652005
+                            display: Until Gone        
+  /FHIR/R4/MedicationRequest/:
+    get:
+      operationId: get-ordered-medicationrequest
+      summary: Get previous prescription issue details
+      description: > 
+        Use this endpoint in order to get details of previous prescription issues
+        
+        The request must include the following parameter:
+
+        * basedOn:identifier
+
+      parameters:
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+        - in: query
+          name: basedOn:identifier
+          description: >
+            The id of the MedicationRequest you are searching for
+          required: true
+          schema:
+            type: string
+            example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
+      responses:
+        '200':
+          description: Successful request to view previous prescription issue details
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
               examples:
                 example:
                   value:
@@ -661,10 +744,10 @@ paths:
                                   display: Until Gone
                       - resource: 
                           resourceType: MedicationRequest
-                          id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
                           identifier: 
                             system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: OIT78E-K814265-4FJ3BQ              
+                            value: CDT38E-Y765968-1650B+
                           status: active
                           intent: order
                           category: 
@@ -674,9 +757,9 @@ paths:
                                 display: Community
                           medicationCodeableConcept:
                             - coding: 
-                                - system: "https://dmd.nhs.uk"
-                                  code: 329526003
-                                  display: Apirin 300mg dispersible tablets
+                              - system: "http://snomed.info/ct"
+                                code: 3113111000001106
+                                display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
                             reference: Patient/9000000009
                             display: Jane Smith
@@ -686,23 +769,23 @@ paths:
                           courseOfTherapyType:
                             - coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
-                                code: acute
-                                display: Short course (acute) therapy
-                          authoredOn: 2022-08-13T16:20:27+07:00
+                                code: continuous
+                                display: Continuous long term therapy
+                          authoredOn: 2022-11-13T14:20:27+07:00
                           substitution:
                             allowedBoolean: false
                           dispenseRequest:
-                            quantity: 28
+                            quantity: 2
                             performer:
                               reference: Organization/FQ369
                               type: Organization
                           dosageInstruction: 
-                          - text: One to two tablets to be consumed as needed
+                          - text: One to two puffs to be inhaled as needed
                             method:
                                coding: 
                                 - system: "http://snomed.info/sct"
-                                  code: 417995008
-                                  display: Dissolve or mix with water before taking (qualifier value)                      
+                                  code: 420652005
+                                  display: Until Gone
 components:
   parameters:
     BearerAuthorization:
