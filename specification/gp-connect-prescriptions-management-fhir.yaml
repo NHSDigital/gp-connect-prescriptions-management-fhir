@@ -206,11 +206,11 @@ paths:
   /FHIR/R4/Task/:
     get:
       operationId: get-task
-      summary: Get prescription requests
+      summary: Get requested prescription reorders
       description: >
         ## Overview
         
-        Use this end point to check the status of your current prescription request.
+        Use this end point to check the status of your requested prescription reorders.
         
         You must provide at least one of the following parameters:
 
@@ -346,13 +346,14 @@ paths:
                             display: Jane Smith
     post:
       operationId: post-task
-      summary: Request a repeat prescription 
+      summary: Reorder a prescription
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
-
-        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. For this, send a Task with a focus of the planned MedicationRequest.
+        
+        The same end point can be used to request a prescription is sent to a specifi dispenser, overriding the patient's current EPS nomination or preferred pharmacy. 
+        The ODS code of the requested dispenser is set in MedicationRequest.dispenseRequest.performer. 
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
