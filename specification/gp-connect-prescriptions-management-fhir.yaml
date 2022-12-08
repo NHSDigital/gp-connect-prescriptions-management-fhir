@@ -220,7 +220,7 @@ paths:
 
         * identifier
 
-        * patient={identifier}
+        * patient
 
         * focus:identifier
 
@@ -237,7 +237,7 @@ paths:
             type: string
             example: D7AC09-A99968-4BA59C
         - in: query
-          name: patient={identifier}
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
@@ -510,14 +510,14 @@ paths:
 
         The request must include the following parameter:
 
-        * patient={identifier}
+        * patient
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: patient={identifier}
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
@@ -685,7 +685,7 @@ paths:
 
         * basedOn:identifier
 
-        * patient={identifier}
+        * patient
 
         * authored-on
 
@@ -702,7 +702,7 @@ paths:
             type: string
             example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
         - in: query
-          name: patient={identifier}
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
