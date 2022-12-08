@@ -49,13 +49,13 @@ info:
 
     ### Prerequisites 
 
-    ####Information governance (IG)
+    #### Information governance (IG)
     
     You must:
 
     * be compliant with the GP Connect Direct Care API Information Governance Model
 
-    ####Clinical safety 
+    #### Clinical safety 
 
     You must:
 
@@ -67,11 +67,11 @@ info:
     
     * [Electronic Prescription Service Tracker - REST API](https://digital.nhs.uk/developer/api-catalogue/spine-electronic-prescription-service-tracker-rest) - use this API to track the dispensing status of EPS prescriptions once they leave the GP system. 
     
-    * [GP Connect (2nd Generation) User Permissions API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-user-permissions-api) - use this API to manage a patient's permissions as held by the GP practice systems.
+    * [GP Connect (Patient Facing) User Permissions API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-user-permissions) - use this API to manage a patient's permissions as held by the GP practice systems.
 
-    * [GP Connect (2nd Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-appointment-management-fhir) - use this API to manage GP practice appointments.
+    * [GP Connect (Patient Facing) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-appointment-management-fhir) - use this API to manage GP practice appointments.
 
-    * [GP Connect (2nd Generation) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-access-record-fhir) - use this API to manage a patient's medical record from the GP practice systems.
+    * [GP Connect (Patient Facing) Access Record - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-patient-facing-access-record-fhir) - use this API to manage a patient's medical record from the GP practice systems.
 
     ## API status and roadmap
     
@@ -222,7 +222,7 @@ paths:
 
         * identifier
 
-        * patient:identifier
+        * patient
 
         * focus:identifier
 
@@ -239,7 +239,7 @@ paths:
             type: string
             example: D7AC09-A99968-4BA59C
         - in: query
-          name: patient:identifier
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
@@ -446,18 +446,28 @@ paths:
         '201':
           description: Successfully submitted.         
     patch:
-      operationId: cancel-task
+      operationId: cancel-jsonpatch
       summary: Cancel an unactioned repeat prescription request
       description: >
         ## Overview 
         
         Use this endpoint to cancel a current request that has not been actioned yet.
+
+        The content-type for this request must be "application/json-patch+json".
         
         The request must include the following parameter:
-        
+
         * identifier
 
       parameters:
+        - in: header
+          name: content-type
+          description: >
+            The content-type of the request. 
+          required: true
+          schema: 
+            type: string
+            example: application/json-patch+json
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
@@ -473,32 +483,19 @@ paths:
         required: true
         description: Successful Request.
         content: 
-          application/fhir+json:
+          application/json-patch+json:
             schema:
               type: object
               description: >
-                Task for cancellation
+                JSON patch for cancellation
             examples:
-              task:
+              jsonpatch:
                 description: |
-                  A valid Task for a repeat prescription order
+                  A valid JSON patch for cancelling the status
                 value:
-                  resourceType: Task
-                  id: aef77afb-7e3c-427a-8657-2c427f71a271
-                  identifier:
-                    system: "https://tools.ietf.org/html/rfc4122"
-                    value: 30d65c8e-98e8-4806-b6a6-51e94733f0e9
-                  status: cancelled
-                  statusReason:
-                    text: No longer needed
-                  intent: order
-                  for: 
-                    reference: Patient/9000000009
-                    display: Jane Smith
-                  lastModified: 2022-10-13T16:20:27+07:00
-                  requester: 
-                    reference: Patient/9000000009
-                    display: Jane Smith  
+                  - op: replace
+                    path: "/status"
+                    value: cancelled
       responses:
         '200':
           description: Successful request to cancel a request
@@ -515,14 +512,14 @@ paths:
 
         The request must include the following parameter:
 
-        * patient:identifier
+        * patient
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: patient:identifier
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
@@ -690,7 +687,7 @@ paths:
 
         * basedOn:identifier
 
-        * patient:identifier
+        * patient
 
         * authored-on
 
@@ -707,7 +704,7 @@ paths:
             type: string
             example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
         - in: query
-          name: patient:identifier
+          name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
