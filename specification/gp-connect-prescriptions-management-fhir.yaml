@@ -451,13 +451,21 @@ paths:
         
         Use this endpoint to cancel a current request that has not been actioned yet.
 
-        The mime type for this request must be "application/json-patch+json".
+        The content-type for this request must be "application/json-patch+json".
         
         The request must include the following parameter:
-        
+
         * identifier
 
       parameters:
+        - in: header
+          name: content-type
+          description: >
+            The content-type of the request. 
+          required: true
+          schema: 
+            type: string
+            example: application/json-patch+json
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
