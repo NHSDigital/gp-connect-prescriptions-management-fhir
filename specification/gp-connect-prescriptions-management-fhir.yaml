@@ -356,7 +356,7 @@ paths:
                           id: 84722efb-95b0-4769-921a-eda53382b320
                           identifier:
                           - system: "https://tools.ietf.org/html/rfc4122"
-                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                              
+                            value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7                            
                           status: in-progress
                           intent: order
                           focus: 
@@ -577,30 +577,111 @@ paths:
               examples:
                 example:
                   description: Successful response to view medication
-                  value: 
-                    resourceType: MedicationStatement
-                    id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
-                    identifier:
+                  value:
+                    resourceType: Bundle
+                    id: ec6077a4-553f-4087-944c-ea04c4593e3a
+                    identifier: 
                       system: "https://tools.ietf.org/html/rfc4122"
-                      value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
-                    meta:
-                      - profile: "https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement"
-                    status: active
-                    medicationCodeableConcept:
-                      - coding: 
-                        - system: "http://snomed.info/ct"
-                          code: 3113111000001106
-                          display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
-                    subject:
-                      reference: Patient/9000000009
-                      display: Jane Smith
-                    effectivePeriod: 
-                      start: 2022-10-23T13:50:00+00:00
-                      end: 2023-01-10T13:50:00+00:00
-                    dateAsserted: 2020-01-12
-                    basedOn: 
-                      reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
-                      display: Continuous long term (repeat dispensing) 
+                      value: 86af4f6c-30c5-4947-acc7-2f55145181de
+                    type: searchset
+                    entry:
+                      - resource:        
+                          resourceType: MedicationStatement
+                          id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
+                          identifier:
+                            system: "https://tools.ietf.org/html/rfc4122"
+                            value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
+                          basedOn: 
+                            reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
+                            display: Continuous long term (repeat dispensing)
+                          status: active
+                          medicationCodeableConcept:
+                            - coding: 
+                              - system: "https://dmd.nhs.uk"
+                                code: 329526003
+                                display: Aspirin 300mg dispersible tablets
+                          subject:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          effectivePeriod: 
+                            start: 2022-10-23T13:50:00+00:00
+                            end: 2023-01-10T13:50:00+00:00
+                          dateAsserted: 2022-11-23T13:50:00+00:00
+                          dosage:
+                            - text: 2 tablet - 4 times a day - at a meal - Dissolve or mix with water before taking - up to a maximum of 3.6 gram in 24 hours
+                              additionalInstruction:
+                                - coding:
+                                  - system: "http://snomed.info/sct"
+                                    code: 417995008
+                                    display: Dissolve or mix with water before taking
+                              timing:
+                                repeat:
+                                  frequency: 4
+                                  period: 1
+                                  periodUnit: d
+                                  when: 
+                                    - C
+                              doseAndRate:
+                                - doseQuantity: 
+                                  value: 2
+                                  unit: tablet
+                                  system: http://snomed.info/sct
+                                  code: 428673006
+                      - resource:        
+                          resourceType: MedicationStatement
+                          id: 4a3f265d-1c12-4aa1-9d22-49b7c5aa2048
+                          identifier:
+                            system: "https://tools.ietf.org/html/rfc4122"
+                            value: 504e8d5b-0444-41ae-b5b7-f6f161b2bbbc
+                          basedOn: 
+                            reference: MedicationRequest/0f450c33-67b2-4ca3-b0f9-fea75ccdcd44
+                            display: Continuous long term therapy
+                          status: active
+                          medicationCodeableConcept:
+                            - coding: 
+                              - system: "https://dmd.nhs.uk"
+                                code: 39732311000001104
+                                display: Amoxicillin 250mg capsules
+                          subject:
+                            reference: Patient/9000000009
+                            display: Jane Smith
+                          effectivePeriod: 
+                            start: 2022-10-23T13:50:00+00:00
+                            end: 2023-01-10T13:50:00+00:00
+                          dateAsserted: 2022-11-23T13:50:00+00:00
+                          dosage:
+                            - text: 2 capsules 4 times a day.
+                              timing:
+                                repeat:
+                                  frequency: 4
+                                  period: 1
+                                  periodUnit: d
+                              asNeededCodeableConcept:
+                                - coding:
+                                  - system: http://snomed.info/sct
+                                    code: 301354004
+                                    display: Pain of ear
+                              site:  
+                                - coding:
+                                    - system: http://snomed.info/sct
+                                      code: 123851003
+                                      display: Mouth region structure
+                              route:  
+                                - coding:
+                                    - system: http://snomed.info/sct
+                                      code: 26643006
+                                      display: Oral
+                              method:  
+                                - coding:
+                                    - system: http://snomed.info/sct
+                                      code: 421984009
+                                      display: Until finished
+                              doseAndRate:
+                                - doseQuantity: 
+                                  value: 500
+                                  unit: milligram
+                                  system: http://unitsofmeasure.org
+                                  code: mg
   /FHIR/R4/MedicationRequest/{identifier}:
     get:
       operationId: get-planned-medicationrequest
