@@ -63,8 +63,10 @@ info:
 
     ## Related APIs
     
-    * [Electronic Prescription Service - FHIR API](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir) - use this API to track the dispensing status of the prescription once it leaves the GP system. 
-
+    * [Electronic Prescription Service - FHIR API](https://digital.nhs.uk/developer/api-catalogue/electronic-prescription-service-fhir) - use this API to issue requested prescriptions as electronic prescriptions.
+    
+    * [Electronic Prescription Service Tracker - REST API](https://digital.nhs.uk/developer/api-catalogue/spine-electronic-prescription-service-tracker-rest) - use this API to track the dispensing status of EPS prescriptions once they leave the GP system. 
+    
     * [GP Connect (2nd Generation) User Permissions API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-user-permissions-api) - use this API to manage a patient's permissions as held by the GP practice systems.
 
     * [GP Connect (2nd Generation) Appointment Management - FHIR API](https://digital.nhs.uk/developer/api-catalogue/gp-connect-2nd-generation-appointment-management-fhir) - use this API to manage GP practice appointments.
