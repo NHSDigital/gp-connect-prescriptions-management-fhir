@@ -400,6 +400,7 @@ paths:
         content: 
           application/fhir+json:
             schema:
+              $ref: "#/components/schemas/TaskForRequest"            
               type: object
               description: >
                 Example of a valid Task, with focus on MedicationRequest 
@@ -891,4 +892,93 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-     
+  schemas:
+    TaskForRequest:
+      type: object
+      description: |
+        Schema for a task resource
+      required:
+        - id
+        - note
+      properties:
+        id: 
+          type: string
+          description: identifier of the resource itself.
+          example: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
+        identifier: 
+          type: object
+          description: business identifier, not a resource identifier.
+          example: 
+            system: https://tools.ietf.org/html/rfc4122
+            value: 5AC84C11-DB8B-44DA-8FCF-8980B3D13596
+        status: 
+          type: string
+          description: status of the task itself, descriptions of each status can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
+          enum:
+            - requested
+            - accepted
+            - rejected
+            - cancelled
+            - in-progress
+            - completed
+            - failed
+        statusReason:
+          type: object
+          description: free text containing rejection reason for the patient. Only to be populated upon rejection.
+          example:
+            text: No longer suitable
+        intent: 
+          type: string
+          description: Needed for FHIR compliance reasons, the value should always be set to order.
+          example: order
+        code:
+          type: object
+          description: Codeable concept to state the purpose of the task.
+          example:
+            coding:
+              - system: http://snomed.info/sct
+                code: 103742009
+                display: Renewal of prescription
+        focus:
+          type: string
+          description: Must have a reference of a previous medication request.
+          example: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+        for:
+          type: object
+          description: Must be a reference for the patient the request is for.
+          example:
+            reference: Patient/9000000009
+            identifier: 
+              system: https://fhir.nhs.uk/Id/nhs-number
+              value: 9000000009
+            display: Jane Smith
+        authoredOn:
+          type: string
+          description: The dateTime of the request being made.
+          example: 2022-10-13T09:20:27.000Z
+        lastModified:
+          type: string
+          description: The dateTime of the request last being updated.
+          example: 2022-11-13T09:20:27.000Z
+        requester:
+          type: string
+          description: This must be a reference to the patient since it is patient facing.
+          example: Patient/9000000009
+        note: 
+          type: object
+          description: To be completed by the patient when creating the request.
+          example: 
+            - authorString: Patient
+              note: ran out of previous prescription
+        input: 
+          type: object
+          description: Must be used to indicate the patient wants the prescription to be dispensed by somewhere different to their nominated pharmacy.
+          example: 
+            type:
+              coding:
+              - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                code: preferred-performer
+                display: Preferred performer
+            valueIdentifier:
+              system: "https://fhir.nhs.uk/Id/ods-organization-code"
+              value: FLM49
