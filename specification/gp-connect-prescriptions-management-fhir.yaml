@@ -133,7 +133,7 @@ info:
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
-    ### Sandbox testing 
+    ### Sandbox testing (Not yet available)
 
     Our [sandbox environment](https://digital.nhs.uk/developer/guides-and-documentation/testing#sandbox-testing):
 
@@ -595,7 +595,7 @@ paths:
                             value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
                           basedOn: 
                             reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
-                            display: Continuous long term (repeat dispensing)
+                            display: Repeat prescription request for Aspirin 300mg Dispersible tablets.
                           status: active
                           medicationCodeableConcept:
                             - coding: 
@@ -625,10 +625,10 @@ paths:
                                     - C
                               doseAndRate:
                                 - doseQuantity: 
-                                  value: 2
-                                  unit: tablet
-                                  system: http://snomed.info/sct
-                                  code: 428673006
+                                    value: 2
+                                    unit: tablet
+                                    system: http://snomed.info/sct
+                                    code: 428673006
                       - resource:        
                           resourceType: MedicationStatement
                           id: 4a3f265d-1c12-4aa1-9d22-49b7c5aa2048
@@ -637,7 +637,7 @@ paths:
                             value: 504e8d5b-0444-41ae-b5b7-f6f161b2bbbc
                           basedOn: 
                             reference: MedicationRequest/0f450c33-67b2-4ca3-b0f9-fea75ccdcd44
-                            display: Continuous long term therapy
+                            display: Acute prescription request for Amoxicillin 250mg capsules.
                           status: active
                           medicationCodeableConcept:
                             - coding: 
@@ -680,10 +680,10 @@ paths:
                                       display: Until finished
                               doseAndRate:
                                 - doseQuantity: 
-                                  value: 500
-                                  unit: milligram
-                                  system: http://unitsofmeasure.org
-                                  code: mg
+                                    value: 500
+                                    unit: milligram
+                                    system: http://unitsofmeasure.org
+                                    code: mg
   /FHIR/R4/MedicationRequest/{identifier}:
     get:
       operationId: get-planned-medicationrequest
