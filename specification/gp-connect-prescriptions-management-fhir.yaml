@@ -902,6 +902,9 @@ components:
         - id
         - note
       properties:
+        resourceType:
+          description: FHIR resource type.
+          example: Task
         id: 
           type: string
           description: identifier of the resource itself.
