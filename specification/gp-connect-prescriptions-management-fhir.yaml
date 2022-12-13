@@ -481,6 +481,7 @@ paths:
             The identifier of the Task to cancel
           required: true
           schema:
+            $ref: "#/components/schemas/JSONPatchCancellation"
             type: string
             example: 'aef77afb-7e3c-427a-8657-2c427f71a271'
       requestBody:
@@ -982,3 +983,20 @@ components:
             valueIdentifier:
               system: "https://fhir.nhs.uk/Id/ods-organization-code"
               value: FLM49
+    JSONPatchCancellation:
+      type: object
+      description: |
+        Schema for the JSON Patch used for cancellation.
+      properties:
+        op: 
+          type: string
+          description: Operation of the patch, in this case it must be "replace".
+          example: replace
+        path: 
+          type: string
+          description: The path of the value to replace. It must be set to "/status"
+          example: /status
+        value:
+          type: string
+          description: The value to set. Must be "cancelled"
+          example: cancelled             
