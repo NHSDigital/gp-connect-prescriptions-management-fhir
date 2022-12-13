@@ -525,7 +525,7 @@ paths:
           name: id
           description: >
             The NHS number of the patient whose requests you are searching for
-          required: false
+          required: true
           schema:
             type: string
             example: '9000000009'
@@ -793,7 +793,7 @@ paths:
           name: id
           description: >
             The NHS number of the patient whose requests you are searching for
-          required: false
+          required: true
           schema:
             type: string
             example: '9912003489'
