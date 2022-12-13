@@ -206,7 +206,7 @@ x-spec-publication:
         - method: POST
           path: /FHIR/R4/Task
         - method: GET
-          path: /FHIR/R4/MedicationStatement
+          path: /FHIR/R4/Patient/{id}/MedicationStatement:
         - method: GET
           path: /FHIR/R4/MedicationRequest/{identifier}
         - method: GET
