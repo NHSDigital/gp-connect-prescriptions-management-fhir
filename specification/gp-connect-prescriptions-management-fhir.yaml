@@ -817,6 +817,17 @@ paths:
               value: 
                 -  le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
+        - in: query
+          name: identifier
+          description: >
+            EPS prescription Identifier for the prescription. Searches for EPS prescriptions need to provide a data type of `https://fhir.nhs.uk/Id/prescription-order-number` in the format `<data-type>|<prescription-identifier>`
+          required: false
+          schema:
+            type: string
+          examples:
+            eps-prescription:
+              value:
+                - "https://fhir.nhs.uk/Id/prescription-order-number|CDT38E-Y765968-4FG3BQ"
       responses:
         '200':
           description: Successful request to view previous prescription issue details
