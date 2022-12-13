@@ -210,7 +210,7 @@ x-spec-publication:
         - method: GET
           path: /FHIR/R4/MedicationRequest/{identifier}
         - method: GET
-          path: /FHIR/R4/MedicationRequest/
+          path: /FHIR/R4/Patient/{id}/MedicationRequest/
 paths: 
   /FHIR/R4/Task/:
     get:
@@ -223,24 +223,24 @@ paths:
         
         You must provide at least one of the following parameters:
 
-        * identifier
+        * id
 
         * patient
 
-        * focus:identifier
+        * focus:id
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: focus:identifier
+          name: focus:id
           description: |
-            The identifier of the MedicationRequest itself you are searching for 
+            The id of the MedicationRequest itself you are searching for 
           required: false
           schema: 
             type: string
-            example: D7AC09-A99968-4BA59C
+            example: 'b3c62778-c3a7-4520-bb9b-dd3ff0ba30e0'
         - in: query
           name: patient
           description: >
@@ -250,17 +250,17 @@ paths:
             type: string
             example: '9912003489'
         - in: query
-          name: identifier
+          name: id
           description: >
-            The identifier of the Task itself
+            The id of the Task itself
           required: false
           schema:
             type: string
-            example: 'D7AC09-A99968-4BA59C'
+            example: 'dad85fcc-d3a0-4806-886a-a573bd48ad2c'
         - in: query
           name: status
           description: >
-            The type of status to search you can find the values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
+            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
           required: false
           schema:
             type: string
@@ -329,7 +329,7 @@ paths:
                             display: Jane Smith
                           note:
                             - authorString: Patient
-                              text: Ran out of previous prescription
+                              text: 'Ran out of previous prescription'
                       - resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
@@ -502,7 +502,7 @@ paths:
       responses:
         '200':
           description: Successful request to cancel a request
-  /FHIR/R4/MedicationStatement:
+  /FHIR/R4/Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
       summary: Get medications relating to a patient
@@ -521,8 +521,8 @@ paths:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
-        - in: query
-          name: patient
+        - in: path
+          name: id
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
@@ -684,7 +684,7 @@ paths:
                                     unit: milligram
                                     system: http://unitsofmeasure.org
                                     code: mg
-  /FHIR/R4/MedicationRequest/{identifier}:
+  /FHIR/R4/MedicationRequest/{id}:
     get:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
@@ -693,14 +693,14 @@ paths:
         
         The request must include the following parameter:
 
-        * identifier
+        * id
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: path
-          name: identifier
+          name: id
           description: >
             The id of the MedicationRequest you are searching for
           required: true
@@ -760,18 +760,20 @@ paths:
                           - system: "http://snomed.info/sct"
                             code: 420652005
                             display: Until Gone        
-  /FHIR/R4/MedicationRequest/:
+  /FHIR/R4/Patient/{id}/MedicationRequest/:
     get:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
       description: > 
-        Use this endpoint in order to get details of previous prescription issues
+        Use this endpoint in order to get details of previous prescription issues.
+
+        The request must include the following parameter:
         
-        The request must include one of following parameters:
-
-        * basedOn:identifier
-
         * patient
+        
+        The request can optionally include include one of following parameters:
+
+        * basedOn:id
 
         * authored-on
 
@@ -780,15 +782,15 @@ paths:
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: basedOn:identifier
+          name: basedOn:id
           description: >
             The id of the MedicationRequest you are searching for
           required: true
           schema:
             type: string
             example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
-        - in: query
-          name: patient
+        - in: path
+          name: id
           description: >
             The NHS number of the patient whose requests you are searching for
           required: false
