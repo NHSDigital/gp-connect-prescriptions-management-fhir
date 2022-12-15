@@ -293,7 +293,8 @@ paths:
                       value: a3294018-6c63-4556-8797-f782d1c95480
                     type: searchset
                     entry:
-                      - resource: 
+                      - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
+                        resource: 
                           resourceType: Task
                           id: aef77afb-7e3c-427a-8657-2c427f71a271
                           identifier: 
@@ -320,7 +321,8 @@ paths:
                           note:
                             - authorString: Patient
                               text: 'Ran out of previous prescription'
-                      - resource:
+                      - fullUrl: 15c5ee13-73cf-45f8-a1f1-a7de3e10dae6
+                        resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
                           identifier:
@@ -346,7 +348,8 @@ paths:
                               system: https://fhir.nhs.uk/Id/nhs-number
                               value: '9000000009'                            
                             display: Jane Smith
-                      - resource:
+                      - fullUrl: 561d0bfa-a937-4d91-81ab-abe65bca2d95
+                        resource:
                           resourceType: Task
                           id: 84722efb-95b0-4769-921a-eda53382b320
                           identifier:
@@ -557,7 +560,8 @@ paths:
                       value: 86af4f6c-30c5-4947-acc7-2f55145181de
                     type: searchset
                     entry:
-                      - resource:
+                      - fullUrl: 8e357e94-8e5c-496f-92d6-5d14f2e70016
+                        resource:
                           resourceType: MedicationStatement
                           id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
                           identifier:
@@ -599,7 +603,8 @@ paths:
                                     unit: tablet
                                     system: http://snomed.info/sct
                                     code: '428673006'
-                      - resource:
+                      - fullUrl: a5b1910d-3241-4eed-9b5e-cb9d239e9fd7
+                        resource:
                           resourceType: MedicationStatement
                           id: 4a3f265d-1c12-4aa1-9d22-49b7c5aa2048
                           identifier:
@@ -800,7 +805,8 @@ paths:
                       value: 86af4f6c-30c5-4947-acc7-2f55145181de
                     type: searchset
                     entry:
-                      - resource: 
+                      - fullUrl: 222c7ae0-9e54-4980-a46b-c259146a5730
+                        resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           identifier: 
@@ -839,7 +845,8 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until Gone
-                      - resource: 
+                      - fullUrl: e1264b69-b55b-44b9-9b2b-6655a39c8506
+                        resource: 
                           resourceType: MedicationRequest
                           id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
                           identifier: 
