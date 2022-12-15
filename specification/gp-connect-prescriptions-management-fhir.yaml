@@ -578,6 +578,9 @@ paths:
                                 display: Aspirin 300mg dispersible tablets
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                          
                             display: Jane Smith
                           effectivePeriod:
                             start: '2022-10-23T13:50:00+00:00'
@@ -621,6 +624,9 @@ paths:
                                 display: Amoxicillin 250mg capsules
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                             
                             display: Jane Smith
                           effectivePeriod:
                             start: '2022-10-23T13:50:00+00:00'
@@ -711,9 +717,15 @@ paths:
                           display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                     subject:
                       reference: Patient/9000000009
+                      identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: '9000000009'
                       display: Jane Smith
                     requester:
                       reference: Patient/9000000009
+                      identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: '9000000009'                      
                       display: Jane Smith
                     courseOfTherapyType:
                       coding:
@@ -826,9 +838,15 @@ paths:
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                          
                             display: Jane Smith
                           requester:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           courseOfTherapyType:
                             coding:
@@ -866,9 +884,15 @@ paths:
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           requester:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           courseOfTherapyType:
                             coding:
