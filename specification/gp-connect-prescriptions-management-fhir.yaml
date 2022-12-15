@@ -379,9 +379,9 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
 
-        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
+        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
