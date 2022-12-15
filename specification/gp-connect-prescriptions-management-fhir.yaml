@@ -453,7 +453,7 @@ paths:
         
         The request must include the following parameter:
 
-        * identifier
+        * id
 
       parameters:
         - in: header
@@ -468,9 +468,9 @@ paths:
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: identifier
+          name: id
           description: >
-            The identifier of the Task to cancel
+            The id of the Task to cancel
           required: true
           schema:
             type: string
