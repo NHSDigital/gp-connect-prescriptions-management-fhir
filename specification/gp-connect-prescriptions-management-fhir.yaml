@@ -396,7 +396,7 @@ paths:
         content: 
           application/fhir+json:
             schema:
-              $ref: "#/components/schemas/TaskForRequest"            
+              $ref: "#/components/schemas/TaskSchema"            
               type: object
               description: >
                 Example of a valid Task, with focus on MedicationRequest 
