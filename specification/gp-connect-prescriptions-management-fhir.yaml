@@ -7,6 +7,8 @@ info:
   description: |
     ## Overview
 
+    ![GP Connect Patient Facing Prescriptions Management API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-prescriptions-management-fhir/master/specification/images/overview-diagram.svg)
+
     Use this API to manage a patient's prescriptions as held by their GP practice.
     
     You can:
