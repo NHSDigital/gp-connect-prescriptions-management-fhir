@@ -291,6 +291,7 @@ paths:
           content: 
             application/fhir+json:
               schema: 
+                $ref: "#/components/schemas/TaskBundle"            
                 type: object
               examples:
                 example:
@@ -992,23 +993,28 @@ components:
       type: object
       description: |
         Schema for a task resource
-      required:
-        - id
-        - note
       properties:
         resourceType:
+          type: string
           description: FHIR resource type.
           example: Task
         id: 
           type: string
           description: identifier of the resource itself.
           example: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
-        identifier: 
-          type: object
-          description: business identifier, not a resource identifier.
-          example: 
-            system: https://tools.ietf.org/html/rfc4122
-            value: 5AC84C11-DB8B-44DA-8FCF-8980B3D13596
+        identifier:
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                description: codesystem URL for identifiers
+                example: https://tools.ietf.org/html/rfc4122
+              value:
+                type: string
+                description: Business identifier of the resource.
+                example: e7c83c02-d275-4f22-b034-69b992bbaf5f
         status: 
           type: string
           description: status of the task itself, descriptions of each status can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
@@ -1022,21 +1028,35 @@ components:
             - failed
         statusReason:
           type: object
-          description: free text containing rejection reason for the patient. Only to be populated upon rejection.
-          example:
-            text: No longer suitable
+          description: To be completed upon rejections to feedback to the patient.
+          properties:
+            text:
+              type: string
+              example: No longer suitable please contact GP
         intent: 
           type: string
           description: Needed for FHIR compliance reasons, the value should always be set to order.
           example: order
         code:
-          type: object
+          type: array
           description: Codeable concept to state the purpose of the task.
-          example:
-            coding:
-              - system: http://snomed.info/sct
-                code: 103742009
-                display: Renewal of prescription
+          items:
+            type: object
+            properties:
+              coding:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system:
+                      type: string
+                      example: http://snomed.info/sct
+                    code: 
+                      type: string
+                      example: 103742009
+                    display: 
+                      type: string
+                      example: Renewal of prescription
         focus:
           type: string
           description: Must have a reference of a previous medication request.
@@ -1044,12 +1064,22 @@ components:
         for:
           type: object
           description: Must be a reference for the patient the request is for.
-          example:
-            reference: Patient/9000000009
-            identifier: 
-              system: https://fhir.nhs.uk/Id/nhs-number
-              value: 9000000009
-            display: Jane Smith
+          properties:
+            reference: 
+              type: string
+              example: Patient/9000000009
+            identifier:
+              type: object
+              properties:
+                system: 
+                  type: string
+                  default: https://fhir.nhs.uk/Id/nhs-number
+                value:
+                  type: string
+                  example: 9000000009
+            display:
+              type: string
+              example: Jane Smith
         authoredOn:
           type: string
           description: The dateTime of the request being made.
@@ -1063,23 +1093,46 @@ components:
           description: This must be a reference to the patient since it is patient facing.
           example: Patient/9000000009
         note: 
-          type: object
+          type: array
           description: To be completed by the patient when creating the request.
-          example: 
-            - authorString: Patient
-              note: ran out of previous prescription
+          items:
+            type: object
+            properties:
+              authorString: 
+                type: string
+                example: Patient
+              note: 
+                type: string
+                example: ran out of previous prescription
         input: 
-          type: object
+          type: array
           description: Must be used to indicate the patient wants the prescription to be dispensed by somewhere different to their nominated pharmacy.
-          example: 
-            type:
+          items:
+            type: object
+            properties: 
               coding:
-              - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
-                code: preferred-performer
-                display: Preferred performer
-            valueIdentifier:
-              system: "https://fhir.nhs.uk/Id/ods-organization-code"
-              value: FLM49
+                type: array
+                items:
+                  type: object
+                  properties:
+                    system: 
+                      type: string
+                      example: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                    code: 
+                      type: string
+                      example: preferred-performer
+                    display: 
+                      type: string
+                      example: Preferred performer
+                    valueIdentifier:
+                      type: object
+                      properties: 
+                        system: 
+                          type: string
+                          example: "https://fhir.nhs.uk/Id/ods-organization-code"
+                        value: 
+                          type: string
+                          example: FLM49
     JSONPatchCancellation:
       type: object
       description: |
@@ -1096,4 +1149,181 @@ components:
         value:
           type: string
           description: The value to set. Must be "cancelled"
-          example: cancelled             
+          example: cancelled
+    TaskBundle:
+      type: object
+      description: Schema for the bundle returned by the Task endpoint
+      properties:
+        resourceType:
+          type: string
+          description: FHIR resource type.
+          default: Bundle
+        id:
+          type: string
+          description: Object ID of the Bundle.
+          example: 
+        identifier:
+          type: object
+          properties:
+            system:
+              type: string
+              description: codesystem URL for identifiers
+              example: https://tools.ietf.org/html/rfc4122
+            value:
+              type: string
+              description: Business identifier of the resource.
+              example: 164996aa-29eb-4f14-a5ac-4b556a7baf6e
+        type:
+          type: string
+          description: The type of payload being carried within the Bundle.
+          default: searchset
+        entry:
+          type: array
+          items:
+            oneOf:
+              - type: object
+                properties:
+                  fullUrl:
+                    type: string
+                    description: object URL for the resource
+                    example: a54219b8-f741-4c47-b662-e4f8dfa49bb6
+                  resource:
+                    type: object
+                    description: A Task object is used for the workflow of the prescription request.
+                    properties:
+                      resourceType:
+                        type: string
+                        description: FHIR resource type
+                        default: Task
+                      identifier:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            system:
+                              type: string
+                              description: codesystem URL for identifiers
+                              example: https://tools.ietf.org/html/rfc4122
+                            value:
+                              type: string
+                              description: Business identifier of the resource.
+                              example: 29510b02-3822-4c3a-8afc-a07500e3a6e7
+                      status: 
+                        type: string
+                        description: status of the task itself, descriptions of each status can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
+                        enum:
+                          - requested
+                          - accepted
+                          - rejected
+                          - cancelled
+                          - in-progress
+                          - completed
+                          - failed
+                      statusReason:
+                        type: object
+                        description: To be completed upon rejections to feedback to the patient.
+                        properties:
+                          text:
+                            type: string
+                            example: No longer suitable please contact GP
+                      intent: 
+                        type: string
+                        description: Needed for FHIR compliance reasons, the value should always be set to order.
+                        example: order
+                      code:
+                        type: array
+                        description: Codeable concept to state the purpose of the task.
+                        items:
+                          type: object
+                          properties:
+                            coding:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  system:
+                                    type: string
+                                    example: http://snomed.info/sct
+                                  code: 
+                                    type: string
+                                    example: 103742009
+                                  display: 
+                                    type: string
+                                    example: Renewal of prescription
+                      focus:
+                        type: string
+                        description: Must have a reference of a previous medication request.
+                        example: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                      for:
+                        type: object
+                        description: Must be a reference for the patient the request is for.
+                        properties:
+                          reference: 
+                            type: string
+                            example: Patient/9000000009
+                          identifier:
+                            type: object
+                            properties:
+                              system: 
+                                type: string
+                                default: https://fhir.nhs.uk/Id/nhs-number
+                              value:
+                                type: string
+                                example: 9000000009
+                          display:
+                            type: string
+                            example: Jane Smith
+                      authoredOn:
+                        type: string
+                        description: The dateTime of the request being made.
+                        example: 2022-10-13T09:20:27.000Z
+                      lastModified:
+                        type: string
+                        description: The dateTime of the request last being updated.
+                        example: 2022-11-13T09:20:27.000Z
+                      requester:
+                        type: string
+                        description: This must be a reference to the patient since it is patient facing.
+                        example: Patient/9000000009
+                      note: 
+                        type: array
+                        description: To be completed by the patient when creating the request.
+                        items:
+                          type: object
+                          properties:
+                            authorString: 
+                              type: string
+                              example: Patient
+                            note: 
+                              type: string
+                              example: ran out of previous prescription
+                      input: 
+                        type: array
+                        description: Must be used to indicate the patient wants the prescription to be dispensed by somewhere different to their nominated pharmacy.
+                        items:
+                          type: object
+                          properties: 
+                            coding:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  system: 
+                                    type: string
+                                    example: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                                  code: 
+                                    type: string
+                                    example: preferred-performer
+                                  display: 
+                                    type: string
+                                    example: Preferred performer
+                                  valueIdentifier:
+                                    type: object
+                                    properties: 
+                                      system: 
+                                        type: string
+                                        example: "https://fhir.nhs.uk/Id/ods-organization-code"
+                                      value: 
+                                        type: string
+                                        example: FLM49
+                  
