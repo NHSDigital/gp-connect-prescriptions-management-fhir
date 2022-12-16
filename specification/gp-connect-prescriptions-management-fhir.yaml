@@ -7,6 +7,8 @@ info:
   description: |
     ## Overview
 
+    ![GP Connect Patient Facing Prescriptions Management API Overview](https://raw.githubusercontent.com/NHSDigital/gp-connect-prescriptions-management-fhir/master/specification/images/overview-diagram.svg)
+
     Use this API to manage a patient's prescriptions as held by their GP practice.
     
     You can:
@@ -227,20 +229,10 @@ paths:
 
         * patient
 
-        * focus:id
-
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
-        - in: query
-          name: focus:id
-          description: |
-            The id of the MedicationRequest itself you are searching for 
-          required: false
-          schema: 
-            type: string
-            example: 'b3c62778-c3a7-4520-bb9b-dd3ff0ba30e0'
         - in: query
           name: patient
           description: >
@@ -304,7 +296,8 @@ paths:
                       value: a3294018-6c63-4556-8797-f782d1c95480
                     type: searchset
                     entry:
-                      - resource: 
+                      - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
+                        resource: 
                           resourceType: Task
                           id: aef77afb-7e3c-427a-8657-2c427f71a271
                           identifier: 
@@ -318,7 +311,7 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009                            
+                              value: '9000000009'                            
                             display: Jane Smith
                           authoredOn: 2022-11-23T20:20:27+07:00
                           lastModified: 2022-11-23T20:20:27+07:00
@@ -326,12 +319,13 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009
+                              value: '9000000009'
                             display: Jane Smith
                           note:
                             - authorString: Patient
                               text: 'Ran out of previous prescription'
-                      - resource:
+                      - fullUrl: 15c5ee13-73cf-45f8-a1f1-a7de3e10dae6
+                        resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
                           identifier:
@@ -347,7 +341,7 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009                                     
+                              value: '9000000009'                                     
                             display: Jane Smith
                           authoredOn: 2022-08-14T07:20:23+07:00
                           lastModified: 2022-08-14T11:40:47+07:00
@@ -355,9 +349,10 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009                            
+                              value: '9000000009'                            
                             display: Jane Smith
-                      - resource:
+                      - fullUrl: 561d0bfa-a937-4d91-81ab-abe65bca2d95
+                        resource:
                           resourceType: Task
                           id: 84722efb-95b0-4769-921a-eda53382b320
                           identifier:
@@ -371,7 +366,7 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009                            
+                              value: '9000000009'                            
                             display: Jane Smith
                           authoredOn: 2022-10-13T16:20:27+07:00
                           lastModified: 2022-10-15T11:28:13+07:00
@@ -379,7 +374,7 @@ paths:
                             reference: Patient/9000000009
                             identifier: 
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: 9000000009                            
+                              value: '9000000009'                            
                             display: Jane Smith
     post:
       operationId: post-task
@@ -387,9 +382,9 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in MedicationRequest.dispenseRequest.performer. 
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
 
-        For this, send a task with a focus of the MedicationRequest. The MedicationRequest should be contained within the Task resource.
+        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -416,7 +411,7 @@ paths:
                 code: 
                    coding:
                     - system: "http://snomed.info/sct"
-                      code: 103742009
+                      code: '103742009'
                       display: Renewal of prescription
                 focus: 
                     reference: "MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
@@ -424,7 +419,7 @@ paths:
                   reference: Patient/9000000009
                   identifier: 
                     system: https://fhir.nhs.uk/Id/nhs-number
-                    value: 9000000009
+                    value: '9000000009'
                   display: Jane Smith
                 authoredOn: 2022-10-13T09:20:27.000Z
                 lastModified: 2022-10-13T09:20:27.000Z
@@ -432,20 +427,20 @@ paths:
                   reference: Patient/9000000009
                   identifier: 
                     system: https://fhir.nhs.uk/Id/nhs-number
-                    value: 9000000009
+                    value: '9000000009'
                   display: Jane Smith
                 note: 
                   - authorString: Patient
                     text: ran out of previous prescription
                 input:
-                  type:
-                    coding:
-                    - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
-                      code: preferred-performer
-                      display: Preferred performer
-                  valueIdentifier:
-                    system: "https://fhir.nhs.uk/Id/ods-organization-code"
-                    value: FLM49
+                  - type:
+                      coding:
+                      - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                        code: preferred-performer
+                        display: Preferred performer
+                    valueIdentifier:
+                      system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                      value: FLM49
 
       responses:
         '201':
@@ -462,7 +457,7 @@ paths:
         
         The request must include the following parameter:
 
-        * identifier
+        * id
 
       parameters:
         - in: header
@@ -477,9 +472,9 @@ paths:
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
-          name: identifier
+          name: id
           description: >
-            The identifier of the Task to cancel
+            The id of the Task to cancel
           required: true
           schema:
             $ref: "#/components/schemas/JSONPatchCancellation"
@@ -533,7 +528,7 @@ paths:
             type: string
             example: '9000000009'
         - in: query
-          name: effectivePeriod:start
+          name: effective
           description: >
             The start date should be when the medication started in the episode of care. <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
           required: false
@@ -552,26 +547,6 @@ paths:
               value: 
                 -  le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
-        - in: query
-          name: effectivePeriod:end
-          description: >
-            The date when the medication is due to end in the episode of care. Where the end date is unknown it may be omitted. <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
-          required: false
-          schema:
-            type: string
-          examples:
-            exact date:
-              value:
-                - eq2010-10-22
-              description: Exact match date
-            greater than or equals:
-              value:
-                - g2022-01-15
-              description: Greater than or equals which matches 2022-01-15 or 2022-01-16
-            less than or equals:
-              value: 
-                -  le2022-01-15
-              description: Less than or equals which matches 2022-01-15 or 2022-01-14   
       responses: 
         '200':
           description: Successful request to view medication
@@ -585,75 +560,83 @@ paths:
                   value:
                     resourceType: Bundle
                     id: ec6077a4-553f-4087-944c-ea04c4593e3a
-                    identifier: 
-                      system: "https://tools.ietf.org/html/rfc4122"
+                    identifier:
+                      system: https://tools.ietf.org/html/rfc4122
                       value: 86af4f6c-30c5-4947-acc7-2f55145181de
                     type: searchset
                     entry:
-                      - resource:        
+                      - fullUrl: 8e357e94-8e5c-496f-92d6-5d14f2e70016
+                        resource:
                           resourceType: MedicationStatement
                           id: 44f85d15-8744-47c2-a790-4f5e38aacdb0
                           identifier:
-                            system: "https://tools.ietf.org/html/rfc4122"
-                            value: 123jkwndf-1234-dgdg-134dd-4f5e38aacdb0
-                          basedOn: 
-                            reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
-                            display: Repeat prescription request for Aspirin 300mg Dispersible tablets.
+                            - system: "https://tools.ietf.org/html/rfc4122"
+                              value: "123jkwndf-1234-dgdg-134dd-4f5e38aacdb0"
+                          basedOn:
+                            - reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
+                              display: Repeat prescription request for Aspirin 300mg Dispersible tablets.
                           status: active
                           medicationCodeableConcept:
-                            - coding: 
-                              - system: "https://dmd.nhs.uk"
-                                code: 329526003
+                            coding:
+                              - system: https://dmd.nhs.uk
+                                code: "329526003"
                                 display: Aspirin 300mg dispersible tablets
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                          
                             display: Jane Smith
-                          effectivePeriod: 
-                            start: 2022-10-23T13:50:00+00:00
-                            end: 2023-01-10T13:50:00+00:00
-                          dateAsserted: 2022-11-23T13:50:00+00:00
+                          effectivePeriod:
+                            start: '2022-10-23T13:50:00+00:00'
+                            end: '2023-01-10T13:50:00+00:00'
+                          dateAsserted: '2022-11-23T13:50:00+00:00'
                           dosage:
                             - text: 2 tablet - 4 times a day - at a meal - Dissolve or mix with water before taking - up to a maximum of 3.6 gram in 24 hours
                               additionalInstruction:
                                 - coding:
-                                  - system: "http://snomed.info/sct"
-                                    code: 417995008
-                                    display: Dissolve or mix with water before taking
+                                    - system: http://snomed.info/sct
+                                      code: '417995008'
+                                      display: Dissolve or mix with water before taking
                               timing:
                                 repeat:
                                   frequency: 4
                                   period: 1
                                   periodUnit: d
-                                  when: 
+                                  when:
                                     - C
                               doseAndRate:
-                                - doseQuantity: 
+                                - doseQuantity:
                                     value: 2
                                     unit: tablet
                                     system: http://snomed.info/sct
-                                    code: 428673006
-                      - resource:        
+                                    code: '428673006'
+                      - fullUrl: a5b1910d-3241-4eed-9b5e-cb9d239e9fd7
+                        resource:
                           resourceType: MedicationStatement
                           id: 4a3f265d-1c12-4aa1-9d22-49b7c5aa2048
                           identifier:
-                            system: "https://tools.ietf.org/html/rfc4122"
-                            value: 504e8d5b-0444-41ae-b5b7-f6f161b2bbbc
-                          basedOn: 
-                            reference: MedicationRequest/0f450c33-67b2-4ca3-b0f9-fea75ccdcd44
-                            display: Acute prescription request for Amoxicillin 250mg capsules.
+                            - system: https://tools.ietf.org/html/rfc4122
+                              value: 504e8d5b-0444-41ae-b5b7-f6f161b2bbbc
+                          basedOn:
+                            - reference: MedicationRequest/0f450c33-67b2-4ca3-b0f9-fea75ccdcd44
+                              display: Acute prescription request for Amoxicillin 250mg capsules.
                           status: active
                           medicationCodeableConcept:
-                            - coding: 
-                              - system: "https://dmd.nhs.uk"
-                                code: 39732311000001104
+                            coding:
+                              - system: https://dmd.nhs.uk
+                                code: '39732311000001104'
                                 display: Amoxicillin 250mg capsules
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                             
                             display: Jane Smith
-                          effectivePeriod: 
-                            start: 2022-10-23T13:50:00+00:00
-                            end: 2023-01-10T13:50:00+00:00
-                          dateAsserted: 2022-11-23T13:50:00+00:00
+                          effectivePeriod:
+                            start: '2022-10-23T13:50:00+00:00'
+                            end: '2023-01-10T13:50:00+00:00'
+                          dateAsserted: '2022-11-23T13:50:00+00:00'
                           dosage:
                             - text: 2 capsules 4 times a day.
                               timing:
@@ -662,27 +645,27 @@ paths:
                                   period: 1
                                   periodUnit: d
                               asNeededCodeableConcept:
-                                - coding:
+                                coding:
                                   - system: http://snomed.info/sct
-                                    code: 301354004
+                                    code: '301354004'
                                     display: Pain of ear
-                              site:  
-                                - coding:
-                                    - system: http://snomed.info/sct
-                                      code: 123851003
-                                      display: Mouth region structure
-                              route:  
-                                - coding:
-                                    - system: http://snomed.info/sct
-                                      code: 26643006
-                                      display: Oral
-                              method:  
-                                - coding:
-                                    - system: http://snomed.info/sct
-                                      code: 421984009
-                                      display: Until finished
+                              site:
+                                coding:
+                                  - system: http://snomed.info/sct
+                                    code: '123851003'
+                                    display: Mouth region structure
+                              route:
+                                coding:
+                                  - system: http://snomed.info/sct
+                                    code: '26643006'
+                                    display: Oral route
+                              method:
+                                coding:
+                                  - system: http://snomed.info/sct
+                                    code: '421984009'
+                                    display: Until finished
                               doseAndRate:
-                                - doseQuantity: 
+                                - doseQuantity:
                                     value: 500
                                     unit: milligram
                                     system: http://unitsofmeasure.org
@@ -723,8 +706,8 @@ paths:
                     resourceType: MedicationRequest
                     id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                     identifier: 
-                      system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                      value: CDT38E-Y765968-4FG3BQ
+                      - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                        value: CDT38E-Y765968-4FG3BQ
                     status: active
                     intent: order
                     category: 
@@ -733,35 +716,36 @@ paths:
                           code: community
                           display: Community
                     medicationCodeableConcept:
-                      - coding: 
+                      coding: 
                         - system: "http://snomed.info/ct"
-                          code: 3113111000001106
+                          code: '3113111000001106'
                           display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                     subject:
                       reference: Patient/9000000009
+                      identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: '9000000009'
                       display: Jane Smith
                     requester:
                       reference: Patient/9000000009
+                      identifier: 
+                          system: https://fhir.nhs.uk/Id/nhs-number
+                          value: '9000000009'                      
                       display: Jane Smith
                     courseOfTherapyType:
-                      - coding:
+                      coding:
                         - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                           code: continuous
                           display: Continuous long term therapy
                     authoredOn: 2022-10-13T16:20:27+07:00
                     substitution:
                       allowedBoolean: false
-                    dispenseRequest:
-                      quantity: 2
-                      performer:
-                        reference: Organization/FQ369
-                        type: Organization
                     dosageInstruction: 
                     - text: One to two puffs to be inhaled as needed
                       method:
                           coding: 
                           - system: "http://snomed.info/sct"
-                            code: 420652005
+                            code: '420652005'
                             display: Until Gone        
   /FHIR/R4/Patient/{id}/MedicationRequest/:
     get:
@@ -776,22 +760,12 @@ paths:
         
         The request can optionally include include one of following parameters:
 
-        * basedOn:id
-
-        * authored-on
+        * authoredon
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
-        - in: query
-          name: basedOn:id
-          description: >
-            The id of the MedicationRequest you are searching for
-          required: true
-          schema:
-            type: string
-            example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
         - in: path
           name: id
           description: >
@@ -801,7 +775,7 @@ paths:
             type: string
             example: '9912003489'
         - in: query
-          name: authored-on
+          name: authoredon
           description: >
             Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
           required: false
@@ -848,12 +822,13 @@ paths:
                       value: 86af4f6c-30c5-4947-acc7-2f55145181de
                     type: searchset
                     entry:
-                      - resource: 
+                      - fullUrl: 222c7ae0-9e54-4980-a46b-c259146a5730
+                        resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
                           identifier: 
-                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: CDT38E-Y765968-4FG3BQ
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              value: CDT38E-Y765968-4FG3BQ
                           status: active
                           intent: order
                           category: 
@@ -862,42 +837,44 @@ paths:
                                 code: community
                                 display: Community
                           medicationCodeableConcept:
-                            - coding: 
+                            coding: 
                               - system: "http://snomed.info/ct"
-                                code: 3113111000001106
+                                code: '3113111000001106'
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                          
                             display: Jane Smith
                           requester:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           courseOfTherapyType:
-                            - coding:
+                            coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                                 code: continuous
                                 display: Continuous long term therapy
                           authoredOn: 2022-10-13T16:20:27+07:00
                           substitution:
                             allowedBoolean: false
-                          dispenseRequest:
-                            quantity: 2
-                            performer:
-                              reference: Organization/FQ369
-                              type: Organization
                           dosageInstruction: 
                           - text: One to two puffs to be inhaled as needed
                             method:
                                coding: 
                                 - system: "http://snomed.info/sct"
-                                  code: 420652005
+                                  code: '420652005'
                                   display: Until Gone
-                      - resource: 
+                      - fullUrl: e1264b69-b55b-44b9-9b2b-6655a39c8506
+                        resource: 
                           resourceType: MedicationRequest
                           id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
                           identifier: 
-                            system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                            value: CDT38E-Y765968-1650B+
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              value: CDT38E-Y765968-1650B+
                           status: active
                           intent: order
                           category: 
@@ -906,35 +883,36 @@ paths:
                                 code: community
                                 display: Community
                           medicationCodeableConcept:
-                            - coding: 
+                            coding: 
                               - system: "http://snomed.info/ct"
-                                code: 3113111000001106
+                                code: '3113111000001106'
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           requester:
                             reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'      
                             display: Jane Smith
                           courseOfTherapyType:
-                            - coding:
+                            coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
                                 code: continuous
                                 display: Continuous long term therapy
                           authoredOn: 2022-11-13T14:20:27+07:00
                           substitution:
                             allowedBoolean: false
-                          dispenseRequest:
-                            quantity: 2
-                            performer:
-                              reference: Organization/FQ369
-                              type: Organization
                           dosageInstruction: 
                           - text: One to two puffs to be inhaled as needed
                             method:
                                coding: 
                                 - system: "http://snomed.info/sct"
-                                  code: 420652005
+                                  code: '420652005'
                                   display: Until Gone
 components:
   parameters:
