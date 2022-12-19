@@ -109,6 +109,12 @@ info:
     * data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
     There are [libraries and software development kits available](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir-libraries-and-sdks) to help with FHIR API integration.
+    
+    ### Resources
+
+    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
+
+    This is the FHIR specification for GP Connect Prescriptions.
 
     ## Network access
 
@@ -167,12 +173,6 @@ info:
     ## Onboarding
 
     We are hoping to make the assurance process as lightweight and as self-service as possible.
-
-    ## Resources
-
-    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
-
-    This is the FHIR specification for GP Connect Prescriptions.
 
     ## Errors
 
