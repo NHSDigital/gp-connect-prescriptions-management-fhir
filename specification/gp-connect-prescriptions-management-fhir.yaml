@@ -109,6 +109,12 @@ info:
     * data items that are country-specific and thus not included in the FHIR global base resources are usually wrapped in an `extension` object
 
     There are [libraries and software development kits available](https://digital.nhs.uk/developer/guides-and-documentation/api-technologies-at-nhs-digital#fhir-libraries-and-sdks) to help with FHIR API integration.
+    
+    ### Resources
+
+    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
+
+    This is the FHIR specification for GP Connect Prescriptions.
 
     ## Network access
 
@@ -167,12 +173,6 @@ info:
     ## Onboarding
 
     We are hoping to make the assurance process as lightweight and as self-service as possible.
-
-    ## Resources
-
-    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
-
-    This is the FHIR specification for GP Connect Prescriptions.
 
     ## Errors
 
@@ -702,6 +702,13 @@ paths:
                   value:
                     resourceType: MedicationRequest
                     id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    extension:
+                      - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
+                        extension:
+                          - url: numberOfPrescriptionsIssued
+                            valueUnsignedInt: 1
+                          - url: authorisationExpiryDate
+                            valueDateTime: 2023-09-10T19:00:00.000Z
                     identifier: 
                       - system: "https://fhir.nhs.uk/Id/prescription-order-number"
                         value: CDT38E-Y765968-4FG3BQ
@@ -823,6 +830,13 @@ paths:
                         resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          extension:
+                            - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
+                              extension:
+                                - url: numberOfPrescriptionsIssued
+                                  valueUnsignedInt: 6
+                                - url: authorisationExpiryDate
+                                  valueDateTime: 2022-12-15T19:00:00.000Z                          
                           identifier: 
                             - system: "https://fhir.nhs.uk/Id/prescription-order-number"
                               value: CDT38E-Y765968-4FG3BQ
@@ -869,6 +883,13 @@ paths:
                         resource: 
                           resourceType: MedicationRequest
                           id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
+                          extension:
+                            - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
+                              extension:
+                                - url: numberOfPrescriptionsIssued
+                                  valueUnsignedInt: 2
+                                - url: authorisationExpiryDate
+                                  valueDateTime: 2022-10-11T19:00:00.000Z                          
                           identifier: 
                             - system: "https://fhir.nhs.uk/Id/prescription-order-number"
                               value: CDT38E-Y765968-1650B+
