@@ -286,7 +286,7 @@ paths:
                 type: object
               examples:
                 example:
-                  description: Successful request to view requests for prescriptions
+                  description: Successful request to view requests for prescriptions.
                   value: 
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
@@ -397,7 +397,7 @@ paths:
             schema:
               type: object
               description: >
-                Example of a valid Task, with focus on MedicationRequest 
+                Example of a valid Task, with focus on MedicationRequest.
             example:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
@@ -442,8 +442,19 @@ paths:
 
       responses:
         '201':
-          description: Successfully submitted.
-         
+          description: Successful response to the request.
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object          
+              examples:
+                operation-outcome-success:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - code: informational
+                        severity: information
+              
     patch:
       operationId: cancel-jsonpatch
       summary: Cancel an unactioned repeat prescription request
@@ -490,14 +501,14 @@ paths:
             examples:
               jsonpatch:
                 description: |
-                  A valid JSON patch for cancelling the status
+                  A valid JSON patch for cancelling the status.
                 value:
                   - op: replace
                     path: "/status"
                     value: cancelled
       responses:
         '200':
-          description: Successful request to cancel a request must return the updated object
+          description: Successful request to cancel a request must return the updated object.
           content: 
             application/fhir+json:
               schema: 
@@ -578,14 +589,14 @@ paths:
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
       responses: 
         '200':
-          description: Successful request to view medication
+          description: Successful request to view medication.
           content: 
             application/fhir+json:
               schema: 
                 type: object
               examples:
                 example:
-                  description: Successful response to view medication
+                  description: Successful response to view medication.
                   value:
                     resourceType: Bundle
                     id: ec6077a4-553f-4087-944c-ea04c4593e3a
@@ -704,7 +715,7 @@ paths:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
       description: > 
-        Use this endpoint in order to get specific MedicationRequests 
+        Use this endpoint to get specific MedicationRequests.
         
         The request must include the following parameter:
 
@@ -788,7 +799,7 @@ paths:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
       description: > 
-        Use this endpoint in order to get details of previous prescription issues.
+        Use this endpoint to get details of previous prescription issues.
 
         The request must include the following parameter:
         
