@@ -442,7 +442,8 @@ paths:
 
       responses:
         '201':
-          description: Successfully submitted.         
+          description: Successfully submitted.
+         
     patch:
       operationId: cancel-jsonpatch
       summary: Cancel an unactioned repeat prescription request
@@ -496,7 +497,38 @@ paths:
                     value: cancelled
       responses:
         '200':
-          description: Successful request to cancel a request
+          description: Successful request to cancel a request must return the updated object
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example: 
+                  value:
+                    resourceType: Task
+                    id: 825fabd0-23dd-4f4c-adce-4a7ac2c71659
+                    identifier:
+                    - system: "https://tools.ietf.org/html/rfc4122"
+                      value: d66af104-b835-43a7-b723-32445b3051cc                          
+                    status: cancelled
+                    intent: order
+                    focus: 
+                        reference: MedicationRequest/e2235eb5-9537-417e-91e8-9b272b8a10f6
+                    for: 
+                      reference: Patient/9000000009
+                      identifier: 
+                        system: https://fhir.nhs.uk/Id/nhs-number
+                        value: '9000000009'                            
+                      display: Jane Smith
+                    authoredOn: 2022-11-10T15:10:57+07:00
+                    lastModified: 2022-12-19T12:28:53+07:00
+                    requester: 
+                      reference: Patient/9000000009
+                      identifier: 
+                        system: https://fhir.nhs.uk/Id/nhs-number
+                        value: '9000000009'                            
+                      display: Jane Smith     
+
   /FHIR/R4/Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
