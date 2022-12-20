@@ -206,11 +206,15 @@ paths:
       description: >
         ## Overview
         
+
         This end point returns MedicationStatements relating to a patient, which show courses of medication prescribed to the patient. 
+
 
         These MedicationStatements must reference a MedicationRequest within the basedOn attribute: MedicationRequests provide details of specific prescriptions. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
+
         The request must include the following parameter:
+
 
         * patient
 
@@ -376,7 +380,9 @@ paths:
       description: > 
         Use this endpoint to get specific MedicationRequests.
         
+
         The request must include the following parameter:
+
 
         * id
 
@@ -462,9 +468,12 @@ paths:
 
         The request must include the following parameter:
         
+
         * patient
         
+
         The request can optionally include include one of following parameters:
+
 
         * authoredon
 
@@ -641,8 +650,13 @@ paths:
       description: >
         ## Overview 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
+        
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. 
+        
+        
+        The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
 
+        
         For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
 
       parameters:
@@ -880,12 +894,16 @@ paths:
       description: >
         ## Overview 
         
+        
         Use this endpoint to cancel a current request that has not been actioned yet.
 
+        
         The content-type for this request must be "application/json-patch+json".
+        
         
         The request must include the following parameter:
 
+        
         * id
 
       parameters:
