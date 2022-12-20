@@ -198,350 +198,7 @@ servers:
     description: Integration test environment.
   - url: 'https://api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Production environment.
-
-x-spec-publication:
-  operation-order:
-    - operations:
-      - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationStatement/
-      - method: GET
-        path: /FHIR/R4/MedicationRequest/{identifier}
-      - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationRequest/
-      - method: POST
-        path: /FHIR/R4/Task
-      - method: GET
-        path: /FHIR/R4/Task
-      - method: PATCH
-        path: /FHIR/R4/Task
-
 paths: 
-  /FHIR/R4/Task/:
-    get:
-      operationId: get-task
-      summary: Get requested prescription reorders
-      description: >
-        ## Overview
-        
-        Use this end point to check the status of your current prescription request.
-        
-        You must provide at least one of the following parameters:
-
-        * id
-
-        * patient
-
-      parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
-        - $ref: "#/components/parameters/CorrelationID"
-        - $ref: "#/components/parameters/RequestID" 
-        - in: query
-          name: patient
-          description: >
-            The NHS number of the patient whose requests you are searching for
-          required: false
-          schema:
-            type: string
-            example: '9912003489'
-        - in: query
-          name: id
-          description: >
-            The id of the Task itself
-          required: false
-          schema:
-            type: string
-            example: 'dad85fcc-d3a0-4806-886a-a573bd48ad2c'
-        - in: query
-          name: status
-          description: >
-            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
-          required: false
-          schema:
-            type: string
-            example: 'requested'
-        - in: query
-          name: authored-on
-          description: >
-            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
-          required: false
-          schema:
-            type: string
-          examples:
-            exact date:
-              value:
-                - eq2010-10-22
-              description: Exact match date
-            greater than or equals:
-              value:
-                - ge2022-01-15
-              description: Greater than or equals which matches 2022-01-15 or 2022-01-16
-            less than or equals:
-              value: 
-                -  le2022-01-15
-              description: Less than or equals which matches 2022-01-15 or 2022-01-14
-      responses:
-        '200':
-          description: Successful query
-          content: 
-            application/fhir+json:
-              schema: 
-                type: object
-              examples:
-                example:
-                  description: Successful request to view requests for prescriptions.
-                  value: 
-                    resourceType: Bundle
-                    id: a96bb563-c86b-4021-903e-5917b927c386
-                    identifier: 
-                      system: "https://tools.ietf.org/html/rfc4122"
-                      value: a3294018-6c63-4556-8797-f782d1c95480
-                    type: searchset
-                    entry:
-                      - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
-                        resource: 
-                          resourceType: Task
-                          id: aef77afb-7e3c-427a-8657-2c427f71a271
-                          identifier: 
-                          - system: "https://tools.ietf.org/html/rfc4122"
-                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                          
-                          status: requested
-                          intent: order
-                          focus: 
-                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
-                          for: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                            
-                            display: Jane Smith
-                          authoredOn: 2022-11-23T20:20:27+07:00
-                          lastModified: 2022-11-23T20:20:27+07:00
-                          requester: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'
-                            display: Jane Smith
-                          note:
-                            - authorString: Patient
-                              text: 'Ran out of previous prescription'
-                      - fullUrl: 15c5ee13-73cf-45f8-a1f1-a7de3e10dae6
-                        resource:
-                          resourceType: Task
-                          id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
-                          identifier:
-                          - system: "https://tools.ietf.org/html/rfc4122"
-                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                                
-                          status: rejected
-                          statusReason:
-                            text: No longer suitable, please contact GP to organise an appointment
-                          intent: order
-                          focus: 
-                              reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
-                          for: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                                     
-                            display: Jane Smith
-                          authoredOn: 2022-08-14T07:20:23+07:00
-                          lastModified: 2022-08-14T11:40:47+07:00
-                          requester: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                            
-                            display: Jane Smith
-                      - fullUrl: 561d0bfa-a937-4d91-81ab-abe65bca2d95
-                        resource:
-                          resourceType: Task
-                          id: 84722efb-95b0-4769-921a-eda53382b320
-                          identifier:
-                          - system: "https://tools.ietf.org/html/rfc4122"
-                            value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7                            
-                          status: in-progress
-                          intent: order
-                          focus: 
-                              reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
-                          for: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                            
-                            display: Jane Smith
-                          authoredOn: 2022-10-13T16:20:27+07:00
-                          lastModified: 2022-10-15T11:28:13+07:00
-                          requester: 
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                            
-                            display: Jane Smith
-    post:
-      operationId: post-task
-      summary: Request a repeat prescription 
-      description: >
-        ## Overview 
-
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
-
-        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
-
-      parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
-        - $ref: "#/components/parameters/CorrelationID"
-        - $ref: "#/components/parameters/RequestID" 
-      requestBody:
-        required: true
-        description: Successful Request.
-        content: 
-          application/fhir+json:
-            schema:
-              type: object
-              description: >
-                Example of a valid Task, with focus on MedicationRequest.
-            example:
-                resourceType: Task
-                id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
-                identifier: 
-                - system: "https://tools.ietf.org/html/rfc4122"
-                  value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
-                status: requested
-                intent: order
-                code: 
-                   coding:
-                    - system: "http://snomed.info/sct"
-                      code: '103742009'
-                      display: Renewal of prescription
-                focus: 
-                    reference: "MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
-                for: 
-                  reference: Patient/9000000009
-                  identifier: 
-                    system: https://fhir.nhs.uk/Id/nhs-number
-                    value: '9000000009'
-                  display: Jane Smith
-                authoredOn: 2022-10-13T09:20:27.000Z
-                lastModified: 2022-10-13T09:20:27.000Z
-                requester: 
-                  reference: Patient/9000000009
-                  identifier: 
-                    system: https://fhir.nhs.uk/Id/nhs-number
-                    value: '9000000009'
-                  display: Jane Smith
-                note: 
-                  - authorString: Patient
-                    text: ran out of previous prescription
-                input:
-                  - type:
-                      coding:
-                      - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
-                        code: preferred-performer
-                        display: Preferred performer
-                    valueIdentifier:
-                      system: "https://fhir.nhs.uk/Id/ods-organization-code"
-                      value: FLM49
-
-      responses:
-        '201':
-          description: Successful response to the request.
-          content: 
-            application/fhir+json:
-              schema: 
-                type: object          
-              examples:
-                operation-outcome-success:
-                  value:
-                    resourceType: OperationOutcome
-                    issue:
-                      - code: informational
-                        severity: information
-              
-    patch:
-      operationId: cancel-jsonpatch
-      summary: Cancel an unactioned repeat prescription request
-      description: >
-        ## Overview 
-        
-        Use this endpoint to cancel a current request that has not been actioned yet.
-
-        The content-type for this request must be "application/json-patch+json".
-        
-        The request must include the following parameter:
-
-        * id
-
-      parameters:
-        - in: header
-          name: content-type
-          description: >
-            The content-type of the request. 
-          required: true
-          schema: 
-            type: string
-            example: application/json-patch+json
-        - $ref: "#/components/parameters/BearerAuthorization"
-        - $ref: "#/components/parameters/CorrelationID"
-        - $ref: "#/components/parameters/RequestID" 
-        - in: query
-          name: id
-          description: >
-            The id of the Task to cancel
-          required: true
-          schema:
-            type: string
-            example: 'aef77afb-7e3c-427a-8657-2c427f71a271'
-      requestBody:
-        required: true
-        description: Successful Request.
-        content: 
-          application/json-patch+json:
-            schema:
-              type: object
-              description: >
-                JSON patch for cancellation
-            examples:
-              jsonpatch:
-                description: |
-                  A valid JSON patch for cancelling the status.
-                value:
-                  - op: replace
-                    path: "/status"
-                    value: cancelled
-      responses:
-        '200':
-          description: Successful request to cancel a request must return the updated object.
-          content: 
-            application/fhir+json:
-              schema: 
-                type: object
-              examples:
-                example: 
-                  value:
-                    resourceType: Task
-                    id: 825fabd0-23dd-4f4c-adce-4a7ac2c71659
-                    identifier:
-                    - system: "https://tools.ietf.org/html/rfc4122"
-                      value: d66af104-b835-43a7-b723-32445b3051cc                          
-                    status: cancelled
-                    intent: order
-                    focus: 
-                        reference: MedicationRequest/e2235eb5-9537-417e-91e8-9b272b8a10f6
-                    for: 
-                      reference: Patient/9000000009
-                      identifier: 
-                        system: https://fhir.nhs.uk/Id/nhs-number
-                        value: '9000000009'                            
-                      display: Jane Smith
-                    authoredOn: 2022-11-10T15:10:57+07:00
-                    lastModified: 2022-12-19T12:28:53+07:00
-                    requester: 
-                      reference: Patient/9000000009
-                      identifier: 
-                        system: https://fhir.nhs.uk/Id/nhs-number
-                        value: '9000000009'                            
-                      display: Jane Smith     
-
   /FHIR/R4/Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
@@ -977,6 +634,330 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until Gone
+  /FHIR/R4/Task/:
+    get:
+      operationId: get-task
+      summary: Get requested prescription reorders
+      description: >
+        ## Overview
+        
+        Use this end point to check the status of your current prescription request.
+        
+        You must provide at least one of the following parameters:
+
+        * id
+
+        * patient
+
+      parameters:
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+        - in: query
+          name: patient
+          description: >
+            The NHS number of the patient whose requests you are searching for
+          required: false
+          schema:
+            type: string
+            example: '9912003489'
+        - in: query
+          name: id
+          description: >
+            The id of the Task itself
+          required: false
+          schema:
+            type: string
+            example: 'dad85fcc-d3a0-4806-886a-a573bd48ad2c'
+        - in: query
+          name: status
+          description: >
+            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
+          required: false
+          schema:
+            type: string
+            example: 'requested'
+        - in: query
+          name: authored-on
+          description: >
+            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
+          required: false
+          schema:
+            type: string
+          examples:
+            exact date:
+              value:
+                - eq2010-10-22
+              description: Exact match date
+            greater than or equals:
+              value:
+                - ge2022-01-15
+              description: Greater than or equals which matches 2022-01-15 or 2022-01-16
+            less than or equals:
+              value: 
+                -  le2022-01-15
+              description: Less than or equals which matches 2022-01-15 or 2022-01-14
+      responses:
+        '200':
+          description: Successful query
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example:
+                  description: Successful request to view requests for prescriptions.
+                  value: 
+                    resourceType: Bundle
+                    id: a96bb563-c86b-4021-903e-5917b927c386
+                    identifier: 
+                      system: "https://tools.ietf.org/html/rfc4122"
+                      value: a3294018-6c63-4556-8797-f782d1c95480
+                    type: searchset
+                    entry:
+                      - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
+                        resource: 
+                          resourceType: Task
+                          id: aef77afb-7e3c-427a-8657-2c427f71a271
+                          identifier: 
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                          
+                          status: requested
+                          intent: order
+                          focus: 
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
+                          for: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                            
+                            display: Jane Smith
+                          authoredOn: 2022-11-23T20:20:27+07:00
+                          lastModified: 2022-11-23T20:20:27+07:00
+                          requester: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'
+                            display: Jane Smith
+                          note:
+                            - authorString: Patient
+                              text: 'Ran out of previous prescription'
+                      - fullUrl: 15c5ee13-73cf-45f8-a1f1-a7de3e10dae6
+                        resource:
+                          resourceType: Task
+                          id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 725ca1bd-2860-4476-8802-8d035d802e7f                                
+                          status: rejected
+                          statusReason:
+                            text: No longer suitable, please contact GP to organise an appointment
+                          intent: order
+                          focus: 
+                              reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          for: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                                     
+                            display: Jane Smith
+                          authoredOn: 2022-08-14T07:20:23+07:00
+                          lastModified: 2022-08-14T11:40:47+07:00
+                          requester: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                            
+                            display: Jane Smith
+                      - fullUrl: 561d0bfa-a937-4d91-81ab-abe65bca2d95
+                        resource:
+                          resourceType: Task
+                          id: 84722efb-95b0-4769-921a-eda53382b320
+                          identifier:
+                          - system: "https://tools.ietf.org/html/rfc4122"
+                            value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7                            
+                          status: in-progress
+                          intent: order
+                          focus: 
+                              reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
+                          for: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                            
+                            display: Jane Smith
+                          authoredOn: 2022-10-13T16:20:27+07:00
+                          lastModified: 2022-10-15T11:28:13+07:00
+                          requester: 
+                            reference: Patient/9000000009
+                            identifier: 
+                              system: https://fhir.nhs.uk/Id/nhs-number
+                              value: '9000000009'                            
+                            display: Jane Smith
+    post:
+      operationId: post-task
+      summary: Request a repeat prescription 
+      description: >
+        ## Overview 
+
+        Use this end point to create a request for a repeat prescription or repeat dispensing prescription. The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer.](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters)
+
+        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
+
+      parameters:
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+      requestBody:
+        required: true
+        description: Successful Request.
+        content: 
+          application/fhir+json:
+            schema:
+              type: object
+              description: >
+                Example of a valid Task, with focus on MedicationRequest.
+            example:
+                resourceType: Task
+                id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
+                identifier: 
+                - system: "https://tools.ietf.org/html/rfc4122"
+                  value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                status: requested
+                intent: order
+                code: 
+                   coding:
+                    - system: "http://snomed.info/sct"
+                      code: '103742009'
+                      display: Renewal of prescription
+                focus: 
+                    reference: "MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07"
+                for: 
+                  reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: '9000000009'
+                  display: Jane Smith
+                authoredOn: 2022-10-13T09:20:27.000Z
+                lastModified: 2022-10-13T09:20:27.000Z
+                requester: 
+                  reference: Patient/9000000009
+                  identifier: 
+                    system: https://fhir.nhs.uk/Id/nhs-number
+                    value: '9000000009'
+                  display: Jane Smith
+                note: 
+                  - authorString: Patient
+                    text: ran out of previous prescription
+                input:
+                  - type:
+                      coding:
+                      - system: "https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters"
+                        code: preferred-performer
+                        display: Preferred performer
+                    valueIdentifier:
+                      system: "https://fhir.nhs.uk/Id/ods-organization-code"
+                      value: FLM49
+
+      responses:
+        '201':
+          description: Successful response to the request.
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object          
+              examples:
+                operation-outcome-success:
+                  value:
+                    resourceType: OperationOutcome
+                    issue:
+                      - code: informational
+                        severity: information       
+    patch:
+      operationId: patch-task
+      summary: Cancel an unactioned repeat prescription request
+      description: >
+        ## Overview 
+        
+        Use this endpoint to cancel a current request that has not been actioned yet.
+
+        The content-type for this request must be "application/json-patch+json".
+        
+        The request must include the following parameter:
+
+        * id
+
+      parameters:
+        - in: header
+          name: content-type
+          description: >
+            The content-type of the request. 
+          required: true
+          schema: 
+            type: string
+            example: application/json-patch+json
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+        - in: query
+          name: id
+          description: >
+            The id of the Task to cancel
+          required: true
+          schema:
+            type: string
+            example: 'aef77afb-7e3c-427a-8657-2c427f71a271'
+      requestBody:
+        required: true
+        description: Successful Request.
+        content: 
+          application/json-patch+json:
+            schema:
+              type: object
+              description: >
+                JSON patch for cancellation
+            examples:
+              jsonpatch:
+                description: |
+                  A valid JSON patch for cancelling the status.
+                value:
+                  - op: replace
+                    path: "/status"
+                    value: cancelled
+      responses:
+        '200':
+          description: Successful request to cancel a request must return the updated object.
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example: 
+                  value:
+                    resourceType: Task
+                    id: 825fabd0-23dd-4f4c-adce-4a7ac2c71659
+                    identifier:
+                    - system: "https://tools.ietf.org/html/rfc4122"
+                      value: d66af104-b835-43a7-b723-32445b3051cc                          
+                    status: cancelled
+                    intent: order
+                    focus: 
+                        reference: MedicationRequest/e2235eb5-9537-417e-91e8-9b272b8a10f6
+                    for: 
+                      reference: Patient/9000000009
+                      identifier: 
+                        system: https://fhir.nhs.uk/Id/nhs-number
+                        value: '9000000009'                            
+                      display: Jane Smith
+                    authoredOn: 2022-11-10T15:10:57+07:00
+                    lastModified: 2022-12-19T12:28:53+07:00
+                    requester:
+                      reference: Patient/9000000009
+                      identifier: 
+                        system: https://fhir.nhs.uk/Id/nhs-number
+                        value: '9000000009'                            
+                      display: Jane Smith
 components:
   parameters:
     BearerAuthorization:
