@@ -734,12 +734,16 @@ paths:
       description: >
         ## Overview
         
+        
         Use this end point to check the status of your current prescription request.
+        
         
         You must provide at least one of the following parameters:
 
+        
         * id
 
+        
         * patient
 
       parameters:
