@@ -198,21 +198,23 @@ servers:
     description: Integration test environment.
   - url: 'https://api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Production environment.
+
 x-spec-publication:
   operation-order:
     - operations:
-        - method: GET
-          path: /FHIR/R4/Task
-        - method: PATCH
-          path: /FHIR/R4/Task
-        - method: POST
-          path: /FHIR/R4/Task
-        - method: GET
-          path: /FHIR/R4/Patient/{id}/MedicationStatement/
-        - method: GET
-          path: /FHIR/R4/MedicationRequest/{identifier}
-        - method: GET
-          path: /FHIR/R4/Patient/{id}/MedicationRequest/
+      - method: GET
+        path: /FHIR/R4/Patient/{id}/MedicationStatement/
+      - method: GET
+        path: /FHIR/R4/MedicationRequest/{identifier}
+      - method: GET
+        path: /FHIR/R4/Patient/{id}/MedicationRequest/
+      - method: POST
+        path: /FHIR/R4/Task
+      - method: GET
+        path: /FHIR/R4/Task
+      - method: PATCH
+        path: /FHIR/R4/Task
+
 paths: 
   /FHIR/R4/Task/:
     get:
