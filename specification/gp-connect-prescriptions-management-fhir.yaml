@@ -749,7 +749,13 @@ paths:
         ## Overview
         
         
-        Use this end point to check the status of your current prescription request.
+        Use this end point to check the status of past and current prescription request. 
+
+        
+        If a Patient identifier is provided past and present requests will be returned for the patient inside as multiple Task rescources inside a Bundle resource.
+        
+        
+        If just the id of a specific request is passed a singular Task resource will be returned inside a Bundle resource.
         
         
         You must provide at least one of the following parameters:
@@ -818,7 +824,7 @@ paths:
                 description: Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
               examples:
                 example:
-                  description: Successful request to view requests for prescriptions.
+                  description: Successful request to view requests for prescriptions when a patient identifier is passed.
                   value: 
                     resourceType: Bundle
                     id: a96bb563-c86b-4021-903e-5917b927c386
