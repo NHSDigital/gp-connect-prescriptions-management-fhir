@@ -427,6 +427,9 @@ paths:
                   value:
                     resourceType: MedicationRequest
                     id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                    meta:    
+                      profile: 
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest                    
                     extension:
                       - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
                         extension:
@@ -555,6 +558,9 @@ paths:
                         resource: 
                           resourceType: MedicationRequest
                           id: b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                          meta:    
+                            profile: 
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
                           extension:
                             - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
                               extension:
@@ -608,6 +614,9 @@ paths:
                         resource: 
                           resourceType: MedicationRequest
                           id: 159757f8-6409-4b8c-b0df-f8feefc3ad0e
+                          meta:    
+                            profile: 
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest
                           extension:
                             - url: https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation
                               extension:
