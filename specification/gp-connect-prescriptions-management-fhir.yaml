@@ -272,7 +272,7 @@ paths:
             application/fhir+json:
               schema: 
                 type: object
-                description: Information surrounding how the MedicationStatement resource is populated can be found [here.]https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/assets-all-assets-profiles-ukcore-medicationstatement-medicationstatement?version=current)
+                description: Information surrounding how the MedicationStatement resource is populated can be found [here.](https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/assets-all-assets-profiles-ukcore-medicationstatement-medicationstatement?version=current)
               examples:
                 example:
                   description: Successful response to view medication.
