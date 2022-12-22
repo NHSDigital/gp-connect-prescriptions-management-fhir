@@ -582,11 +582,8 @@ paths:
                               value: '9000000009'                          
                             display: Jane Smith
                           requester:
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'      
-                            display: Jane Smith
+                            reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
+                            display: 'Dr Jane Smith'
                           courseOfTherapyType:
                             coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
@@ -635,11 +632,8 @@ paths:
                               value: '9000000009'      
                             display: Jane Smith
                           requester:
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'      
-                            display: Jane Smith
+                            reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
+                            display: 'Dr Jane Smith'
                           courseOfTherapyType:
                             coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
