@@ -454,11 +454,8 @@ paths:
                           value: '9000000009'
                       display: Jane Smith
                     requester:
-                      reference: Patient/9000000009
-                      identifier: 
-                          system: https://fhir.nhs.uk/Id/nhs-number
-                          value: '9000000009'                      
-                      display: Jane Smith
+                      reference: PractitionerRole/ed313d93-f470-420f-ae4e-2b7eb91d3f45                
+                      display: Dr Jane Smith
                     courseOfTherapyType:
                       coding:
                         - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
@@ -585,11 +582,8 @@ paths:
                               value: '9000000009'                          
                             display: Jane Smith
                           requester:
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'      
-                            display: Jane Smith
+                            reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
+                            display: 'Dr Jane Smith'
                           courseOfTherapyType:
                             coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
@@ -638,11 +632,8 @@ paths:
                               value: '9000000009'      
                             display: Jane Smith
                           requester:
-                            reference: Patient/9000000009
-                            identifier: 
-                              system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'      
-                            display: Jane Smith
+                            reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
+                            display: 'Dr Jane Smith'
                           courseOfTherapyType:
                             coding:
                               - system: "https://fhir.hl7.org.uk/CodeSystem/UKCore-MedicationRequestCourseOfTherapy"
@@ -995,6 +986,50 @@ paths:
                         system: https://fhir.nhs.uk/Id/nhs-number
                         value: '9000000009'                            
                       display: Jane Smith
+  /FHIR/R4/PractionerRole/{id}:
+    get:
+      operationId: get-practitioner-role
+      summary: Get practitioner role details
+      description: > 
+        Use this endpoint to get details of practitioners issuing previous prescriptions.
+
+        The request must include the following parameter:
+        
+        * id
+
+      parameters:
+        - $ref: "#/components/parameters/BearerAuthorization"
+        - $ref: "#/components/parameters/CorrelationID"
+        - $ref: "#/components/parameters/RequestID" 
+        - in: path
+          name: id
+          description: >
+            The id of the practitioner role you are requesting details for.
+          required: true
+          schema:
+            type: string
+            example: 'ed313d93-f470-420f-ae4e-2b7eb91d3f45'
+      responses:
+        '200':
+          description: Successful request to view practitioner role details
+          content: 
+            application/fhir+json:
+              schema: 
+                type: object
+              examples:
+                example:
+                  value:
+                    resourceType: PractitionerRole
+                    id: e35f0382-ac2e-47f9-9164-afd7d6adf952
+                    practitioner: 
+                      display: "Dr Jane Smith"
+                      identifier: 
+                        system: https://fhir.hl7.org.uk/Id/gmc-number
+                        value: C9876543
+                    organization:
+                      identifier:
+                        system: https://fhir.nhs.uk/Id/ods-organization-code
+                        value: L8048
 components:
   parameters:
     BearerAuthorization:
