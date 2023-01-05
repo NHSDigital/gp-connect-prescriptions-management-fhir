@@ -5,17 +5,17 @@ x-spec-publication:
   operation-order:
     - operations:
       - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationStatement/
+        path: /FHIR/R4/Patient/{id}/MedicationStatement
       - method: GET
-        path: /FHIR/R4/MedicationRequest/{identifier}
+        path: /FHIR/R4/MedicationRequest/{id}
       - method: GET
         path: /FHIR/R4/Patient/{id}/MedicationRequest/
       - method: POST
-        path: /FHIR/R4/Task
+        path: /FHIR/R4/Task/
       - method: GET
-        path: /FHIR/R4/Task
+        path: /FHIR/R4/Task/
       - method: PATCH
-        path: /FHIR/R4/Task
+        path: /FHIR/R4/Task/
 info:
   title: 'GP Connect Prescriptions Management FHIR API'
   version: 'Computed and injected at build time by `scripts/set_version.py`'
