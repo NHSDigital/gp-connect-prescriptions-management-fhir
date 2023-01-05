@@ -1,21 +1,6 @@
 # This is an OpenAPI Specification (https://swagger.io/specification/)
 # for gp-connect-prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
 openapi: '3.0.0'
-x-spec-publication:
-  operation-order:
-    - operations:
-      - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationStatement/
-      - method: GET
-        path: /FHIR/R4/MedicationRequest/{identifier}
-      - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationRequest/
-      - method: POST
-        path: /FHIR/R4/Task
-      - method: GET
-        path: /FHIR/R4/Task
-      - method: PATCH
-        path: /FHIR/R4/Task
 info:
   title: 'GP Connect Prescriptions Management FHIR API'
   version: 'Computed and injected at build time by `scripts/set_version.py`'
@@ -206,6 +191,23 @@ info:
     name: 'gp-connect-prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
+x-spec-publication:
+  operation-order:
+    - operations:
+      - method: GET
+        path: /FHIR/R4/Patient/{id}/MedicationStatement
+      - method: GET
+        path: /FHIR/R4/MedicationRequest/{id}
+      - method: GET
+        path: /FHIR/R4/Patient/{id}/MedicationRequest
+      - method: POST
+        path: /FHIR/R4/Task
+      - method: GET
+        path: /FHIR/R4/Task
+      - method: PATCH
+        path: /FHIR/R4/Task
+      - method: GET
+        path: /FHIR/R4/PractionerRole/{id}
 servers:
   - url: 'https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
     description: Sandbox environment.
@@ -485,7 +487,7 @@ paths:
                           - system: "http://snomed.info/sct"
                             code: '420652005'
                             display: Until gone        
-  /FHIR/R4/Patient/{id}/MedicationRequest/:
+  /FHIR/R4/Patient/{id}/MedicationRequest:
     get:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
@@ -670,7 +672,7 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until gone
-  /FHIR/R4/Task/:
+  /FHIR/R4/Task:
     post:
       operationId: post-task
       summary: Request a repeat prescription 
