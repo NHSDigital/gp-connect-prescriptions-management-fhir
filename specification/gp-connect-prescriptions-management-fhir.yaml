@@ -702,6 +702,9 @@ paths:
             example:
                 resourceType: Task
                 id: 7c747c6e-15c8-4b2f-8aa0-441f2ef703d6
+                meta:    
+                  profile: 
+                    - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task                
                 identifier: 
                 - system: "https://tools.ietf.org/html/rfc4122"
                   value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
@@ -850,6 +853,9 @@ paths:
                         resource: 
                           resourceType: Task
                           id: aef77afb-7e3c-427a-8657-2c427f71a271
+                          meta:    
+                            profile: 
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task                                  
                           identifier: 
                           - system: "https://tools.ietf.org/html/rfc4122"
                             value: 725ca1bd-2860-4476-8802-8d035d802e7f                          
@@ -878,6 +884,9 @@ paths:
                         resource:
                           resourceType: Task
                           id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          meta:    
+                            profile: 
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task        
                           identifier:
                           - system: "https://tools.ietf.org/html/rfc4122"
                             value: 725ca1bd-2860-4476-8802-8d035d802e7f                                
@@ -905,6 +914,9 @@ paths:
                         resource:
                           resourceType: Task
                           id: 84722efb-95b0-4769-921a-eda53382b320
+                          meta:    
+                            profile: 
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task        
                           identifier:
                           - system: "https://tools.ietf.org/html/rfc4122"
                             value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7                            
