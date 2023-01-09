@@ -140,7 +140,7 @@ info:
     
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
@@ -209,11 +209,11 @@ x-spec-publication:
       - method: GET
         path: /FHIR/R4/PractionerRole/{id}
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
+  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
+  - url: 'https://int.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/gp-connect/prescriptions/FHIR/R4'
+  - url: 'https://api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
     description: Production environment.
 paths: 
   /FHIR/R4/Patient/{id}/MedicationStatement:
@@ -1086,18 +1086,6 @@ components:
         type: string
         format: '^Bearer\ [[:ascii:]]+$'
         example: 'Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM'
-    RoleId:
-      in: header
-      name: NHSD-Session-URID
-      description: |
-        The user role ID (URID) for the current session. Also known as a user role profile ID (URPID).
-        If you are using User-restricted RESTful APIs - NHS login separate authentication and authorisation, see [determine the user's role](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation/user-restricted-restful-apis-nhs-cis2-separate-authentication-and-authorisation#step-9-determine-the-user-s-role) for guidance.
-        This field is optional.
-      required: false
-      schema:
-        type: string
-        pattern: '^[0-9]+$'
-        example: '555254240100'
     CorrelationID:
       in: header
       name: X-Correlation-ID
