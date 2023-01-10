@@ -558,7 +558,15 @@ paths:
           examples:
             intent:
               value:
-                - "plan"                
+                - "plan"    
+        - in: query
+          name: status
+          description: >
+            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/83480)
+          required: false
+          schema:
+            type: string
+            example: 'active'            
       responses:
         '200':
           description: Successful request to view previous prescription issue details
