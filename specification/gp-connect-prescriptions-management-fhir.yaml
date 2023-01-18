@@ -449,8 +449,8 @@ paths:
                           - url: authorisationExpiryDate
                             valueDateTime: 2023-09-10T19:00:00.000Z
                     identifier: 
-                      - system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                        value: CDT38E-Y765968-4FG3BQ
+                      - system: "https://fhir.nhs.uk/Id/prescription-order-item-number"
+                        value: 4857b9d3-b714-44b9-9e67-3df67275b785
                     status: active
                     intent: plan
                     category: 
@@ -472,6 +472,9 @@ paths:
                     requester:
                       reference: PractitionerRole/ed313d93-f470-420f-ae4e-2b7eb91d3f45                
                       display: Dr Jane Smith
+                    groupIdentifier: 
+                      - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                        value: PDI12E-Y765908-4FF3LQ                 
                     courseOfTherapyType:
                       coding:
                         - system: "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy"
@@ -600,8 +603,8 @@ paths:
                                 - url: authorisationExpiryDate
                                   valueDateTime: 2022-12-15T19:00:00.000Z                          
                           identifier: 
-                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                              value: CDT38E-Y765968-4FG3BQ
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-item-number"
+                              value: 4857b9d3-b714-44b9-9e67-3df67275b785
                           status: active
                           intent: order
                           category: 
@@ -623,6 +626,9 @@ paths:
                           requester:
                             reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
                             display: 'Dr Jane Smith'
+                          groupIdentifier: 
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              value: CDT38E-Y765968-4FG3BQ
                           courseOfTherapyType:
                             coding:
                               - system: "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy"
@@ -653,8 +659,8 @@ paths:
                                 - url: authorisationExpiryDate
                                   valueDateTime: 2022-10-11T19:00:00.000Z                          
                           identifier: 
-                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
-                              value: CDT38E-Y765968-1650B+
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-item-number"
+                              value: 4857b9d3-b714-44b9-9e67-3df67275b785
                           status: active
                           intent: order
                           category: 
@@ -676,6 +682,9 @@ paths:
                           requester:
                             reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
                             display: 'Dr Jane Smith'
+                          groupIdentifier: 
+                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              value: PDI12E-Y765908-4FF3LQ                          
                           courseOfTherapyType:
                             coding:
                               - system: "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy"
@@ -719,7 +728,7 @@ paths:
             schema:
               type: object
               description: >
-                description: Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
+                Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
             example:
                 resourceType: Task
                 meta:    
@@ -1115,7 +1124,7 @@ paths:
             application/fhir+json:
               schema: 
                 type: object
-                description: Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/home-fhir-assets-all-assets-profiles-ukcore-index?version=current)
+                description: Information surrounding how the PractitionerRole resource is populated can be found [here.](https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/home-fhir-assets-all-assets-profiles-ukcore-index?version=current)
               examples:
                 example:
                   value:
