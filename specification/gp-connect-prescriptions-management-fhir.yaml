@@ -506,6 +506,10 @@ paths:
 
         These MedicationStatements must reference a MedicationRequest within the basedOn attribute: MedicationRequests provide details of specific prescriptions. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
+
+        The referenced MedicationRequest must have intent set to plan.
+
+
         The request must include the following parameter:
 
         * patient
@@ -747,7 +751,7 @@ paths:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
       description: > 
-        Use this endpoint in order to get details of previous prescription issues.
+        Use this endpoint to get details of previous prescription issues.
 
         The request must include the following parameter:
         
