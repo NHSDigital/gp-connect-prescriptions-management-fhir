@@ -16,10 +16,10 @@ steps:
       
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
-       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v -m "not nhsd_apim_authorization" --api-name=gp-connect-prescriptions-management-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       
       else
-       poetry run pytest -v --api-name=gp-connect-user-permissions --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
+       poetry run pytest -v --api-name=gp-connect-prescriptions-management-fhir --proxy-name=$PROXY_NAME -o junit_logging=all --junitxml=test-report.xml
       fi
     workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)/tests"
     displayName: Run full test suite
