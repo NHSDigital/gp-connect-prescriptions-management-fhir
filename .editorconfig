@@ -19,6 +19,7 @@ indent_style = tab
 
 [*.yaml]
 trim_trailing_whitespace = false
+indent_size = 2
 
 [*.js]
 ij_javascript_force_semicolon_style = true
