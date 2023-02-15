@@ -497,6 +497,10 @@ paths:
       description: > 
         Use this endpoint to get details of previous prescription issues.
 
+
+        The referenced MedicationRequest must have intent set to plan.
+
+
         The request must include the following parameter:
         
 
@@ -827,13 +831,10 @@ paths:
                           system: "https://fhir.nhs.uk/Id/ods-organization-code"
                           value: FLM49
     get:
-      operationId: get-task
-      summary: Get requested prescription reorders
-      description: >
-        ## Overview
-        
-        
-        Use this end point to check the status of past and current prescription request. 
+      operationId: get-ordered-medicationrequest
+      summary: Get prescription issue details
+      description: > 
+        Use this endpoint to get details of previous prescription issues.
 
         
         If a Patient identifier is provided past and present requests will be returned for the patient inside as multiple Task rescources inside a Bundle resource.
