@@ -257,15 +257,15 @@ paths:
           examples:
             exact date:
               value:
-                - eq2010-10-22
+                eq2010-10-22
               description: Exact match date
             greater than or equals:
               value:
-                - g2022-01-15
+                g2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value: 
-                -  le2022-01-15
+                le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
       responses: 
         '200':
@@ -530,15 +530,15 @@ paths:
           examples:
             exact date:
               value:
-                - eq2010-10-22
+                eq2010-10-22
               description: Exact match date
             greater than or equals:
               value:
-                - ge2022-01-15
+                ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value: 
-                -  le2022-01-15
+                le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
         - in: query
           name: identifier
@@ -561,7 +561,7 @@ paths:
           examples:
             intent:
               value:
-                - "plan"    
+                "plan"    
         - in: query
           name: status
           description: >
@@ -888,15 +888,15 @@ paths:
           examples:
             exact date:
               value:
-                - eq2010-10-22
+                eq2010-10-22
               description: Exact match date
             greater than or equals:
               value:
-                - ge2022-01-15
+                ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value: 
-                -  le2022-01-15
+                le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
       responses:
         '200':
