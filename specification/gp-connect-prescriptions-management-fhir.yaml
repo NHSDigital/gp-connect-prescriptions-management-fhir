@@ -216,7 +216,7 @@ servers:
   - url: 'https://api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
     description: Production environment.
 paths: 
-  /FHIR/R4/Patient/{id}/MedicationStatement:
+  /Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
       summary: Get medications relating to a patient
@@ -236,7 +236,6 @@ paths:
         * patient
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: path
@@ -400,7 +399,7 @@ paths:
                                     unit: milligram
                                     system: http://unitsofmeasure.org
                                     code: mg
-  /FHIR/R4/MedicationRequest/{id}:
+  /MedicationRequest/{id}:
     get:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
@@ -414,7 +413,6 @@ paths:
         * id
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: path
@@ -490,7 +488,7 @@ paths:
                           - system: "http://snomed.info/sct"
                             code: '420652005'
                             display: Until gone        
-  /FHIR/R4/Patient/{id}/MedicationRequest:
+  /Patient/{id}/MedicationRequest:
     get:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
@@ -509,7 +507,6 @@ paths:
         * authoredon
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: path
@@ -700,7 +697,7 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until gone
-  /FHIR/R4/Task:
+  /Task:
     post:
       operationId: post-task
       summary: Request a repeat prescription 
@@ -717,7 +714,6 @@ paths:
         For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
       requestBody:
@@ -851,7 +847,6 @@ paths:
         * patient
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
@@ -1033,7 +1028,6 @@ paths:
           schema: 
             type: string
             example: application/json-patch+json
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: query
@@ -1094,7 +1088,7 @@ paths:
                         system: https://fhir.nhs.uk/Id/nhs-number
                         value: '9000000009'                            
                       display: Jane Smith
-  /FHIR/R4/PractionerRole/{id}:
+  /PractionerRole/{id}:
     get:
       operationId: get-practitioner-role
       summary: Get practitioner role details
@@ -1106,7 +1100,6 @@ paths:
         * id
 
       parameters:
-        - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
         - $ref: "#/components/parameters/RequestID" 
         - in: path
@@ -1141,17 +1134,6 @@ paths:
                         value: L8048
 components:
   parameters:
-    BearerAuthorization:
-      in: header
-      name: Authorization
-      description: |
-        An [OAuth 2.0 bearer token](https://digital.nhs.uk/developer/guides-and-documentation/security-and-authorisation#user-restricted-apis).
-        Required in all environments except sandbox.
-      required: true
-      schema:
-        type: string
-        format: '^Bearer\ [[:ascii:]]+$'
-        example: 'Bearer g1112R_ccQ1Ebbb4gtHBP1aaaNM'
     CorrelationID:
       in: header
       name: X-Correlation-ID
