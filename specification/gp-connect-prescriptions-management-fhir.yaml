@@ -140,7 +140,7 @@ info:
     
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
@@ -209,11 +209,11 @@ x-spec-publication:
       - method: GET
         path: /FHIR/R4/PractionerRole/{id}
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
+  - url: 'https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
+  - url: 'https://int.api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/gp-connect/patient-facing/prescriptions/FHIR/R4'
+  - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
     description: Production environment.
 paths: 
   /Patient/{id}/MedicationStatement:
