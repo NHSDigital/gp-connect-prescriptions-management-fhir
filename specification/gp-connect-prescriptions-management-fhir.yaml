@@ -230,6 +230,9 @@ paths:
         These MedicationStatements must reference a MedicationRequest within the basedOn attribute: MedicationRequests provide details of specific prescriptions. The display within basedOn should quote the courseOfTherapyType from the referenced MedicationRequest, showing the prescription treatment type.
 
 
+        The referenced MedicationRequest must have intent set to plan.
+
+
         The request must include the following parameter:
 
 
@@ -400,6 +403,37 @@ paths:
                                     unit: milligram
                                     system: http://unitsofmeasure.org
                                     code: mg
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | CONFLICTING_VALUES | BasedOn reference to previous prescription does not match previous
+            | 400         | INVALID_RESOURCE   | BasedOn reference to previous prescription not present
+            | 400         | INVALID_PARAMETER  | Invalid date
+            | 400         | INVALID_NHS_NUMBER | The NHS Number is invalid
+            | 404         | PATIENT_NOT_FOUND  | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: value
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS Number
+
   /FHIR/R4/MedicationRequest/{id}:
     get:
       operationId: get-planned-medicationrequest
@@ -489,7 +523,34 @@ paths:
                           coding: 
                           - system: "http://snomed.info/sct"
                             code: '420652005'
-                            display: Until gone        
+                            display: Until gone     
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: value
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS Number   
   /FHIR/R4/Patient/{id}/MedicationRequest:
     get:
       operationId: get-ordered-medicationrequest
@@ -700,6 +761,35 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until gone
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
+            | 400         | INVALID_PARAMETER  | The date is invalid or in future
+            | 400         | INVALID_PARAMETER  | The EPS ID is invalid
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: value
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: INVALID_NHS_NUMBER
+                              display: Invalid NHS Number  
   /FHIR/R4/Task:
     post:
       operationId: post-task
@@ -772,7 +862,6 @@ paths:
                     valueIdentifier:
                       system: "https://fhir.nhs.uk/Id/ods-organization-code"
                       value: FLM49
-
       responses:
         '201':
           description: A successful response to the POST request will return the created object now populated with an id.
@@ -826,6 +915,40 @@ paths:
                         valueIdentifier:
                           system: "https://fhir.nhs.uk/Id/ods-organization-code"
                           value: FLM49
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | CONFLICTING_VALUES | Prescribed item description does not match code
+            | 400         | CONFLICTING_VALUES | Prescribed item quantity description does not match code
+            | 400         | CONFLICTING_VALUES | Mismatched prescribed item to quantity
+            | 400         | INVALID_CODE_VALUE | Invalid prescribed item code
+            | 400         | DUPLICATE_REJECTED | Duplicate prescription request
+            | 400         | INVALID_CODE_VALUE | Invalid prescribed item quantity code	
+            | 400         | INVALID_RESOURCE   | Task resource failed validation
+            | 400         | INVALID_VALUE      | Note too long	
+            | 400         | INVALID_RESOURCE   | Task missing required focus reference
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: business-rule
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: CONFLICTING_VALUES
+                              display: Mismatched prescribed item to quantity    
     get:
       operationId: get-task
       summary: Get requested prescription reorders
@@ -1006,6 +1129,35 @@ paths:
                               system: https://fhir.nhs.uk/Id/nhs-number
                               value: '9000000009'                            
                             display: Jane Smith    
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
+            | 404         | PATIENT_NOT_FOUND  | The request is for a Patient that doesn't exist     
+            | 400         | INVALID_VALUE	     | Task date in the future
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: business-rule
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: CONFLICTING_VALUES
+                              display: Mismatched prescribed item to quantity    
     patch:
       operationId: patch-task
       summary: Cancel an unactioned repeat prescription request
@@ -1094,6 +1246,33 @@ paths:
                         system: https://fhir.nhs.uk/Id/nhs-number
                         value: '9000000009'                            
                       display: Jane Smith
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: business-rule
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: INVALID_PARAMETER
+                              display: The Task id supplied is invalid  
   /FHIR/R4/PractionerRole/{id}:
     get:
       operationId: get-practitioner-role
@@ -1139,6 +1318,33 @@ paths:
                       identifier:
                         system: https://fhir.nhs.uk/Id/ods-organization-code
                         value: L8048
+        4XX: 
+          description: |
+            An error occured as follows:    
+            | HTTP Status | Spine error code   | Description 
+            |-------------|--------------------|------------
+            | 400         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
+            | 404         | RESOURCE_NOT_FOUND | The request is for a PractitionerRole that doesn't exist
+          content:
+            application/fhir+json:
+              schema:
+                type: object
+                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+              examples:
+                example:
+                  value:
+                    resourceType: OperationOutcome
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome
+                    issue:
+                    - severity: error
+                      code: value
+                      details:
+                          coding:
+                            - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
+                              code: INVALID_PARAMETER
+                              display: The PractitionerRole id supplied is invalid  
 components:
   parameters:
     BearerAuthorization:
