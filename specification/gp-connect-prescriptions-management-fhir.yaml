@@ -405,7 +405,9 @@ paths:
                                     code: mg
         4XX: 
           description: |
-            An error occured as follows:    
+            An error occured as follows:   
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | CONFLICTING_VALUES | BasedOn reference to previous prescription does not match previous
@@ -526,7 +528,9 @@ paths:
                             display: Until gone     
         4XX: 
           description: |
-            An error occured as follows:    
+            An error occured as follows:  
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
@@ -763,7 +767,9 @@ paths:
                                   display: Until gone
         4XX: 
           description: |
-            An error occured as follows:    
+            An error occured as follows:   
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
@@ -917,7 +923,9 @@ paths:
                           value: FLM49
         4XX: 
           description: |
-            An error occured as follows:    
+            An error occured as follows:
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | CONFLICTING_VALUES | Prescribed item description does not match code
@@ -1132,6 +1140,8 @@ paths:
         4XX: 
           description: |
             An error occured as follows:    
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
@@ -1248,7 +1258,9 @@ paths:
                       display: Jane Smith
         4XX: 
           description: |
-            An error occured as follows:    
+            An error occured as follows: 
+
+
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
@@ -1321,6 +1333,8 @@ paths:
         4XX: 
           description: |
             An error occured as follows:    
+
+            
             | HTTP Status | Spine error code   | Description 
             |-------------|--------------------|------------
             | 400         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
