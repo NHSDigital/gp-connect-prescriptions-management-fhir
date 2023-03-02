@@ -215,8 +215,8 @@ servers:
     description: Integration test environment.
   - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Production environment.
-paths: 
-  /Patient/{id}/MedicationStatement:
+paths:
+  /FHIR/R4/Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
       summary: Get medications relating to a patient
@@ -267,7 +267,7 @@ paths:
                 g2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
-              value: 
+              value:
                 le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
       responses:
@@ -436,7 +436,7 @@ paths:
                               code: INVALID_NHS_NUMBER
                               display: Invalid NHS Number
 
-  /MedicationRequest/{id}:
+  /FHIR/R4/MedicationRequest/{id}:
     get:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
@@ -555,7 +555,7 @@ paths:
                             - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
                               code: INVALID_NHS_NUMBER
                               display: Invalid NHS Number
-  /Patient/{id}/MedicationRequest:
+  /FHIR/R4/Patient/{id}/MedicationRequest:
     get:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
@@ -602,7 +602,7 @@ paths:
                 ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
-              value: 
+              value:
                 le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
         - in: query
@@ -626,7 +626,7 @@ paths:
           examples:
             intent:
               value:
-                "plan"    
+                "plan"
         - in: query
           name: status
           description: >
@@ -796,7 +796,7 @@ paths:
                             - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
                               code: INVALID_NHS_NUMBER
                               display: Invalid NHS Number
-  /Task:
+  /FHIR/R4/Task:
     post:
       operationId: post-task
       summary: Request a repeat prescription
@@ -1029,7 +1029,7 @@ paths:
                 ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
-              value: 
+              value:
                 le2022-01-15
               description: Less than or equals which matches 2022-01-15 or 2022-01-14
       responses:
@@ -1138,30 +1138,30 @@ paths:
                             reference: Patient/9000000009
                             identifier:
                               system: https://fhir.nhs.uk/Id/nhs-number
-                              value: '9000000009'                            
-                            display: Jane Smith    
+                              value: '9000000009'
+                            display: Jane Smith
                 completed and sent to EPS:
-                    description: Successful request to view requests for prescriptions when filtered by complete status
-                    value: 
-                      resourceType: Bundle
-                      id: a96bb563-c86b-4021-903e-5917b927c386
-                      identifier: 
-                        system: "https://tools.ietf.org/html/rfc4122"
-                        value: a3294018-6c63-4556-8797-f782d1c95480
-                      type: searchset
-                      entry:
-                        - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
-                          resource:               
-                            resourceType: Task
-                            meta:
-                              profile:
-                                - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
-                            identifier:
-                              - system: https://tools.ietf.org/html/rfc4122
-                                value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
-                            status: completed
-                            intent: order
-                            code:
+                  description: Successful request to view requests for prescriptions when filtered by complete status
+                  value:
+                    resourceType: Bundle
+                    id: a96bb563-c86b-4021-903e-5917b927c386
+                    identifier:
+                      system: "https://tools.ietf.org/html/rfc4122"
+                      value: a3294018-6c63-4556-8797-f782d1c95480
+                    type: searchset
+                    entry:
+                      - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
+                        resource:
+                          resourceType: Task
+                          meta:
+                            profile:
+                              - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
+                          identifier:
+                            - system: https://tools.ietf.org/html/rfc4122
+                              value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                          status: completed
+                          intent: order
+                          code:
                               coding:
                                 - system: http://snomed.info/sct
                                   code: '103742009'
@@ -1339,7 +1339,7 @@ paths:
                             - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
                               code: INVALID_PARAMETER
                               display: The Task id supplied is invalid
-  /PractionerRole/{id}:
+  /FHIR/R4/PractionerRole/{id}:
     get:
       operationId: get-practitioner-role
       summary: Get practitioner role details
