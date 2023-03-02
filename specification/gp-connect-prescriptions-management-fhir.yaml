@@ -195,19 +195,19 @@ x-spec-publication:
   operation-order:
     - operations:
       - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationStatement
+        path: Patient/{id}/MedicationStatement
       - method: GET
-        path: /FHIR/R4/MedicationRequest/{id}
+        path: MedicationRequest/{id}
       - method: GET
-        path: /FHIR/R4/Patient/{id}/MedicationRequest
+        path: Patient/{id}/MedicationRequest
       - method: POST
-        path: /FHIR/R4/Task
+        path: Task
       - method: GET
-        path: /FHIR/R4/Task
+        path: Task
       - method: PATCH
-        path: /FHIR/R4/Task
+        path: Task
       - method: GET
-        path: /FHIR/R4/PractionerRole/{id}
+        path: PractionerRole/{id}
 servers:
   - url: 'https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Sandbox environment.
@@ -216,7 +216,7 @@ servers:
   - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Production environment.
 paths: 
-  /FHIR/R4/Patient/{id}/MedicationStatement:
+  Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
       summary: Get medications relating to a patient
@@ -400,7 +400,7 @@ paths:
                                     unit: milligram
                                     system: http://unitsofmeasure.org
                                     code: mg
-  /FHIR/R4/MedicationRequest/{id}:
+  MedicationRequest/{id}:
     get:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
@@ -490,7 +490,7 @@ paths:
                           - system: "http://snomed.info/sct"
                             code: '420652005'
                             display: Until gone        
-  /FHIR/R4/Patient/{id}/MedicationRequest:
+  Patient/{id}/MedicationRequest:
     get:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
@@ -700,7 +700,7 @@ paths:
                                 - system: "http://snomed.info/sct"
                                   code: '420652005'
                                   display: Until gone
-  /FHIR/R4/Task:
+  Task:
     post:
       operationId: post-task
       summary: Request a repeat prescription 
@@ -1094,7 +1094,7 @@ paths:
                         system: https://fhir.nhs.uk/Id/nhs-number
                         value: '9000000009'                            
                       display: Jane Smith
-  /FHIR/R4/PractionerRole/{id}:
+  PractionerRole/{id}:
     get:
       operationId: get-practitioner-role
       summary: Get practitioner role details
