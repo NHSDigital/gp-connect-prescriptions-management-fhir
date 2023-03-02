@@ -112,7 +112,7 @@ info:
 
     ### Resources
 
-    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS) to assist with your integration.
+    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management) to assist with your integration.
 
     This is the FHIR specification for GP Connect Prescriptions.
 
@@ -186,7 +186,7 @@ info:
 
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
 
-    API Specific errors can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/Design/Errors-and-issues.page.md?version=current)
+    API Specific errors can be found [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Design/Errors-and-issues.page.md?version=current)
   contact:
     name: 'gp-connect-prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
@@ -419,7 +419,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -468,7 +468,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the MedicationRequest resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current)
+                description: Information surrounding how the MedicationRequest resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current)
               examples:
                 example:
                   value:
@@ -539,7 +539,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -642,7 +642,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current)
+                description: Information surrounding how the resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current)
               examples:
                 example:
                   value:
@@ -780,7 +780,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -824,7 +824,7 @@ paths:
             schema:
               type: object
               description: >
-                Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
+                Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
             example:
                 resourceType: Task
                 meta:
@@ -941,7 +941,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -1036,7 +1036,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
+                description: Information surrounding how the Task resource is populated can be found [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current)
               examples:
                 example:
                   description: Successful request to view requests for prescriptions when a patient identifier is passed.
@@ -1152,7 +1152,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -1269,7 +1269,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
@@ -1343,7 +1343,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [Here.](https://simplifier.net/guide/GP-Connect-Prescription-Management-FHIR-PFS/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
+                description: Link to UKCore-OperationOutcome resource population guidance [here.](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current)
               examples:
                 example:
                   value:
