@@ -216,7 +216,7 @@ servers:
   - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Production environment.
 paths: 
-  Patient/{id}/MedicationStatement:
+  /Patient/{id}/MedicationStatement:
     get:
       operationId: get-medicationstatement
       summary: Get medications relating to a patient
