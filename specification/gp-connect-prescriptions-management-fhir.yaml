@@ -1141,7 +1141,7 @@ paths:
                               value: '9000000009'                            
                             display: Jane Smith    
                 completed and sent to EPS:
-                    description: Successful request to view requests for prescriptions when filtered by complete status
+                    description: Completed prescription reorder request when sent to EPS.
                     value: 
                       resourceType: Bundle
                       id: a96bb563-c86b-4021-903e-5917b927c386
