@@ -614,8 +614,7 @@ paths:
             type: string
           examples:
             eps-prescription:
-              value:
-                - "https://fhir.nhs.uk/Id/prescription-order-number|CDT38E-Y765968-4FG3BQ"
+              value: "https://fhir.nhs.uk/Id/prescription-order-number|CDT38E-Y765968-4FG3BQ"
         - in: query
           name: intent
           description: >
