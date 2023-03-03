@@ -195,19 +195,19 @@ x-spec-publication:
   operation-order:
     - operations:
         - method: GET
-          path: Patient/{id}/MedicationStatement
+          path: /FHIR/R4/Patient/{id}/MedicationStatement
         - method: GET
-          path: MedicationRequest/{id}
+          path: /FHIR/R4/MedicationRequest/{id}
         - method: GET
-          path: Patient/{id}/MedicationRequest
+          path: /FHIR/R4/Patient/{id}/MedicationRequest
         - method: POST
-          path: Task
+          path: /FHIR/R4/Task
         - method: GET
-          path: Task
+          path: /FHIR/R4/Task
         - method: PATCH
-          path: Task
+          path: /FHIR/R4/Task
         - method: GET
-          path: PractionerRole/{id}
+          path: /FHIR/R4/PractionerRole/{id}
 servers:
   - url: 'https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir'
     description: Sandbox environment.
