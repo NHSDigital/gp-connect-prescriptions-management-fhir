@@ -1,4 +1,4 @@
 variables:
   service_name: gp-connect-prescriptions-management-fhir
   short_service_name: gcpmf
-  service_base_path: gp-connect-prescriptions-management-fhir
+  service_base_path: gp-connect-prescriptions-management-fhir/FHIR/R4
