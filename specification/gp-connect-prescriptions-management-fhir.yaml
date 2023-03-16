@@ -1269,11 +1269,12 @@ paths:
               description: >
                 JSON patch for cancellation
             examples:
+
               jsonpatch:
                 description: |
                   A valid JSON patch for cancelling the status.
                 value:
-                  - op: replace
+                  op: replace
                     path: "/status"
                     value: cancelled
       responses:
