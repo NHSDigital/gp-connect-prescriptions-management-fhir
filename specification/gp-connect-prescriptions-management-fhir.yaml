@@ -496,7 +496,7 @@ paths:
                             display: Community
                     medicationCodeableConcept:
                       coding:
-                        - system: "http://snomed.info/ct"
+                        - system: "https://dmd.nhs.uk"
                           code: '3113111000001106'
                           display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                     subject:
@@ -678,7 +678,7 @@ paths:
                                   display: Community
                           medicationCodeableConcept:
                             coding:
-                              - system: "http://snomed.info/ct"
+                              - system: "https://dmd.nhs.uk"
                                 code: '3113111000001106'
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
@@ -734,7 +734,7 @@ paths:
                                   display: Community
                           medicationCodeableConcept:
                             coding:
-                              - system: "http://snomed.info/ct"
+                              - system: "https://dmd.nhs.uk"
                                 code: '3113111000001106'
                                 display: Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           subject:
