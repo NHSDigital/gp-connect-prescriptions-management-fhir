@@ -1369,7 +1369,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the PractitionerRole resource is populated can be found [here](https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/home-fhir-assets-all-assets-profiles-ukcore-index?version=current).
+                description: Information surrounding how the PractitionerRole resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-PractitionerRole?version=current).
               examples:
                 example:
                   value:
