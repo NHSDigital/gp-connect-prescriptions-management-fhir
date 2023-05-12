@@ -509,7 +509,7 @@ paths:
                       reference: PractitionerRole/ed313d93-f470-420f-ae4e-2b7eb91d3f45
                       display: Dr Jane Smith
                     groupIdentifier:
-                      - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                        system: "https://fhir.nhs.uk/Id/prescription-order-number"
                         value: PDI12E-Y765908-4FF3LQ
                     courseOfTherapyType:
                       coding:
@@ -691,7 +691,7 @@ paths:
                             reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
                             display: 'Dr Jane Smith'
                           groupIdentifier:
-                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              system: "https://fhir.nhs.uk/Id/prescription-order-number"
                               value: CDT38E-Y765968-4FG3BQ
                           courseOfTherapyType:
                             coding:
@@ -747,7 +747,7 @@ paths:
                             reference: PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952
                             display: 'Dr Jane Smith'
                           groupIdentifier:
-                            - system: "https://fhir.nhs.uk/Id/prescription-order-number"
+                              system: "https://fhir.nhs.uk/Id/prescription-order-number"
                               value: PDI12E-Y765908-4FF3LQ
                           courseOfTherapyType:
                             coding:
