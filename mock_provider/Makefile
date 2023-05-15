@@ -1,4 +1,4 @@
-project_name = gp-connect-user-permissions
+project_name = gp-connect-prescriptions-management-fhir
 
 build: spec
 	docker build -t $(project_name) -f Dockerfile .

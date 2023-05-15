@@ -3,7 +3,7 @@ aws_profile = apim-dev
 tf_opt=
 tf_cmd = AWS_PROFILE=$(aws_profile) terraform
 
-project_name = gp-connect-user-permissions
+project_name = gp-connect-prescriptions-management-fhir
 project_short_name = gcupf
 state_bucket = $(project_name)-infra-terraform-state
 tf_state= -backend-config="bucket=$(state_bucket)"

@@ -28,7 +28,7 @@ publish:
 	rm -rf build
 	mkdir -p build
 	npm run publish 2> /dev/null
-	cp build/gp-connect-user-permissions.json mock_provider/
+	cp build/gp-connect-prescriptions-management-fhir.json mock_provider/
 
 #Runs build proxy script
 build-proxy:
