@@ -41,7 +41,7 @@ apigee:
 {% set NAME = SERVICE_NAME + '-' + ENV.name %}
   - name: {{ ENV.name }}
     products:
-      -   name: {{ NAME }}
+      - name: {{ NAME }}
         approvalType: auto
         attributes:
           - name: access
@@ -68,10 +68,10 @@ apigee:
         displayName: {{ TITLE }}
         environments: [ {{ ENV.name }} ]
         proxies:
-            - { { NAME } }
+            - {{ NAME }}
             - identity-service-{{ ENV.name }}
 {% if ENV.has_mock_auth | default(false) %}
-- identity-service-mock-{{ ENV.name }}
+            - identity-service-mock-{{ ENV.name }}
 {% endif %}
         scopes:
             - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
