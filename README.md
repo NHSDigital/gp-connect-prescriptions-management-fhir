@@ -2,7 +2,6 @@
 
 ![Build](https://github.com/NHSDigital/gp-connect-prescriptions-management-fhir/workflows/Build/badge.svg?branch=master)
 
-
 This is a specification for the *gp-connect-prescriptions-management-fhir* API.
 
 * `specification/` This [Open API Specification](https://swagger.io/docs/specification/about/) describes the endpoints, methods and messages exchanged by the API. Use it to generate interactive documentation; the contract between the API and its consumers.
