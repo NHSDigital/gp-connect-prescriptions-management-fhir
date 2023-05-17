@@ -3,6 +3,7 @@ steps:
             mkdir -p build
             npm run publish 2> /dev/null
             cp build/gp-connect-prescriptions-management-fhir.json mock_provider/
-
-        displayName: Build and Push MockReceiver Docker to ECR
-        workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/mock-receiver"
+            cd mock_provider
+            docker build -t mock-reciever .
+        displayName: Build mock-reciever image
+        workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)"
