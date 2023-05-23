@@ -33,9 +33,9 @@ extends:
     apigee_deployments:
       - environment: internal-dev
         jinja_templates:
-            GP_CONNECT_ENDPOINTS: gp-connect-prescriptions-management-endpoints
-            GP_CONNECT_CONFIG: gp-connect-prescriptions-management-config
-            GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
+            GP_CONNECT_ENDPOINTS: gp-connect-prescriptions-management-fhir-endpoints
+            GP_CONNECT_CONFIG: gp-connect-prescriptions-management-fhir-config
+            GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-fhir-encrypted
         post_deploy:
           - template: ./templates/run-tests.yml
             parameters:
@@ -58,6 +58,6 @@ extends:
         depends_on:
           - internal_dev
         jinja_templates:
-            GP_CONNECT_ENDPOINTS: gp-connect-prescriptions-management-endpoints
-            GP_CONNECT_CONFIG: gp-connect-prescriptions-management-config
-            GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-encrypted
+            GP_CONNECT_ENDPOINTS: gp-connect-prescriptions-management-fhir-endpoints
+            GP_CONNECT_CONFIG: gp-connect-prescriptions-management-fhir-config
+            GP_CONNECT_CONFIG_ENCRYPTED: gp-connect-config-fhir-encrypted
