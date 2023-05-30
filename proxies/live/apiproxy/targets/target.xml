@@ -35,7 +35,8 @@
         <Name>JavaScript.GetGPCAuthCode</Name>
       </Step>
       <Step>
-        <Name>AssignMessage.AddAuthorizationHeader</Name>
+          <Name>RaiseFault.404TargetNotFound</Name>
+          <Condition>endpointNotFound == true</Condition>
       </Step>
     </Request>
   </PreFlow>
