@@ -99,7 +99,7 @@ def test_nhs_login_p9(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     headers.update(nhsd_apim_auth_headers)
 
     resp = requests.get(
-        f"{nhsd_apim_proxy_url}/documents/Patient/9000000009/MedicationStatement",
+        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationStatement",
         headers=headers
     )
     assert resp.status_code == 200
