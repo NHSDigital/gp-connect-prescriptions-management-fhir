@@ -4,10 +4,9 @@ https://github.com/NHSDigital/pytest-nhsd-apim/blob/main/tests/test_examples.py
 for more ideas on how to test the authorization of your API.
 """
 from os import getenv
-from .example_loader import load_example
 import pytest
 import requests
-
+from .example_loader import load_example
 
 @pytest.mark.smoketest
 def test_ping(nhsd_apim_proxy_url):
@@ -104,7 +103,12 @@ def test_nhs_login_p9(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     )
     assert resp.status_code == 200
 
-
+@pytest.mark.debug
+@pytest.mark.smoketest
+@pytest.mark.auth
+@pytest.mark.integration
+@pytest.mark.user_restricted_separate_nhs_login
+@pytest.mark.nhsd_apim_authorization({"access": "patient", "level": "P9", "login_form": {"username": "9912003071"}})
 def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     headers = {
         "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",

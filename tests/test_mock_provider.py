@@ -1,7 +1,6 @@
 import pytest
 import requests
 
-
 @pytest.mark.smoketest
 @pytest.mark.auth
 @pytest.mark.integration
@@ -12,8 +11,6 @@ def test_mock_receiver_medication_statement_path(nhsd_apim_proxy_url, nhsd_apim_
         "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068",
     }
-    headers.update(nhsd_apim_auth_headers)
-
     headers.update(nhsd_apim_auth_headers)
     resp = requests.get(
         f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationStatement",
