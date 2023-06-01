@@ -8,6 +8,7 @@ import pytest
 import requests
 from .example_loader import load_example
 
+
 @pytest.mark.smoketest
 def test_ping(nhsd_apim_proxy_url):
     resp = requests.get(f"{nhsd_apim_proxy_url}/_ping")
@@ -102,6 +103,7 @@ def test_nhs_login_p9(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
         headers=headers
     )
     assert resp.status_code == 200
+
 
 @pytest.mark.debug
 @pytest.mark.smoketest

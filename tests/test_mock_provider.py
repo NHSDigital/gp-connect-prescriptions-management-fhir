@@ -1,6 +1,7 @@
 import pytest
 import requests
 
+
 @pytest.mark.smoketest
 @pytest.mark.auth
 @pytest.mark.integration
