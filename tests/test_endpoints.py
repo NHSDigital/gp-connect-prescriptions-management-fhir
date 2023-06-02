@@ -6,7 +6,7 @@ for more ideas on how to test the authorization of your API.
 from os import getenv
 import pytest
 import requests
-from .example_loader import load_example
+from .example_loader import load_example_json
 
 
 @pytest.mark.smoketest
@@ -105,7 +105,6 @@ def test_nhs_login_p9(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     assert resp.status_code == 200
 
 
-@pytest.mark.debug
 @pytest.mark.smoketest
 @pytest.mark.auth
 @pytest.mark.integration
@@ -124,5 +123,5 @@ def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers
         f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
-    expected_response = load_example("GetResponsePreviousPrescriptionDetailed.yaml")
-    assert resp.json() == expected_response.get("value")
+    expected_response = load_example_json("GetResponsePreviousPrescriptionDetailed.yaml")
+    assert resp.json() == expected_response
