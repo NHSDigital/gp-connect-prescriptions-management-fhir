@@ -9,6 +9,7 @@ from os import getenv
 import pytest
 import requests
 
+
 @pytest.fixture()
 def proxy_url():
     base_path = os.getenv("SERVICE_BASE_PATH")
