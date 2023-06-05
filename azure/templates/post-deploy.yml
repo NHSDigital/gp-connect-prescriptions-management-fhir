@@ -96,7 +96,7 @@ steps:
       export JWT_PRIVATE_KEY_ABSOLUTE_PATH="$(Pipeline.Workspace)/secrets/$(JWT_TESTING_PRIVATE_KEY)"
       export client_id="$(INTROSPECTION_CLIENT_ID)"
       export client_secret="$(INTROSPECTION_CLIENT_SECRET)"
-      export APIGEE_APP_ID=<TODO>
+      export APIGEE_APP_ID=34bce009-9446-4da2-926b-ccee0cc97e38
 
       if [[ $APIGEE_ENVIRONMENT =~ .*-*sandbox ]]
       then
