@@ -6,6 +6,8 @@ RUN apk add jq
 COPY "gp-connect-prescriptions-management-fhir.json" ./
 #Copyign HeslthStatus OAS file in container
 COPY "HealthStatusEndpoint.json" ./
+#Copying whole specification directory , to get inline examples and schemas
+COPY ./specification ./specification
 #Adding Health status endpoint to main spec file
 RUN jq ".paths+=$(cat HealthStatusEndpoint.json)" gp-connect-prescriptions-management-fhir.json > updated-spec.json
 
@@ -13,6 +15,7 @@ RUN jq ".paths+=$(cat HealthStatusEndpoint.json)" gp-connect-prescriptions-manag
 #Second stage
 FROM stoplight/prism:latest
 #Inheriting from previous image and copying updated OAS spec file to current container
+COPY --from=0  /specification  /usr/src/prism/packages/cli/gp-connect-prescriptions-management-fhir/specification
 COPY --from=0  /updated-spec.json  /usr/src/prism/packages/cli/gp-connect-prescriptions-management-fhir/specification/gp-connect-prescriptions-management-fhir.json
 
 #Running command of mock with OAS file

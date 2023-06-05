@@ -1,0 +1,13 @@
+value:
+  resourceType: OperationOutcome
+  meta:
+    profile:
+      - 'https://fhir.hl7.org.uk/StructureDefinition/UKCore-OperationOutcome'
+  issue:
+    - severity: error
+      code: value
+      details:
+        coding:
+          - system: 'https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1'
+            code: INVALID_NHS_NUMBER
+            display: Invalid NHS Number
