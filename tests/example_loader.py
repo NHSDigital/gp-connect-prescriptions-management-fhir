@@ -9,16 +9,11 @@ current_directory = os.path.dirname(os.path.realpath(__file__))
 def load_example(path: str):
     with open(f"{current_directory}/../specification/components/examples/{path}") as f:
         if path.endswith("yml") or path.endswith("yaml"):
-            return yaml.safe_load(f)
+            yaml_obj = yaml.safe_load(f)
+            json_data = json.dumps(yaml_obj, cls=DateTimeEncoder)
+            return json.loads(json_data)
         else:
             return f.read().strip()
-
-
-# To convert JSON string to JSON object
-def load_example_json(path: str):
-    yaml_obj = load_example(path)
-    json_data = json.dumps(yaml_obj, cls=DateTimeEncoder)
-    return json.loads(json_data)
 
 
 # To format the datetime objects according to the desired format "YYYY-MM-DDTHH:00:00.000Z".
