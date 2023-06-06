@@ -26,6 +26,7 @@ APIGEE_ENVIRONMENTS:
     portal_visibility: false
   - name: int
     display_name: Integration Testing
+    has_mock_auth: true
 ---
 meta:
   api:
