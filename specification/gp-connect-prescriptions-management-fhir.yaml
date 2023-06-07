@@ -577,6 +577,8 @@ paths:
 
         * authoredon
 
+        Each MedicationRequest with intent of order must reference a MedicationRequest with intent plan within the basedOn element.
+
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
