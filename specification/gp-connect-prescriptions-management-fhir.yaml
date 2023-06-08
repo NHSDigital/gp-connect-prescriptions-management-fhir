@@ -650,8 +650,7 @@ paths:
                 description: Information surrounding how the resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current).
               examples:
                 GetResponsePreviousPrescriptionDetailed:
-                  value:
-                     $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
+                   $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
         4XX:
           description: |
             An error occured as follows:
@@ -670,8 +669,7 @@ paths:
                 description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
               examples:
                 InvalidRequestError:
-                  value:
-                     $ref: "#/components/examples/InvalidRequestError"
+                  $ref: "#/components/examples/InvalidRequestError"
                   
   /Task:
     post:
