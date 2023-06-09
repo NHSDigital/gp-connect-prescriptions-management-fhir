@@ -22,6 +22,7 @@ plan: workspace
 	 $(tf_cmd) plan $(tf_vars) -var="client_id=$(client_id)" -var="client_secret=$(client_secret)" -var="keycloak_environment=$(keycloak_environment)"
 
 apply: workspace
+	make publish -C ..
 	$(tf_cmd) apply $(tf_vars) -auto-approve -var="client_id=$(client_id)" -var="client_secret=$(client_secret)" -var="keycloak_environment=$(keycloak_environment)"
 
 clean:
