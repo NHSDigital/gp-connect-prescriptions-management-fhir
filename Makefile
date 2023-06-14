@@ -36,7 +36,8 @@ build-proxy:
 	scripts/build_proxy.sh
 
 #Files to loop over in release
-_dist_include="poetry.lock poetry.toml package.json package-lock.json pyproject.toml Makefile build/. tests scripts terraform specification mock_provider token_validator"
+_dist_include="poetry.lock poetry.toml package.json package-lock.json pyproject.toml Makefile build/. \
+	tests scripts terraform specification mock_provider token_validator scripts"
 
 #Create /dist/ sub-directory and copy files into directory
 release: clean publish build-proxy
