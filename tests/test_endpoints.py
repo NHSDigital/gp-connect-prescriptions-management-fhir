@@ -116,6 +116,7 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
 
 @pytest.mark.smoketest
 @pytest.mark.auth
+@pytest.mark.debug
 @pytest.mark.integration
 @pytest.mark.user_restricted_separate_nhs_login
 @pytest.mark.nhsd_apim_authorization({"access": "patient", "level": "P9", "login_form": {"username": "9912003071"}})
@@ -132,5 +133,6 @@ def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers
         f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
+    print(resp.text)
     expected_response = load_example("GetResponsePreviousPrescriptionDetailed.yaml")
     assert resp.json() == expected_response

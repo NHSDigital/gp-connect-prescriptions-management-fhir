@@ -11,6 +11,7 @@
   "license": "MIT",
   "homepage": "https://github.com/NHSDigital/gp-connect-prescriptions-management-fhir",
   "devDependencies": {
+    "@nestjs/common": "^8.4.7",
     "@openapitools/openapi-generator-cli": "^2.5.1",
     "license-checker": "^25.0.1",
     "speccy": "^0.11.0"
