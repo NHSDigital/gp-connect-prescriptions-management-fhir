@@ -70,7 +70,7 @@ def test_happy_path(
     }
     headers.update(nhsd_apim_auth_headers)
     resp = requests.get(
-        f"{nhsd_apim_proxy_url}/documents/Patient/9000000009",
+        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationStatement",
         headers=headers
     )
 

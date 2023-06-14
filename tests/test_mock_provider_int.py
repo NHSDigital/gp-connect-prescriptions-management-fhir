@@ -115,6 +115,5 @@ def test_mock_provider_int_happy_path(nhs_login_mock_token):
     apigee_env = os.getenv("APIGEE_ENVIRONMENT")
 
     url = f"https://{apigee_env}.api.service.nhs.uk/{base_path}"
-    resp = requests.get(f"{url}/documents/Patient/9000000009/MedicationStatement", headers=headers)
-
+    resp = requests.get(f"{url}/Patient/9000000009/MedicationStatement", headers=headers)
     assert resp.status_code == 200
