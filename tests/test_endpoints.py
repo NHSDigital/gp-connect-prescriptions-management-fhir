@@ -5,8 +5,10 @@ for more ideas on how to test the authorization of your API.
 """
 import os
 from os import getenv
+
 import pytest
 import requests
+
 from .example_loader import load_example
 
 
@@ -133,6 +135,5 @@ def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers
         f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
-    print(resp.text)
     expected_response = load_example("GetResponsePreviousPrescriptionDetailed.yaml")
-    assert resp.json() == expected_response
+    assert resp.json() == expected_response["value"]
