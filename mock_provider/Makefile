@@ -7,6 +7,6 @@ run: build
 	docker run --rm -it -p 9000:9000 --name $(project_name) $(project_name)
 
 spec:
-	make -C .. publish
+	cp -r ../specification .
 
 .PHONY: build run spec
