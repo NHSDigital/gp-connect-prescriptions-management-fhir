@@ -268,7 +268,7 @@ paths:
               description: Exact match date
             greater than or equals:
               value:
-                g2022-01-15
+                ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value:
