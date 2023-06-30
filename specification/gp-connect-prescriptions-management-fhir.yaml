@@ -874,7 +874,7 @@ paths:
         - in: query
           name: _include
           description: |
-            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources
+            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources, further information around the benefits and using this parameter can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Build/How-to-determine-the-medication-the-request-belongs-to.page.md?version=current).
           required: false
           schema:
             type: array
