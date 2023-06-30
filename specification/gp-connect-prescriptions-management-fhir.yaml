@@ -983,8 +983,14 @@ paths:
                           statusReason:
                             text: No longer suitable, please contact GP to organise an appointment
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
-                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
+                            display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           for:
                             reference: Patient/9000000009
                             identifier:
@@ -1011,8 +1017,13 @@ paths:
                               value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7
                           status: in-progress
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
-                            reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                             display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           for:
                             reference: Patient/9000000009
