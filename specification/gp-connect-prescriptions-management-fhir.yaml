@@ -268,7 +268,7 @@ paths:
               description: Exact match date
             greater than or equals:
               value:
-                g2022-01-15
+                ge2022-01-15
               description: Greater than or equals which matches 2022-01-15 or 2022-01-16
             less than or equals:
               value:
@@ -489,8 +489,8 @@ paths:
                           - url: authorisationExpiryDate
                             valueDateTime: 2023-09-10T19:00:00.000Z
                     identifier:
-                      - system: "https://fhir.nhs.uk/Id/prescription-order-item-number"
-                        value: 4857b9d3-b714-44b9-9e67-3df67275b785
+                      - system: "https://tools.ietf.org/html/rfc4122"
+                        value: 42b4a841-9d69-4d13-bf91-ee5882e85765
                     status: active
                     intent: plan
                     category:
@@ -874,7 +874,7 @@ paths:
         - in: query
           name: _include
           description: |
-            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources
+            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources, further information around the benefits and using this parameter can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Build/How-to-determine-the-medication-the-request-belongs-to.page.md?version=current).
           required: false
           schema:
             type: array
@@ -983,8 +983,14 @@ paths:
                           statusReason:
                             text: No longer suitable, please contact GP to organise an appointment
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
-                            reference: MedicationRequest/b269d1d7-1acf-47bb-8b3c-e38b583d9a07
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
+                            display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           for:
                             reference: Patient/9000000009
                             identifier:
@@ -1011,8 +1017,13 @@ paths:
                               value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7
                           status: in-progress
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
-                            reference: MedicationRequest/a0531933-0673-45d4-bcb9-80acfd8a9fc7
+                            reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                             display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
                           for:
                             reference: Patient/9000000009
@@ -1076,7 +1087,7 @@ paths:
                                   coding:
                                     - system: https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters
                                       code: sent-to-eps
-                                      display: The prescription request has been sent to EPS to be fulfilled
+                                      display: Sent to EPS
                                 valueIdentifier:
                                   system: https://fhir.nhs.uk/Id/prescription-order-item-number
                                   value: 4857b9d3-b714-44b9-9e67-3df67275b785
@@ -1105,8 +1116,8 @@ paths:
                                 - url: authorisationExpiryDate
                                   valueDateTime: '2023-09-10T19:00:00.000Z'
                           identifier:
-                            - system: https://fhir.nhs.uk/Id/prescription-order-item-number
-                              value: 4857b9d3-b714-44b9-9e67-3df67275b785
+                            - system: "https://tools.ietf.org/html/rfc4122"
+                              value: 42b4a841-9d69-4d13-bf91-ee5882e85765
                           status: active
                           intent: plan
                           category:
