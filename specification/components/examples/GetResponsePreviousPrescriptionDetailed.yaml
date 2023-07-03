@@ -131,8 +131,8 @@ value:
               - url: authorisationExpiryDate
                 valueDateTime: 2022-10-11T19:00:00.000Z
         identifier:
-          - system: 'https://fhir.nhs.uk/Id/prescription-order-item-number'
-            value: 4420ce39-3905-4245-84a8-0c9104a0836a
+          - system: "https://tools.ietf.org/html/rfc4122"
+            value: 42b4a841-9d69-4d13-bf91-ee5882e85765
         status: active
         intent: plan
         category:

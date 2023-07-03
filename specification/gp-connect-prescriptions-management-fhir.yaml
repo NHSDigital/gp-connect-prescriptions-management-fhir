@@ -489,8 +489,8 @@ paths:
                           - url: authorisationExpiryDate
                             valueDateTime: 2023-09-10T19:00:00.000Z
                     identifier:
-                      - system: "https://fhir.nhs.uk/Id/prescription-order-item-number"
-                        value: 4857b9d3-b714-44b9-9e67-3df67275b785
+                      - system: "https://tools.ietf.org/html/rfc4122"
+                        value: 42b4a841-9d69-4d13-bf91-ee5882e85765
                     status: active
                     intent: plan
                     category:
@@ -1116,8 +1116,8 @@ paths:
                                 - url: authorisationExpiryDate
                                   valueDateTime: '2023-09-10T19:00:00.000Z'
                           identifier:
-                            - system: https://fhir.nhs.uk/Id/prescription-order-item-number
-                              value: 4857b9d3-b714-44b9-9e67-3df67275b785
+                            - system: "https://tools.ietf.org/html/rfc4122"
+                              value: 42b4a841-9d69-4d13-bf91-ee5882e85765
                           status: active
                           intent: plan
                           category:
