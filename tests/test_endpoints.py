@@ -128,7 +128,7 @@ def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers
     headers.update(nhsd_apim_auth_headers)
 
     resp = requests.get(
-        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationStatement",
+        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
     expected_response = load_example("GetResponsePreviousPrescriptionDetailed.yaml")
