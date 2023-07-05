@@ -803,15 +803,11 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | CONFLICTING_VALUES | Prescribed item description does not match code
-            | 400         | CONFLICTING_VALUES | Prescribed item quantity description does not match code
-            | 400         | CONFLICTING_VALUES | Mismatched prescribed item to quantity
-            | 400         | INVALID_CODE_VALUE | Invalid prescribed item code
-            | 400         | DUPLICATE_REJECTED | Duplicate prescription request
-            | 400         | INVALID_CODE_VALUE | Invalid prescribed item quantity code
             | 400         | INVALID_RESOURCE   | Task resource failed validation
             | 400         | INVALID_VALUE      | Note too long
             | 400         | INVALID_RESOURCE   | Task missing required focus reference
+            | 400         | INVALID_RESOURCE   | focus reference to MedicationRequest not valid
+            
           content:
             application/fhir+json:
               schema:
@@ -1433,6 +1429,9 @@ paths:
                 example:
                   value:
                     resourceType: PractitionerRole
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-PractitionerRole                
                     id: e35f0382-ac2e-47f9-9164-afd7d6adf952
                     practitioner:
                       display: "Dr Jane Smith"
