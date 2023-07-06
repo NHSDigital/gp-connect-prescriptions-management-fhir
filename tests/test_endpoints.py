@@ -85,10 +85,8 @@ def test_wait_for_status(proxy_url):
 @pytest.mark.user_restricted_separate_nhs_login
 @pytest.mark.nhsd_apim_authorization({"access": "application", "level": "level0"})
 def test_auth_level0(proxy_url, nhsd_apim_auth_headers):
-    headers = {"Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1"}
-    headers.update(nhsd_apim_auth_headers)
 
-    resp = requests.get(f"{proxy_url}/documents/Patient/9000000009/MedicationStatement", headers=headers)
+    resp = requests.get(f"{proxy_url}/documents/Patient/9000000009/MedicationStatement", headers=nhsd_apim_auth_headers)
     assert resp.status_code == 401
 
 
@@ -102,7 +100,6 @@ def test_auth_level0(proxy_url, nhsd_apim_auth_headers):
 )
 def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
     headers = {
-        "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
         "accept": "application/fhir+json",
         "X-Correlation-ID": "11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068"
@@ -124,7 +121,6 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
 @pytest.mark.nhsd_apim_authorization({"access": "patient", "level": "P9", "login_form": {"username": "9912003071"}})
 def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     headers = {
-        "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
         "accept": "*/*",
         "X-Correlation-ID": "11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068"

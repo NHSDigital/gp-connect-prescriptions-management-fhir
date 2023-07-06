@@ -65,8 +65,7 @@ def test_happy_path(
     headers = {
         "accept": "application/fhir+json",
         "X-Correlation-ID": "11C46F5F-CDEF-4865-94B2-0EE0EDCC26DA",
-        "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068",
-        "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
+        "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068"
     }
     headers.update(nhsd_apim_auth_headers)
     resp = requests.get(
@@ -93,7 +92,6 @@ def test_401_invalid_token(
     headers = {
         # Generate a random string and try to pass it as the token
         "Authorization": f"Bearer {uuid.uuid4()}",
-        "Interaction-ID": "urn:nhs:names:services:gpconnect:fhir:operation:gpc.getstructuredrecord-1",
         "X-Request-ID": "60E0B220-8136-4CA5-AE46-1D97EF59D068"
     }
     resp = requests.get(
