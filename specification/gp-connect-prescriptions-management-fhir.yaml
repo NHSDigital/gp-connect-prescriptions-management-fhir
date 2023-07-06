@@ -257,7 +257,7 @@ paths:
         - in: query
           name: effective
           description: >
-            The start date should be when the medication started in the episode of care. <eq|ge|le>yyyy-mm-dd. To use a range use authored-on=geyyyy-mm-dd&authored-on=leyyyy-mm-dd
+            The start date should be when the medication started in the episode of care. <eq|ge|le>yyyy-mm-dd. To use a range use effective=geyyyy-mm-dd&effective=leyyyy-mm-dd
           required: false
           schema:
             type: string
@@ -594,7 +594,7 @@ paths:
         - in: query
           name: authoredon
           description: >
-            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authored-on=geYYYY-MM-DD&authored-on=leYYYY-MM-DD
+            Date the prescription was requested, format: <eq|ge|le>YYYY-MM-DD. To use a range use authoredon=geYYYY-MM-DD&authoredon=leYYYY-MM-DD
           required: false
           schema:
             type: string
