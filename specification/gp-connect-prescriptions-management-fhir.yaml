@@ -302,7 +302,7 @@ paths:
                               - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
                           identifier:
                             - system: "https://tools.ietf.org/html/rfc4122"
-                              value: "123jkwndf-1234-dgdg-134dd-4f5e38aacdb0"
+                              value: "fbf914b7-bb28-43e3-84ad-ab389dc1231f"
                           basedOn:
                             - reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
                               display: Repeat prescription request for Aspirin 300mg Dispersible tablets.
