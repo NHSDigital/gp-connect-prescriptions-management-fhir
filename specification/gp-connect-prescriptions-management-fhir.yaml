@@ -903,7 +903,7 @@ paths:
         - in: query
           name: status
           description: >
-            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
+            The type of status to search: you can find valid values [here](https://simplifier.net/guide/gp-connect-patient-facing-prescription-management/fhir-assets-all-assets-profiles-ukcore-medicationrequest-medicationrequest?version=current) under the status subheading.
           required: false
           schema:
             type: string
