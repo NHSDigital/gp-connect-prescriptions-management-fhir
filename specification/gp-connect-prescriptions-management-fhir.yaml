@@ -302,7 +302,7 @@ paths:
                               - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
                           identifier:
                             - system: "https://tools.ietf.org/html/rfc4122"
-                              value: "123jkwndf-1234-dgdg-134dd-4f5e38aacdb0"
+                              value: "fbf914b7-bb28-43e3-84ad-ab389dc1231f"
                           basedOn:
                             - reference: MedicationRequest/0ae6ac98-6b0f-404f-a95b-c38a4318f686
                               display: Repeat prescription request for Aspirin 300mg Dispersible tablets.
@@ -717,7 +717,7 @@ paths:
                   - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
               identifier:
                 - system: "https://tools.ietf.org/html/rfc4122"
-                  value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                  value: ce3354f5-98c2-43ad-95bd-a6df1c5ed169
               status: requested
               intent: order
               code:
@@ -770,7 +770,7 @@ paths:
                         - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
                     identifier:
                       - system: "https://tools.ietf.org/html/rfc4122"
-                        value: 30d65c8e-98e8-4806-b6a6-fpwjfkhs729
+                        value: ce3354f5-98c2-43ad-95bd-a6df1c5ed169
                     status: requested
                     intent: order
                     code:
@@ -899,7 +899,7 @@ paths:
         - in: query
           name: status
           description: >
-            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/80166)
+            The type of status to search: you can find valid values [here](https://simplifier.net/guide/gp-connect-patient-facing-prescription-management/fhir-assets-all-assets-profiles-ukcore-medicationrequest-medicationrequest?version=current) under the status subheading.
           required: false
           schema:
             type: string
@@ -955,6 +955,11 @@ paths:
                               value: 725ca1bd-2860-4476-8802-8d035d802e7f
                           status: requested
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                             display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
@@ -978,7 +983,7 @@ paths:
                       - fullUrl: 15c5ee13-73cf-45f8-a1f1-a7de3e10dae6
                         resource:
                           resourceType: Task
-                          id: fjugkd8281-4tngn-j4fn-8657-2knrkfjrgu
+                          id: b395d57e-5d6c-4d2c-b590-fe2f2d708458
                           meta:
                             profile:
                               - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
@@ -1175,6 +1180,11 @@ paths:
                               value: 725ca1bd-2860-4476-8802-8d035d802e7f
                           status: requested
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                             display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
@@ -1209,6 +1219,11 @@ paths:
                           statusReason:
                             text: No longer suitable, please contact GP to organise an appointment
                           intent: order
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription                          
                           focus:
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                           for:
@@ -1236,7 +1251,12 @@ paths:
                             - system: https://tools.ietf.org/html/rfc4122
                               value: 2270b136-7a4c-491e-8bf1-624b5c4f20b7
                           status: in-progress
-                          intent: order
+                          intent: order                          
+                          code:
+                            coding:
+                              - system: http://snomed.info/sct
+                                code: '103742009'
+                                display: Renewal of prescription
                           focus:
                             reference: MedicationRequest/06c7d0e2-1022-4e47-ac55-f6463d701a4f
                             display: Repeat prescription for Pulmicort 100 Turbohaler (AstraZeneca UK Ltd)
@@ -1354,11 +1374,19 @@ paths:
                   value:
                     resourceType: Task
                     id: 825fabd0-23dd-4f4c-adce-4a7ac2c71659
+                    meta:
+                      profile:
+                        - https://fhir.hl7.org.uk/StructureDefinition/UKCore-Task
                     identifier:
                       - system: "https://tools.ietf.org/html/rfc4122"
                         value: d66af104-b835-43a7-b723-32445b3051cc
                     status: cancelled
                     intent: order
+                    code:
+                      coding:
+                        - system: http://snomed.info/sct
+                          code: '103742009'
+                          display: Renewal of prescription             
                     focus:
                       reference: MedicationRequest/e2235eb5-9537-417e-91e8-9b272b8a10f6
                     for:
