@@ -60,6 +60,22 @@ value:
                 - system: 'http://snomed.info/sct'
                   code: '420652005'
                   display: Until gone
+        dispenseRequest:
+          numberOfRepeatsAllowed: 6
+          quantity:
+            value: 1
+            unit: inhaler
+            system: http://snomed.info/sct
+            code: '334980009'
+          expectedSupplyDuration:
+            value: 28
+            unit: days
+            system: http://unitsofmeasure.org
+            code: d
+          performer:
+            identifier:
+              system: https://fhir.nhs.uk/Id/ods-organization-code
+              value: Y12345
     - fullUrl: e1264b69-b55b-44b9-9b2b-6655a39c8506
       resource:
         resourceType: MedicationRequest
@@ -114,6 +130,22 @@ value:
                 - system: 'http://snomed.info/sct'
                   code: '420652005'
                   display: Until gone
+        dispenseRequest:
+          numberOfRepeatsAllowed: 6
+          quantity:
+            value: 1
+            unit: inhaler
+            system: http://snomed.info/sct
+            code: '334980009'
+          expectedSupplyDuration:
+            value: 28
+            unit: days
+            system: http://unitsofmeasure.org
+            code: d
+          performer:
+            identifier:
+              system: https://fhir.nhs.uk/Id/ods-organization-code
+              value: Y12345
     - fullUrl: 9bb81cb7-30fe-4406-bbed-e4b82bab2d4c
       resource:
         resourceType: MedicationRequest
@@ -174,3 +206,15 @@ value:
                 - system: 'http://snomed.info/sct'
                   code: '420652005'
                   display: Until gone
+        dispenseRequest:
+          numberOfRepeatsAllowed: 6
+          quantity:
+            value: 1
+            unit: inhaler
+            system: http://snomed.info/sct
+            code: '334980009'
+          expectedSupplyDuration:
+            value: 28
+            unit: days
+            system: http://unitsofmeasure.org
+            code: d
