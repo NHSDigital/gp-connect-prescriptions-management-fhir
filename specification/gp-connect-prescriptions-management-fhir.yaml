@@ -412,13 +412,18 @@ paths:
             An error occured as follows:
 
 
-            | HTTP Status | Spine error code   | Description
-            |-------------|--------------------|------------
-            | 400         | CONFLICTING_VALUES | BasedOn reference to previous prescription does not match previous
-            | 400         | INVALID_RESOURCE   | BasedOn reference to previous prescription not present
-            | 400         | INVALID_PARAMETER  | Invalid date
-            | 400         | INVALID_NHS_NUMBER | The NHS Number is invalid
-            | 404         | PATIENT_NOT_FOUND  | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
+            | HTTP Status | Spine error code                | Description
+            |-------------|---------------------------------|------------
+            | 403         | ACCESS_DENIED                   | Access denied, the patient logged in does not have the correct access level
+            | 400         | BAD_REQUEST                     | X-Request-ID is not present
+            | 422         | REFERENCE_NOT_FOUND             | BasedOn reference to previous prescription is not valid
+            | 422         | INVALID_RESOURCE                | BasedOn reference to previous prescription not present
+            | 400         | INVALID_PARAMETER               | Invalid date
+            | 400         | INVALID_NHS_NUMBER              | The NHS Number is invalid
+            | 404         | PATIENT_NOT_FOUND               | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
+            | 404         | PATIENT_NOT_FOUND               | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of an inactive or deceased patient        
           content:
             application/fhir+json:
               schema:
@@ -530,6 +535,23 @@ paths:
                             - system: "http://snomed.info/sct"
                               code: '420652005'
                               display: Until gone
+                    dispenseRequest:
+                      numberOfRepeatsAllowed: 6
+                      quantity:
+                        value: 1
+                        unit: inhaler
+                        system: http://snomed.info/sct
+                        code: '334980009'
+                      expectedSupplyDuration:
+                        value: 28
+                        unit: days
+                        system: http://unitsofmeasure.org
+                        code: d
+                      performer:
+                        identifier:
+                          system: https://fhir.nhs.uk/Id/ods-organization-code
+                          value: Y12345
+                    
         4XX:
           description: |
             An error occured as follows:
@@ -537,7 +559,9 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
+            | 400         | BAD_REQUEST        | X-Request-ID is not present
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
           content:
             application/fhir+json:
@@ -624,6 +648,9 @@ paths:
         - in: query
           name: identifier
           description: >
+            This will either be a uuid OR an EPS prescription identifier, this should only be used to obtain specific EPS orders using their identifier.
+
+
             EPS prescription Identifier for the prescription. Searches for EPS prescriptions need to provide a data type of `https://fhir.nhs.uk/Id/prescription-order-number` in the format `<data-type>|<prescription-identifier>`
           required: false
           schema:
@@ -668,10 +695,10 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
-            | 400         | INVALID_PARAMETER  | The date is invalid or in future
-            | 400         | INVALID_PARAMETER  | The EPS ID is invalid
+            | 422         | INVALID_PARAMETER  | The date is invalid or in future
+            | 422         | INVALID_PARAMETER  | The identifier value is invalid
           content:
             application/fhir+json:
               schema:
@@ -811,13 +838,17 @@ paths:
             An error occured as follows:
 
 
-            | HTTP Status | Spine error code   | Description
-            |-------------|--------------------|------------
-            | 400         | INVALID_RESOURCE   | Task resource failed validation
-            | 400         | INVALID_VALUE      | Note too long
-            | 400         | INVALID_RESOURCE   | Task missing required focus reference
-            | 400         | INVALID_RESOURCE   | focus reference to MedicationRequest not valid
-            
+            | HTTP Status | Spine error code      | Description
+            |-------------|-----------------------|------------
+            | 403         | ACCESS_DENIED         | Access denied, the patient logged in does not have the correct access level
+            | 400         | BAD_REQUEST           | X-Request-ID is not present
+            | 409         | DUPLICATE_REJECTED	  | Create would lead to creation of a duplicate resource
+            | 422         | INVALID_RESOURCE      | Task resource failed validation (any incorrect values)
+            | 422         | INVALID_RESOURCE      | Task missing required focus reference
+            | 422         | REFERENCE_NOT_FOUND   | focus reference to MedicationRequest not valid
+            | 422         | REFERENCE_NOT_FOUND   | requester reference to Patient not valid
+            | 422         | REFERENCE_NOT_FOUND   | for reference to Patient not valid
+       
           content:
             application/fhir+json:
               schema:
@@ -1282,10 +1313,12 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
+            | 400         | BAD_REQUEST        | X-Request-ID is not present            
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
             | 404         | PATIENT_NOT_FOUND  | The request is for a Patient that doesn't exist
-            | 400         | INVALID_VALUE	     | Task date in the future
+            | 422         | INVALID PARAMERER  | Date is invalid 
           content:
             application/fhir+json:
               schema:
@@ -1313,7 +1346,10 @@ paths:
         ## Overview
 
 
-        Use this endpoint to cancel a current request that has not been actioned yet.
+        Use this endpoint to cancel a current request that has not been actioned yet. 
+        
+        
+        This means only has status of "Requested", a cancellation request against any other status will return an error.
 
 
         The content-type for this request must be "application/json-patch+json".
@@ -1410,8 +1446,11 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been cancelled
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been actioned
+
           content:
             application/fhir+json:
               schema:
@@ -1487,7 +1526,9 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
+            | 400         | BAD_REQUEST        | X-Request-ID is not present
+            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a PractitionerRole that doesn't exist
           content:
             application/fhir+json:
