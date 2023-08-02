@@ -409,21 +409,21 @@ paths:
                                     code: mg
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
             | HTTP Status | Spine error code                | Description
             |-------------|---------------------------------|------------
-            | 403         | ACCESS_DENIED                   | Access denied, the patient logged in does not have the correct access level
             | 400         | BAD_REQUEST                     | X-Request-ID is not present
-            | 422         | REFERENCE_NOT_FOUND             | BasedOn reference to previous prescription is not valid
-            | 422         | INVALID_RESOURCE                | BasedOn reference to previous prescription not present
-            | 400         | INVALID_PARAMETER               | Invalid date
             | 400         | INVALID_NHS_NUMBER              | The NHS Number is invalid
+            | 400         | INVALID_PARAMETER               | Invalid date
+            | 403         | ACCESS_DENIED                   | Access denied, the patient logged in does not have the correct access level
             | 404         | PATIENT_NOT_FOUND               | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
             | 404         | PATIENT_NOT_FOUND               | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
             | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
             | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of an inactive or deceased patient        
+            | 422         | REFERENCE_NOT_FOUND             | BasedOn reference to previous prescription is not valid
+            | 422         | INVALID_RESOURCE                | BasedOn reference to previous prescription not present
           content:
             application/fhir+json:
               schema:
@@ -554,15 +554,15 @@ paths:
                     
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 400         | BAD_REQUEST        | X-Request-ID is not present
-            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
           content:
             application/fhir+json:
               schema:
@@ -690,13 +690,13 @@ paths:
                    $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
             | 422         | INVALID_PARAMETER  | The date is invalid or in future
             | 422         | INVALID_PARAMETER  | The identifier value is invalid
           content:
@@ -840,8 +840,8 @@ paths:
 
             | HTTP Status | Spine error code      | Description
             |-------------|-----------------------|------------
-            | 403         | ACCESS_DENIED         | Access denied, the patient logged in does not have the correct access level
             | 400         | BAD_REQUEST           | X-Request-ID is not present
+            | 403         | ACCESS_DENIED         | Access denied, the patient logged in does not have the correct access level
             | 409         | DUPLICATE_REJECTED	  | Create would lead to creation of a duplicate resource
             | 422         | INVALID_RESOURCE      | Task resource failed validation (any incorrect values)
             | 422         | INVALID_RESOURCE      | Task missing required focus reference
@@ -1313,11 +1313,11 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 400         | BAD_REQUEST        | X-Request-ID is not present            
-            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
             | 404         | PATIENT_NOT_FOUND  | The request is for a Patient that doesn't exist
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
             | 422         | INVALID PARAMERER  | Date is invalid 
           content:
             application/fhir+json:
@@ -1526,10 +1526,10 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 400         | BAD_REQUEST        | X-Request-ID is not present
-            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a PractitionerRole that doesn't exist
+            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
           content:
             application/fhir+json:
               schema:
