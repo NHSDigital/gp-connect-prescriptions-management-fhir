@@ -242,6 +242,19 @@ paths:
 
         * patient
 
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+
+        * presenting a patients current medications
+
+
+        * presenting a patients past/discontinued medications
+
+
+        * presenting a choice of medications to reorder
+
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
@@ -450,13 +463,30 @@ paths:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
       description: >
-        Use this endpoint to get specific MedicationRequests.
+        ## Overview
+
+        Use this endpoint to get specific MedicationRequests. 
 
 
         The request must include the following parameter:
 
 
         * id
+
+        
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        
+        * to resolve references for MedicationRequest's from other responses
+
+        
+        * to resolve the BasedOn reference to confirm whether the MedicationStatement is representing an acute or repeat Medication
+
+        
+        * to get further information about what medication the Task is focused by resolving the focus reference
+
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -588,6 +618,8 @@ paths:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
       description: >
+        ## Overview
+
         Use this endpoint to get details of previous prescription issues.
 
         The request must include the following parameter:
@@ -612,6 +644,17 @@ paths:
         
        
         Each MedicationRequest with intent of order must reference a MedicationRequest with intent plan within the basedOn element.
+
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        
+        * to get information about previously prescribed medication to display to the patient
+
+
+        * present previously prescribed repeat medications available to reorder
+
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -716,13 +759,36 @@ paths:
         ## Overview
 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription.
+        Use this end point to create a request for a repeat prescription.
 
 
         The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters).
 
 
-        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
+        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan. This can be obtain by using the GET `/MedicationRequest/Patient/` endpoint within this API.
+
+
+        ## Use cases
+        
+        Use cases covered by this endpoint include:
+
+
+        * request the next issue of a repeat prescription
+
+
+        * request the next issue of a repeat prescription to a one off pharmacy nomination
+
+        
+        * request  
+
+        
+        ## Request workflow
+
+        When a request is made it is added to the GP system's workflow and processed at some point in the future.
+
+        At this point the status of the Task resource will be updated as it passes through the GP system's workflow. 
+
+        If a request is rejected the statusReason element of the Task resource will be populated with the reason to be displayed to the patient.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -876,7 +942,7 @@ paths:
         ## Overview
 
 
-        Use this end point to check the status of past and current prescription request.
+        Use this end point to check the status of past and current prescription reorder requests.
 
 
         If a Patient identifier is provided past and present requests will be returned for the patient inside as multiple Task rescources inside a Bundle resource.
@@ -895,6 +961,22 @@ paths:
 
 
         * patient
+
+        ## Use cases
+        
+        Use cases covered by this endpoint include:
+
+
+        * present inflight prescription requests to the Patient
+
+
+        * allow the patient to check the status of a specific request
+
+        
+        * obtain the EPS id of a prescription reorder request that has been sent to be dispensed
+
+
+        * obtain a list of requests to enable the patient to send a cancellation
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -1199,6 +1281,18 @@ paths:
                                   - system: http://snomed.info/sct
                                     code: '420652005'
                                     display: Until gone
+                          dispenseRequest:
+                            numberOfRepeatsAllowed: 6
+                            quantity:
+                              value: 1
+                              unit: inhaler
+                              system: http://snomed.info/sct
+                              code: '334980009'
+                            expectedSupplyDuration:
+                              value: 28
+                              unit: days
+                              system: http://unitsofmeasure.org
+                              code: d
                       - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
                         resource:
                           resourceType: Task
@@ -1360,6 +1454,19 @@ paths:
 
         * id
 
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+
+        * a patient cancelling a prescription reorder request
+
+        ## Request handling
+
+        If the cancellation is sent after it has been actioned it will be rejected and return a 404 errror.
+
+        If the cancellation is sent to a prescription request before it is actioned, the status will update to cancelled. 
+        
       parameters:
         - in: header
           name: content-type
@@ -1476,12 +1583,22 @@ paths:
       operationId: get-practitioner-role
       summary: Get practitioner role details
       description: >
+        ## Overview
+
+
         Use this endpoint to get details of practitioners issuing previous prescriptions.
+
 
         The request must include the following parameter:
 
+
         * id
 
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        * to present to the patient information about the practitioner who issued the previous prescriptions
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
