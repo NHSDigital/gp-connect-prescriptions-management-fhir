@@ -95,7 +95,7 @@ def test_auth_level0(proxy_url, nhsd_apim_auth_headers):
     {
         "access": "patient",
         "level": "P9",
-        "login_form": {"username": "9912003071"}
+        "login_form": {"username": "9449305552"}
     }
 )
 def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
