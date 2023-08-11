@@ -118,7 +118,7 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
 @pytest.mark.debug
 @pytest.mark.integration
 @pytest.mark.user_restricted_separate_nhs_login
-@pytest.mark.nhsd_apim_authorization({"access": "patient", "level": "P9", "login_form": {"username": "9912003071"}})
+@pytest.mark.nhsd_apim_authorization({"access": "patient", "level": "P9", "login_form": {"username": "9449305552"}})
 def test_prism_returns_external_file(nhsd_apim_proxy_url, nhsd_apim_auth_headers):
     headers = {
         "accept": "*/*",
