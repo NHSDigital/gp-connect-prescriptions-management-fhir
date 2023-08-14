@@ -59,7 +59,6 @@ extends:
       - environment: int
         depends_on:
           - internal_dev
-          - manual_approval_int
         jinja_templates:
           GP_CONNECT_ENDPOINTS: gp-connect-prescriptions-management-endpoints
           GP_CONNECT_CONFIG: gp-connect-prescriptions-management-config
@@ -67,7 +66,6 @@ extends:
         post_deploy:
           - template: ./templates/post-deploy.yml
       - environment: prod
-        proxy_path: live
         depends_on:
           - int
           - sandbox

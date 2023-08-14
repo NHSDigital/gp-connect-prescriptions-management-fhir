@@ -42,9 +42,9 @@ meta:
   schema_version: 1.3
 apigee:
   environments:
-{% for ENV in APIGEE_ENVIRONMENTS %}
-{% set TITLE = PRODUCT_DISPLAY_NAME + ' (' + ENV.display_name + ' Environment)' %}
-{% set NAME = SERVICE_NAME + '-' + ENV.name %}
+    {% for ENV in APIGEE_ENVIRONMENTS %}
+    {% set TITLE = PRODUCT_DISPLAY_NAME + ' (' + ENV.display_name + ' Environment)' %}
+    {% set NAME = SERVICE_NAME + '-' + ENV.name %}
   - name: {{ ENV.name }}
     products:
       - name: {{ NAME }}
@@ -75,11 +75,11 @@ apigee:
         environments: [ {{ ENV.name }} ]
         proxies:
             - {{ NAME }}
-{% if ENV.has_mock_auth | default(false) %}
+                {% if ENV.has_mock_auth | default(false) %}
             - identity-service-mock-{{ ENV.name }}
-{% else %}
+                {% else %}
             - identity-service-{{ ENV.name }}
-{% endif %}
+                {% endif %}
         scopes:
             - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
     specs:
@@ -93,4 +93,4 @@ apigee:
         title: {{ TITLE }}
         visibility: {{ ENV.portal_visibility | default(true) }}
         specId: {{ NAME }}
-{% endfor %}
+                {% endfor %}
