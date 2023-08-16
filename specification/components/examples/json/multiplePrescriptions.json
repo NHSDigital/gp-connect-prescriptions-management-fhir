@@ -226,7 +226,7 @@
         }
       },
       {
-        "fullUrl": "9bb81cb7-30fe-4406-bbed-e4b82bab2d4c",
+        "fullUrl": "MedicationRequest/4de39acf-73b1-4dc6-bb87-c98b57ee5413",
         "resource": {
           "resourceType": "MedicationRequest",
           "id": "4de39acf-73b1-4dc6-bb87-c98b57ee5413",
@@ -448,7 +448,7 @@
         }
       },
       {
-        "fullUrl": "842eceb0-4711-4710-baf1-1f286a2f2857",
+        "fullUrl": "MedicationRequest/97046973-afbc-4a8f-98d1-27f9412c94e3",
         "resource": {
           "resourceType": "MedicationRequest",
           "id": "97046973-afbc-4a8f-98d1-27f9412c94e3",
@@ -549,7 +549,7 @@
               "value": 28,
               "unit": "sachet",
               "system": "http://snomed.info/sct",
-              "code": "3318911000001109"
+              "code": "426148002"
             },
             "expectedSupplyDuration": {
               "value": 28,
