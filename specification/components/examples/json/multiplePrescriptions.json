@@ -337,6 +337,228 @@
             }
           }
         }
+      },
+      {
+        "fullUrl": "1cb73413-45b8-4994-a86f-cb69f4bd6a51",
+        "resource": {
+          "resourceType": "MedicationRequest",
+          "id": "5f670e15-0eee-4822-9334-a24560794caa",
+          "meta": {
+            "profile": [
+              "https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest"
+            ]
+          },
+          "identifier": [
+            {
+              "system": "https://fhir.nhs.uk/Id/prescription-order-item-number",
+              "value": "33a0a087-d1f8-4f8a-85bd-7a21ff66773a"
+            }
+          ],
+          "status": "completed",
+          "intent": "order",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.or/CodeSystem/medicationrequest-category",
+                  "code": "community",
+                  "display": "Community"
+                }
+              ]
+            }
+          ],
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "https://dmd.nhs.uk",
+                "code": "21011811000001100",
+                "display": "Enshake oral powder 96.5g sachets (Flavour Not Specified)"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/9000000009",
+            "identifier": {
+              "system": "https://fhir.nhs.uk/Id/nhs-number",
+              "value": "9000000009"
+            },
+            "display": "Jane Smith"
+          },
+          "requester": {
+            "reference": "PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952",
+            "display": "Dr Jane Smith"
+          },
+          "basedOn": [
+            {
+              "reference": "MedicationRequest/97046973-afbc-4a8f-98d1-27f9412c94e3"
+            }
+          ],
+          "groupIdentifier": {
+            "system": "https://fhir.nhs.uk/Id/prescription-order-number",
+            "value": "754CB4-E81001-0B9EB8"
+          },
+          "courseOfTherapyType": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy",
+                "code": "continuous",
+                "display": "Continuous long term therapy"
+              }
+            ]
+          },
+          "authoredOn": "2022-11-13T07:20:27.000Z",
+          "substitution": {
+            "allowedBoolean": false
+          },
+          "dosageInstruction": [
+            {
+              "text": "As Directed Enshake oral powder 96.5g sachets (Flavour Not Specified) Please call the practice",
+              "method": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "420652005",
+                    "display": "Until gone"
+                  }
+                ]
+              }
+            }
+          ],
+          "dispenseRequest": {
+            "numberOfRepeatsAllowed": 6,
+            "quantity": {
+              "value": 1,
+              "unit": "inhaler",
+              "system": "http://snomed.info/sct",
+              "code": "334980009"
+            },
+            "expectedSupplyDuration": {
+              "value": 28,
+              "unit": "days",
+              "system": "http://unitsofmeasure.org",
+              "code": "d"
+            },
+            "performer": {
+              "identifier": {
+                "system": "https://fhir.nhs.uk/Id/ods-organization-code",
+                "value": "Y12345"
+              }
+            }
+          }
+        }
+      },
+      {
+        "fullUrl": "842eceb0-4711-4710-baf1-1f286a2f2857",
+        "resource": {
+          "resourceType": "MedicationRequest",
+          "id": "97046973-afbc-4a8f-98d1-27f9412c94e3",
+          "meta": {
+            "profile": [
+              "https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationRequest"
+            ]
+          },
+          "extension": [
+            {
+              "url": "https://fhir.hl7.org.uk/StructureDefinition/Extension-UKCore-MedicationRepeatInformation",
+              "extension": [
+                {
+                  "url": "numberOfPrescriptionsIssued",
+                  "valueUnsignedInt": 2
+                },
+                {
+                  "url": "authorisationExpiryDate",
+                  "valueDateTime": "2022-10-11T19:00:00.000Z"
+                }
+              ]
+            }
+          ],
+          "identifier": [
+            {
+              "system": "https://tools.ietf.org/html/rfc4122",
+              "value": "6b859ae0-9666-4331-ac84-4034a937f576"
+            }
+          ],
+          "status": "active",
+          "intent": "plan",
+          "category": [
+            {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.or/CodeSystem/medicationrequest-category",
+                  "code": "community",
+                  "display": "Community"
+                }
+              ]
+            }
+          ],
+          "medicationCodeableConcept": {
+            "coding": [
+              {
+                "system": "https://dmd.nhs.uk",
+                "code": "21011811000001100",
+                "display": "Enshake oral powder 96.5g sachets (Flavour Not Specified)"
+              }
+            ]
+          },
+          "subject": {
+            "reference": "Patient/9000000009",
+            "identifier": {
+              "system": "https://fhir.nhs.uk/Id/nhs-number",
+              "value": "9000000009"
+            },
+            "display": "Jane Smith"
+          },
+          "requester": {
+            "reference": "PractitionerRole/e35f0382-ac2e-47f9-9164-afd7d6adf952",
+            "display": "Dr Jane Smith"
+          },
+          "groupIdentifier": {
+            "system": "https://fhir.nhs.uk/Id/prescription-order-number",
+            "value": "754CB4-E81001-0B9EB8"
+          },
+          "courseOfTherapyType": {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/medicationrequest-course-of-therapy",
+                "code": "continuous",
+                "display": "Continuous long term therapy"
+              }
+            ]
+          },
+          "authoredOn": "2022-11-13T07:20:27.000Z",
+          "substitution": {
+            "allowedBoolean": false
+          },
+          "dosageInstruction": [
+            {
+              "text": "As Directed Enshake oral powder 96.5g sachets (Flavour Not Specified) Please call the practice",
+              "method": {
+                "coding": [
+                  {
+                    "system": "http://snomed.info/sct",
+                    "code": "420652005",
+                    "display": "Until gone"
+                  }
+                ]
+              }
+            }
+          ],
+          "dispenseRequest": {
+            "numberOfRepeatsAllowed": 6,
+            "quantity": {
+              "value": 28,
+              "unit": "sachet",
+              "system": "http://snomed.info/sct",
+              "code": "3318911000001109"
+            },
+            "expectedSupplyDuration": {
+              "value": 28,
+              "unit": "days",
+              "system": "http://unitsofmeasure.org",
+              "code": "d"
+            }
+          }
+        }
       }
     ]
   }
