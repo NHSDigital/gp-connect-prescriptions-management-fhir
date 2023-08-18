@@ -731,6 +731,11 @@ paths:
               examples:
                 GetResponsePreviousPrescriptionDetailed:
                    $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
+                GetResponseMultiplePrescriptions:
+                  $ref: "#/components/examples/GetResponseMultiplePrescriptions"
+                GetResponseMethotrexate:
+                  $ref: "#/components/examples/GetResponseMethotrexate"
+                
         4XX:
           description: |
             An error occurred as follows:
@@ -1713,3 +1718,7 @@ components:
       $ref: "components/examples/GetResponsePreviousPrescriptionDetailed.yaml"
     InvalidRequestError:
       $ref: "components/examples/InvalidRequestError.yaml"
+    GetResponseMultiplePrescriptions:
+      $ref: "components/examples/GetResponseMultiplePrescriptions.yaml"
+    GetResponseMethotrexate:
+      $ref: "components/examples/GetResponseMethotrexate.yaml"
