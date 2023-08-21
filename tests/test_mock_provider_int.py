@@ -18,7 +18,7 @@ def nhs_login_mock_token():
     if not client_id or not client_secret:
         raise RuntimeError("Both DEFAULT_CLIENT_ID and DEFAULT_CLIENT_SECRET environment variables has to be present")
     callback_url = os.getenv("DEFAULT_CALLBACK_URL", "https://oauth.pstmn.io/v1/callback")
-    username = os.getenv("DEFAULT_USERNAME", "testuser")
+    username = os.getenv("DEFAULT_USERNAME", "9449305552")
 
     auth_data = {
         "username": username,
