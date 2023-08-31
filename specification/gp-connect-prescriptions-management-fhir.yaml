@@ -1,5 +1,5 @@
 # This is an OpenAPI Specification (https://swagger.io/specification/)
-# for gp-connect/prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
+# for gp-connect/patient-facing/prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
 openapi: '3.0.0'
 info:
   title: 'GP Connect Prescriptions Management FHIR API'
@@ -140,7 +140,7 @@ info:
 
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/prescriptions-management-fhir`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
@@ -192,7 +192,7 @@ info:
 
     API Specific errors can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Design/Errors-and-issues.page.md?version=current).
   contact:
-    name: 'gp-connect/prescriptions-management-fhir API Support'
+    name: 'gp-connect/patient-facing/prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
 x-spec-publication:
@@ -213,11 +213,11 @@ x-spec-publication:
         - method: GET
           path: /PractionerRole/{id}
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/gp-connect/prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://int.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/gp-connect/prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Production environment.
 paths:
   /Patient/{id}/MedicationStatement:
