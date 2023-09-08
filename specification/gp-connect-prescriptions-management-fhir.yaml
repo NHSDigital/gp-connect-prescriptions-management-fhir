@@ -1,5 +1,5 @@
 # This is an OpenAPI Specification (https://swagger.io/specification/)
-# for gp-connect-prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
+# for gp-connect/patient-facing/prescriptions-management-fhir owned by NHS Digital (https://digital.nhs.uk/)
 openapi: '3.0.0'
 info:
   title: 'GP Connect Prescriptions Management FHIR API'
@@ -88,7 +88,7 @@ info:
 
     ## Service level
 
-    This API is a silver service, meaning it is operational 24 x 7 x 365 but only supported during business hours (8am to 6pm), Monday to Friday excluding bank holidays.
+    This API is a silver service, meaning it is operational 24 hours a day, 365 days a year but only supported during business hours (8am to 6pm), Monday to Friday excluding bank holidays.
 
     For more details, see [service levels](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#service-levels).
 
@@ -140,7 +140,7 @@ info:
 
     |Environment|Base URL|
     |-----------|--------|
-    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir`|
+    |Sandbox|`https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir`|
     |Integration Testing|`Not yet available`|
     |Production|`Not yet available`|
 
@@ -192,7 +192,7 @@ info:
 
     API Specific errors can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Design/Errors-and-issues.page.md?version=current).
   contact:
-    name: 'gp-connect-prescriptions-management-fhir API Support'
+    name: 'gp-connect/patient-facing/prescriptions-management-fhir API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
     email: api.management@nhs.net
 x-spec-publication:
@@ -213,11 +213,11 @@ x-spec-publication:
         - method: GET
           path: /PractionerRole/{id}
 servers:
-  - url: 'https://sandbox.api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://sandbox.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Sandbox environment.
-  - url: 'https://int.api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://int.api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Integration test environment.
-  - url: 'https://api.service.nhs.uk/gp-connect-prescriptions-management-fhir/FHIR/R4'
+  - url: 'https://api.service.nhs.uk/gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4'
     description: Production environment.
 paths:
   /Patient/{id}/MedicationStatement:
@@ -241,6 +241,19 @@ paths:
 
 
         * patient
+
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+
+        * presenting a patients current medications
+
+
+        * presenting a patients past/discontinued medications
+
+
+        * presenting a choice of medications to reorder
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -409,16 +422,21 @@ paths:
                                     code: mg
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
-            | HTTP Status | Spine error code   | Description
-            |-------------|--------------------|------------
-            | 400         | CONFLICTING_VALUES | BasedOn reference to previous prescription does not match previous
-            | 400         | INVALID_RESOURCE   | BasedOn reference to previous prescription not present
-            | 400         | INVALID_PARAMETER  | Invalid date
-            | 400         | INVALID_NHS_NUMBER | The NHS Number is invalid
-            | 404         | PATIENT_NOT_FOUND  | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
+            | HTTP Status | Spine error code                | Description
+            |-------------|---------------------------------|------------
+            | 400         | BAD_REQUEST                     | X-Request-ID is not present
+            | 400         | INVALID_NHS_NUMBER              | The NHS Number is invalid
+            | 400         | INVALID_PARAMETER               | Invalid date
+            | 403         | ACCESS_DENIED                   | Access denied, the patient logged in does not have the correct access level
+            | 404         | PATIENT_NOT_FOUND               | The request is for the record of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)
+            | 404         | PATIENT_NOT_FOUND               | The patient's NHS number in the provider system is not associated with a NHS number status indicator code of 'Number present and verified'                               |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of a non-Regular/GMS patient (i.e. the patient's registered practice is somewhere else)                                               |
+            | 404         | PATIENT_NOT_FOUND               | The request is for the permissions of an inactive or deceased patient        
+            | 422         | REFERENCE_NOT_FOUND             | BasedOn reference to previous prescription is not valid
+            | 422         | INVALID_RESOURCE                | BasedOn reference to previous prescription not present
           content:
             application/fhir+json:
               schema:
@@ -445,13 +463,30 @@ paths:
       operationId: get-planned-medicationrequest
       summary: Get a specific planned medication request
       description: >
-        Use this endpoint to get specific MedicationRequests.
+        ## Overview
+
+        Use this endpoint to get specific MedicationRequests. 
 
 
         The request must include the following parameter:
 
 
         * id
+
+        
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        
+        * to resolve references for MedicationRequest's from other responses
+
+        
+        * to resolve the BasedOn reference to confirm whether the MedicationStatement is representing an acute or repeat Medication
+
+        
+        * to get further information about what medication the Task is focused by resolving the focus reference
+
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -530,15 +565,34 @@ paths:
                             - system: "http://snomed.info/sct"
                               code: '420652005'
                               display: Until gone
+                    dispenseRequest:
+                      numberOfRepeatsAllowed: 6
+                      quantity:
+                        value: 1
+                        unit: inhaler
+                        system: http://snomed.info/sct
+                        code: '334980009'
+                      expectedSupplyDuration:
+                        value: 28
+                        unit: days
+                        system: http://unitsofmeasure.org
+                        code: d
+                      performer:
+                        identifier:
+                          system: https://fhir.nhs.uk/Id/ods-organization-code
+                          value: Y12345
+                    
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 400         | BAD_REQUEST        | X-Request-ID is not present
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
           content:
             application/fhir+json:
               schema:
@@ -564,6 +618,8 @@ paths:
       operationId: get-ordered-medicationrequest
       summary: Get prescription issue details
       description: >
+        ## Overview
+
         Use this endpoint to get details of previous prescription issues.
 
         The request must include the following parameter:
@@ -588,6 +644,17 @@ paths:
         
        
         Each MedicationRequest with intent of order must reference a MedicationRequest with intent plan within the basedOn element.
+
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        
+        * to get information about previously prescribed medication to display to the patient
+
+
+        * present previously prescribed repeat medications available to reorder
+
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -624,6 +691,9 @@ paths:
         - in: query
           name: identifier
           description: >
+            This will either be a uuid OR an EPS prescription identifier, this should only be used to obtain specific EPS orders using their identifier.
+
+
             EPS prescription Identifier for the prescription. Searches for EPS prescriptions need to provide a data type of `https://fhir.nhs.uk/Id/prescription-order-number` in the format `<data-type>|<prescription-identifier>`
           required: false
           schema:
@@ -661,17 +731,22 @@ paths:
               examples:
                 GetResponsePreviousPrescriptionDetailed:
                    $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
+                GetResponseMultiplePrescriptions:
+                  $ref: "#/components/examples/GetResponseMultiplePrescriptions"
+                GetResponseMethotrexate:
+                  $ref: "#/components/examples/GetResponseMethotrexate"
+                
         4XX:
           description: |
-            An error occured as follows:
+            An error occurred as follows:
 
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
-            | 400         | INVALID_PARAMETER  | The date is invalid or in future
-            | 400         | INVALID_PARAMETER  | The EPS ID is invalid
+            | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 422         | INVALID_PARAMETER  | The date is invalid or in future
+            | 422         | INVALID_PARAMETER  | The identifier value is invalid
           content:
             application/fhir+json:
               schema:
@@ -689,13 +764,36 @@ paths:
         ## Overview
 
 
-        Use this end point to create a request for a repeat prescription or repeat dispensing prescription.
+        Use this end point to create a request for a repeat prescription.
 
 
         The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters).
 
 
-        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan.
+        For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan. This can be obtain by using the GET `/MedicationRequest/Patient/` endpoint within this API.
+
+
+        ## Use cases
+        
+        Use cases covered by this endpoint include:
+
+
+        * request the next issue of a repeat prescription
+
+
+        * request the next issue of a repeat prescription to a one off pharmacy nomination
+
+        
+        * request  
+
+        
+        ## Request workflow
+
+        When a request is made it is added to the GP system's workflow and processed at some point in the future.
+
+        At this point the status of the Task resource will be updated as it passes through the GP system's workflow. 
+
+        If a request is rejected the statusReason element of the Task resource will be populated with the reason to be displayed to the patient.
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -811,13 +909,17 @@ paths:
             An error occured as follows:
 
 
-            | HTTP Status | Spine error code   | Description
-            |-------------|--------------------|------------
-            | 400         | INVALID_RESOURCE   | Task resource failed validation
-            | 400         | INVALID_VALUE      | Note too long
-            | 400         | INVALID_RESOURCE   | Task missing required focus reference
-            | 400         | INVALID_RESOURCE   | focus reference to MedicationRequest not valid
-            
+            | HTTP Status | Spine error code      | Description
+            |-------------|-----------------------|------------
+            | 400         | BAD_REQUEST           | X-Request-ID is not present
+            | 403         | ACCESS_DENIED         | Access denied, the patient logged in does not have the correct access level
+            | 409         | DUPLICATE_REJECTED	  | Create would lead to creation of a duplicate resource
+            | 422         | INVALID_RESOURCE      | Task resource failed validation (any incorrect values)
+            | 422         | INVALID_RESOURCE      | Task missing required focus reference
+            | 422         | REFERENCE_NOT_FOUND   | focus reference to MedicationRequest not valid
+            | 422         | REFERENCE_NOT_FOUND   | requester reference to Patient not valid
+            | 422         | REFERENCE_NOT_FOUND   | for reference to Patient not valid
+       
           content:
             application/fhir+json:
               schema:
@@ -845,7 +947,7 @@ paths:
         ## Overview
 
 
-        Use this end point to check the status of past and current prescription request.
+        Use this end point to check the status of past and current prescription reorder requests.
 
 
         If a Patient identifier is provided past and present requests will be returned for the patient inside as multiple Task rescources inside a Bundle resource.
@@ -864,6 +966,22 @@ paths:
 
 
         * patient
+
+        ## Use cases
+        
+        Use cases covered by this endpoint include:
+
+
+        * present inflight prescription requests to the Patient
+
+
+        * allow the patient to check the status of a specific request
+
+        
+        * obtain the EPS id of a prescription reorder request that has been sent to be dispensed
+
+
+        * obtain a list of requests to enable the patient to send a cancellation
 
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
@@ -1168,6 +1286,18 @@ paths:
                                   - system: http://snomed.info/sct
                                     code: '420652005'
                                     display: Until gone
+                          dispenseRequest:
+                            numberOfRepeatsAllowed: 6
+                            quantity:
+                              value: 1
+                              unit: inhaler
+                              system: http://snomed.info/sct
+                              code: '334980009'
+                            expectedSupplyDuration:
+                              value: 28
+                              unit: days
+                              system: http://unitsofmeasure.org
+                              code: d
                       - fullUrl: 20885a31-acf0-42d5-bd5b-85c23f7a32fd
                         resource:
                           resourceType: Task
@@ -1282,10 +1412,12 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 400         | BAD_REQUEST        | X-Request-ID is not present            
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
             | 404         | PATIENT_NOT_FOUND  | The request is for a Patient that doesn't exist
-            | 400         | INVALID_VALUE	     | Task date in the future
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 422         | INVALID PARAMERER  | Date is invalid 
           content:
             application/fhir+json:
               schema:
@@ -1313,7 +1445,10 @@ paths:
         ## Overview
 
 
-        Use this endpoint to cancel a current request that has not been actioned yet.
+        Use this endpoint to cancel a current request that has not been actioned yet. 
+        
+        
+        This means only has status of "Requested", a cancellation request against any other status will return an error.
 
 
         The content-type for this request must be "application/json-patch+json".
@@ -1324,6 +1459,19 @@ paths:
 
         * id
 
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+
+        * a patient cancelling a prescription reorder request
+
+        ## Request handling
+
+        If the cancellation is sent after it has been actioned it will be rejected and return a 404 errror.
+
+        If the cancellation is sent to a prescription request before it is actioned, the status will update to cancelled. 
+        
       parameters:
         - in: header
           name: content-type
@@ -1410,8 +1558,11 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been cancelled
+            | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been actioned
+
           content:
             application/fhir+json:
               schema:
@@ -1437,12 +1588,22 @@ paths:
       operationId: get-practitioner-role
       summary: Get practitioner role details
       description: >
+        ## Overview
+
+
         Use this endpoint to get details of practitioners issuing previous prescriptions.
+
 
         The request must include the following parameter:
 
+
         * id
 
+        ## Use cases
+
+        Use cases covered by this endpoint include:
+
+        * to present to the patient information about the practitioner who issued the previous prescriptions
       parameters:
         - $ref: "#/components/parameters/BearerAuthorization"
         - $ref: "#/components/parameters/CorrelationID"
@@ -1487,8 +1648,10 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 400         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
+            | 400         | BAD_REQUEST        | X-Request-ID is not present
+            | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a PractitionerRole that doesn't exist
+            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
           content:
             application/fhir+json:
               schema:
@@ -1555,3 +1718,7 @@ components:
       $ref: "components/examples/GetResponsePreviousPrescriptionDetailed.yaml"
     InvalidRequestError:
       $ref: "components/examples/InvalidRequestError.yaml"
+    GetResponseMultiplePrescriptions:
+      $ref: "components/examples/GetResponseMultiplePrescriptions.yaml"
+    GetResponseMethotrexate:
+      $ref: "components/examples/GetResponseMethotrexate.yaml"
