@@ -1211,15 +1211,15 @@ paths:
                               system: https://fhir.nhs.uk/Id/nhs-number
                               value: '9000000009'
                             display: Jane Smith
-                            output:
-                              - type:
-                                  coding:
-                                    - system: https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters
-                                      code: sent-to-eps
-                                      display: Sent to EPS
-                                valueIdentifier:
-                                  system: https://fhir.nhs.uk/Id/prescription-order-item-number
-                                  value: 4857b9d3-b714-44b9-9e67-3df67275b785
+                          output:
+                            - type:
+                                coding:
+                                  - system: https://fhir.hl7.org.uk/GPConnect-PrescriptionOrderingParameters
+                                    code: sent-to-eps
+                                    display: Sent to EPS
+                              valueIdentifier:
+                                system: https://fhir.nhs.uk/Id/prescription-order-item-number
+                                value: 4857b9d3-b714-44b9-9e67-3df67275b785
                 include Medication Requests:
                   description: Successful request to view requests for prescriptions when a patient identifier is passed and _include parameters are used to return the referenced medication requests.
                   value:
