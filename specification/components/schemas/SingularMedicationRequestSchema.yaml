@@ -37,14 +37,8 @@ properties:
               valueDateTime:
                 type: string
                 format: date-time
-            required:
-              - url
         required:
           - url
-          - extension
-    required:
-      - url
-      - extension
   identifier:
     type: array
     items:
@@ -55,9 +49,9 @@ properties:
           format: uri
         value:
           type: string
-      required:
-        - system
-        - value
+        required:
+          - system
+          - value
   status:
     type: string
     enum:
@@ -83,10 +77,10 @@ properties:
                 type: string
               display:
                 type: string
-            required:
-              - system
-              - code
-              - display
+        required:
+          - system
+          - code
+          - display
   medicationCodeableConcept:
     type: object
     properties:
@@ -102,12 +96,10 @@ properties:
               type: string
             display:
               type: string
-          required:
-            - system
-            - code
-            - display
-    required:
-      - coding
+        required:
+          - system
+          - code
+          - display
   subject:
     type: object
     properties:
@@ -127,8 +119,6 @@ properties:
           - value
       display:
         type: string
-    required:
-      - reference
   requester:
     type: object
     properties:
@@ -160,10 +150,10 @@ properties:
               type: string
             display:
               type: string
-          required:
-            - system
-            - code
-            - display
+        required:
+          - system
+          - code
+          - display
   authoredOn:
     type: string
     format: date-time
@@ -194,10 +184,11 @@ properties:
                     type: string
                   display:
                     type: string
-                required:
-                  - system
-                  - code
-                  - display
+        required:
+          - system
+          - code
+          - display
+
 required:
   - resourceType
   - id
