@@ -254,9 +254,6 @@ properties:
                 id:
                   type: string
                   format: uuid
-                # Define properties specific to AnotherResourceType here
-                # ...
-          # Define additional schemas for other entry types as needed
 required:
   - resourceType
   - id
