@@ -1,5 +1,22 @@
 type: object
 description: Information surrounding how the MedicationRequest resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current).
+required:
+  - resourceType
+  - id
+  - meta
+  - extension
+  - identifier
+  - status
+  - intent
+  - category
+  - medicationCodeableConcept
+  - subject
+  - requester
+  - groupIdentifier
+  - courseOfTherapyType
+  - authoredOn
+  - substitution
+  - dosageInstruction
 properties:
   resourceType:
     type: string
@@ -188,21 +205,3 @@ properties:
           - system
           - code
           - display
-
-required:
-  - resourceType
-  - id
-  - meta
-  - extension
-  - identifier
-  - status
-  - intent
-  - category
-  - medicationCodeableConcept
-  - subject
-  - requester
-  - groupIdentifier
-  - courseOfTherapyType
-  - authoredOn
-  - substitution
-  - dosageInstruction
