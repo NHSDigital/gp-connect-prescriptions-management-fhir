@@ -1,0 +1,265 @@
+type: object
+description: Information surrounding how the MedicationStatement resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationStatement?version=current.
+properties:
+  resourceType:
+    type: string
+    enum:
+      - Bundle
+  id:
+    type: string
+    format: uuid
+  identifier:
+    type: object
+    properties:
+      system:
+        type: string
+        format: uri
+      value:
+        type: string
+    required:
+      - system
+      - value
+  type:
+    type: string
+    enum:
+      - searchset
+  entry:
+    type: array
+    items:
+      oneOf:
+        - type: object
+          properties:
+            fullUrl:
+              type: string
+              format: uuid
+            resource:
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  enum:
+                    - MedicationStatement
+                id:
+                  type: string
+                  format: uuid
+                meta:
+                  type: object
+                  properties:
+                    profile:
+                      type: array
+                      items:
+                        type: string
+                        format: uri
+                extension:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      url:
+                        type: string
+                        format: uri
+                      valueDateTime:
+                        type: string
+                        format: date-time
+                    required:
+                      - url
+                      - valueDateTime
+                identifier:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      system:
+                        type: string
+                        format: uri
+                      value:
+                        type: string
+                    required:
+                      - system
+                      - value
+                basedOn:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      reference:
+                        type: string
+                        format: uri
+                      display:
+                        type: string
+                    required:
+                      - reference
+                      - display
+                status:
+                  type: string
+                  enum:
+                    - active
+                medicationCodeableConcept:
+                  type: object
+                  properties:
+                    coding:
+                      type: array
+                      items:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            format: uri
+                          code:
+                            type: string
+                          display:
+                            type: string
+                        required:
+                          - system
+                          - code
+                          - display
+                  required:
+                    - coding
+                subject:
+                  type: object
+                  properties:
+                    reference:
+                      type: string
+                      format: uri
+                    identifier:
+                      type: object
+                      properties:
+                        system:
+                          type: string
+                          format: uri
+                        value:
+                          type: string
+                    display:
+                      type: string
+                  required:
+                    - reference
+                effectivePeriod:
+                  type: object
+                  properties:
+                    start:
+                      type: string
+                      format: date-time
+                    end:
+                      type: string
+                      format: date-time
+                  required:
+                    - start
+                    - end
+                dateAsserted:
+                  type: string
+                  format: date
+                dosage:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      text:
+                        type: string
+                      additionalInstruction:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            coding:
+                              type: array
+                              items:
+                                type: object
+                                properties:
+                                  system:
+                                    type: string
+                                    format: uri
+                                  code:
+                                    type: string
+                                  display:
+                                    type: string
+                                required:
+                                  - system
+                                  - code
+                                  - display
+                      timing:
+                        type: object
+                        properties:
+                          repeat:
+                            type: object
+                            properties:
+                              frequency:
+                                type: integer
+                                minimum: 1
+                              period:
+                                type: integer
+                                minimum: 1
+                              periodUnit:
+                                type: string
+                                enum:
+                                  - d
+                              when:
+                                type: array
+                                items:
+                                  type: string
+                                  enum:
+                                    - C
+                            required:
+                              - frequency
+                              - period
+                              - periodUnit
+                              - when
+                      doseAndRate:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            doseQuantity:
+                              type: object
+                              properties:
+                                value:
+                                  type: number
+                                unit:
+                                  type: string
+                                system:
+                                  type: string
+                                  format: uri
+                                code:
+                                  type: string
+                              required:
+                                - value
+                                - unit
+                    required:
+                      - text
+                      - timing
+                      - doseAndRate
+              required:
+                - resourceType
+                - id
+                - meta
+                - identifier
+                - basedOn
+                - status
+                - medicationCodeableConcept
+                - subject
+                - effectivePeriod
+                - dateAsserted
+                - dosage
+        - type: object
+          properties:
+            fullUrl:
+              type: string
+              format: uuid
+            resource:
+              type: object
+              properties:
+                resourceType:
+                  type: string
+                  enum:
+                    - AnotherResourceType
+                id:
+                  type: string
+                  format: uuid
+                # Define properties specific to AnotherResourceType here
+                # ...
+          # Define additional schemas for other entry types as needed
+required:
+  - resourceType
+  - id
+  - identifier
+  - type
+ 

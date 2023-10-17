@@ -1,0 +1,217 @@
+type: object
+description: Information surrounding how the MedicationRequest resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current).
+properties:
+  resourceType:
+    type: string
+    enum:
+      - MedicationRequest
+  id:
+    type: string
+    format: uuid
+  meta:
+    type: object
+    properties:
+      profile:
+        type: array
+        items:
+          type: string
+          format: uri
+  extension:
+    type: array
+    items:
+      type: object
+      properties:
+        url:
+          type: string
+          format: uri
+        extension:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+                format: uri
+              valueUnsignedInt:
+                type: integer
+              valueDateTime:
+                type: string
+                format: date-time
+            required:
+              - url
+        required:
+          - url
+          - extension
+    required:
+      - url
+      - extension
+  identifier:
+    type: array
+    items:
+      type: object
+      properties:
+        system:
+          type: string
+          format: uri
+        value:
+          type: string
+      required:
+        - system
+        - value
+  status:
+    type: string
+    enum:
+      - active
+  intent:
+    type: string
+    enum:
+      - plan
+  category:
+    type: array
+    items:
+      type: object
+      properties:
+        coding:
+          type: array
+          items:
+            type: object
+            properties:
+              system:
+                type: string
+                format: uri
+              code:
+                type: string
+              display:
+                type: string
+            required:
+              - system
+              - code
+              - display
+  medicationCodeableConcept:
+    type: object
+    properties:
+      coding:
+        type: array
+        items:
+          type: object
+          properties:
+            system:
+              type: string
+              format: uri
+            code:
+              type: string
+            display:
+              type: string
+          required:
+            - system
+            - code
+            - display
+    required:
+      - coding
+  subject:
+    type: object
+    properties:
+      reference:
+        type: string
+        format: uri
+      identifier:
+        type: object
+        properties:
+          system:
+            type: string
+            format: uri
+          value:
+            type: string
+        required:
+          - system
+          - value
+      display:
+        type: string
+    required:
+      - reference
+  requester:
+    type: object
+    properties:
+      reference:
+        type: string
+        format: uri
+      display:
+        type: string
+  groupIdentifier:
+    type: object
+    properties:
+      system:
+        type: string
+        format: uri
+      value:
+        type: string
+  courseOfTherapyType:
+    type: object
+    properties:
+      coding:
+        type: array
+        items:
+          type: object
+          properties:
+            system:
+              type: string
+              format: uri
+            code:
+              type: string
+            display:
+              type: string
+          required:
+            - system
+            - code
+            - display
+  authoredOn:
+    type: string
+    format: date-time
+  substitution:
+    type: object
+    properties:
+      allowedBoolean:
+        type: boolean
+  dosageInstruction:
+    type: array
+    items:
+      type: object
+      properties:
+        text:
+          type: string
+        method:
+          type: object
+          properties:
+            coding:
+              type: array
+              items:
+                type: object
+                properties:
+                  system:
+                    type: string
+                    format: uri
+                  code:
+                    type: string
+                  display:
+                    type: string
+                required:
+                  - system
+                  - code
+                  - display
+required:
+  - resourceType
+  - id
+  - meta
+  - extension
+  - identifier
+  - status
+  - intent
+  - category
+  - medicationCodeableConcept
+  - subject
+  - requester
+  - groupIdentifier
+  - courseOfTherapyType
+  - authoredOn
+  - substitution
+  - dosageInstruction
