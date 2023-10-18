@@ -17,7 +17,7 @@ value:
         identifier:
           - system: 'https://fhir.nhs.uk/Id/prescription-order-item-number'
             value: 4857b9d3-b714-44b9-9e67-3df67275b785
-        status: active
+        status: completed
         intent: order
         category:
           - coding:

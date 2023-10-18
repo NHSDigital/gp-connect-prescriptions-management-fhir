@@ -98,7 +98,7 @@ info:
 
     It conforms to the [FHIR](https://digital.nhs.uk/developer/guides-and-documentation/our-api-technologies#fhir) global standard for health care data exchange, specifically to [FHIR R4 (v4.0.1)](https://hl7.org/fhir/r4/), except that it does not support the [capabilities](http://hl7.org/fhir/R4/http.html#capabilities) interaction.
 
-    It includes some country-specific FHIR extensions, which are built against [FHIR UK Core, specifically [UKcore.stu1 0.5.1](https://simplifier.net/packages/fhir.r4.ukcore.stu1/0.5.1).
+    It includes some country-specific FHIR extensions, which are built against [FHIR UK Core, specifically [UKcore.stu2 1.1.3](https://simplifier.net/guide/uk-core-implementation-guide-stu2?version=1.1.3).
 
     You do not need to know much about FHIR to use this API - FHIR APIs are just RESTful APIs that follow specific rules. In particular:
 
@@ -112,7 +112,7 @@ info:
 
     ### Resources
 
-    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management) to assist with your integration.
+    Use the [GP Connect Prescriptions Management Implementation Guide](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions?version=0.1.0-private-beta) to assist with your integration.
 
     This is the FHIR specification for GP Connect Prescriptions.
 
@@ -190,7 +190,7 @@ info:
 
     Errors specific to each API are shown in the Endpoints section, under Response. See our [reference guide](https://digital.nhs.uk/developer/guides-and-documentation/reference-guide#http-status-codes) for more on errors.
 
-    API Specific errors can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Design/Errors-and-issues.page.md?version=current).
+    API Specific errors can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/Design/Errors-and-issues?version=0.1.0-private-beta).
   contact:
     name: 'gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4 API Support'
     url: 'https://digital.nhs.uk/developer/help-and-support'
@@ -293,8 +293,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                type: object
-                description: Information surrounding how the MedicationStatement resource is populated can be found [here](https://simplifier.net/guide/gp-connect-prescription-management-fhir-pfs/assets-all-assets-profiles-ukcore-medicationstatement-medicationstatement?version=current).
+                $ref: "#/components/schemas/MedicationStatementSchema"
               examples:
                 example:
                   description: Successful response to view medication.
@@ -441,7 +440,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -506,8 +505,7 @@ paths:
           content:
             application/fhir+json:
               schema:
-                type: object
-                description: Information surrounding how the MedicationRequest resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current).
+                $ref: "#/components/schemas/SingularMedicationRequestSchema"
               examples:
                 example:
                   value:
@@ -572,16 +570,6 @@ paths:
                         unit: inhaler
                         system: http://snomed.info/sct
                         code: '334980009'
-                      expectedSupplyDuration:
-                        value: 28
-                        unit: days
-                        system: http://unitsofmeasure.org
-                        code: d
-                      performer:
-                        identifier:
-                          system: https://fhir.nhs.uk/Id/ods-organization-code
-                          value: Y12345
-                    
         4XX:
           description: |
             An error occurred as follows:
@@ -597,7 +585,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -715,7 +703,7 @@ paths:
         - in: query
           name: status
           description: >
-            The type of status to search: you can find valid values [here](https://simplifier.net/packages/hl7.fhir.r4.core/4.0.1/files/83480)
+            The type of status to search: you can find valid values [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=0.1.0-private-beta#status)
           required: false
           schema:
             type: string
@@ -727,7 +715,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=current).
+                description: Information surrounding how the resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationRequest?version=0.1.0-private-beta).
               examples:
                 GetResponsePreviousPrescriptionDetailed:
                    $ref: "#/components/examples/GetResponsePreviousPrescriptionDetailed"
@@ -751,7 +739,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 InvalidRequestError:
                   $ref: "#/components/examples/InvalidRequestError"
@@ -767,7 +755,7 @@ paths:
         Use this end point to create a request for a repeat prescription.
 
 
-        The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer](https://simplifier.net/gpconnect2/gpconnect-prescriptionorderingparameters).
+        The same end point can be used to request a prescription to a one off pharmacy nomination - the ODS code is set in Task.input using code [preferred-performer](https://simplifier.net/gp-connect---direct-care-apis---r4/gpconnect-prescriptionorderingparameters).
 
 
         For this, send a Task with a focus of a prior MedicationRequest which has an intent of plan. This can be obtain by using the GET `/MedicationRequest/Patient/` endpoint within this API.
@@ -807,7 +795,7 @@ paths:
             schema:
               type: object
               description: >
-                Information surrounding how the Task resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current).
+                Information surrounding how the Task resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=0.1.0-private-beta).
             example:
               resourceType: Task
               meta:
@@ -924,7 +912,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -991,14 +979,14 @@ paths:
           name: patient
           description: >
             The NHS number of the patient whose requests you are searching for
-          required: false
+          required: true
           schema:
             type: string
             example: '9912003489'
         - in: query
           name: _include
           description: |
-            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources, further information around the benefits and using this parameter can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/Build/How-to-determine-the-medication-the-request-belongs-to.page.md?version=current).
+            Task:focus:MedicationRequest - Include MedicationRequest resources referenced within the returned Task resources, further information around the benefits and using this parameter can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/Build/How-to-determine-the-medication-the-request-belongs-to?version=0.1.0-private-beta).
           required: false
           schema:
             type: array
@@ -1017,7 +1005,7 @@ paths:
         - in: query
           name: status
           description: >
-            The type of status to search: you can find valid values [here](https://simplifier.net/guide/gp-connect-patient-facing-prescription-management/fhir-assets-all-assets-profiles-ukcore-medicationrequest-medicationrequest?version=current) under the status subheading.
+            The type of status to search: you can find valid values [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=0.1.0-private-beta#status).
           required: false
           schema:
             type: string
@@ -1049,7 +1037,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the Task resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=current).
+                description: Information surrounding how the Task resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-Task?version=0.1.0-private-beta).
               examples:
                 bundle:
                   description: Successful request to view requests for prescriptions when a patient identifier is passed.
@@ -1422,7 +1410,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -1567,7 +1555,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -1623,7 +1611,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Information surrounding how the PractitionerRole resource is populated can be found [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-PractitionerRole?version=current).
+                description: Information surrounding how the PractitionerRole resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-PractitionerRole?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -1656,7 +1644,7 @@ paths:
             application/fhir+json:
               schema:
                 type: object
-                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/GP-Connect-Patient-Facing-Prescription-Management/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=current).
+                description: Link to UKCore-OperationOutcome resource population guidance [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-OperationOutcome?version=0.1.0-private-beta).
               examples:
                 example:
                   value:
@@ -1712,7 +1700,6 @@ components:
         type: string
         pattern: '^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'
         example: 60E0B220-8136-4CA5-AE46-1D97EF59D068
-
   examples:
     GetResponsePreviousPrescriptionDetailed:
       $ref: "components/examples/GetResponsePreviousPrescriptionDetailed.yaml"
@@ -1722,3 +1709,8 @@ components:
       $ref: "components/examples/GetResponseMultiplePrescriptions.yaml"
     GetResponseMethotrexate:
       $ref: "components/examples/GetResponseMethotrexate.yaml"
+  schemas:
+    MedicationStatementSchema:
+      $ref: "components/schemas/MedicationStatementSchema.yaml"
+    SingularMedicationRequestSchema:
+      $ref: "components/schemas/SingularMedicationRequestSchema.yaml"
