@@ -1,5 +1,5 @@
 type: object
-description: Information surrounding how the MedicationStatement resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationStatement?version=current.
+description: Information surrounding how the MedicationStatement resource is populated can be found [here](https://simplifier.net/guide/gp-connect--patient-facing-services--prescriptions/Home/FHIR-Assets/All-Assets/Profiles/UKCore-MedicationStatement?version=0.1.0-private-beta).
 properties:
   resourceType:
     type: string
@@ -50,6 +50,8 @@ properties:
                       items:
                         type: string
                         format: uri
+                        enum:
+                          - https://fhir.hl7.org.uk/StructureDefinition/UKCore-MedicationStatement
                 extension:
                   type: array
                   items:
@@ -61,9 +63,6 @@ properties:
                       valueDateTime:
                         type: string
                         format: date-time
-                    required:
-                      - url
-                      - valueDateTime
                 identifier:
                   type: array
                   items:
@@ -74,9 +73,6 @@ properties:
                         format: uri
                       value:
                         type: string
-                    required:
-                      - system
-                      - value
                 basedOn:
                   type: array
                   items:
@@ -87,13 +83,12 @@ properties:
                         format: uri
                       display:
                         type: string
-                    required:
-                      - reference
-                      - display
                 status:
                   type: string
                   enum:
                     - active
+                    - stopped 
+                    - complete
                 medicationCodeableConcept:
                   type: object
                   properties:
@@ -105,34 +100,34 @@ properties:
                           system:
                             type: string
                             format: uri
+                            enum:
+                              - https://dmd.nhs.uk
                           code:
                             type: string
                           display:
                             type: string
-                        required:
-                          - system
-                          - code
-                          - display
-                  required:
-                    - coding
-                subject:
-                  type: object
-                  properties:
-                    reference:
-                      type: string
-                      format: uri
-                    identifier:
-                      type: object
-                      properties:
-                        system:
-                          type: string
-                          format: uri
-                        value:
-                          type: string
-                    display:
-                      type: string
-                  required:
-                    - reference
+                  subject:
+                    type: object
+                    properties:
+                      reference:
+                        type: string
+                        format: uri
+                        enum: 
+                          - Patient/9000000009
+                      identifier:
+                        type: object
+                        properties:
+                          system:
+                            type: string
+                            format: uri
+                            enum: 
+                              - https://fhir.nhs.uk/Id/nhs-number
+                          value:
+                            type: string
+                            enum:
+                              - 9000000009
+                      display:
+                        type: string
                 effectivePeriod:
                   type: object
                   properties:
@@ -142,9 +137,6 @@ properties:
                     end:
                       type: string
                       format: date-time
-                  required:
-                    - start
-                    - end
                 dateAsserted:
                   type: string
                   format: date
@@ -172,10 +164,6 @@ properties:
                                     type: string
                                   display:
                                     type: string
-                                required:
-                                  - system
-                                  - code
-                                  - display
                       timing:
                         type: object
                         properties:
@@ -198,11 +186,6 @@ properties:
                                   type: string
                                   enum:
                                     - C
-                            required:
-                              - frequency
-                              - period
-                              - periodUnit
-                              - when
                       doseAndRate:
                         type: array
                         items:
@@ -220,13 +203,6 @@ properties:
                                   format: uri
                                 code:
                                   type: string
-                              required:
-                                - value
-                                - unit
-                    required:
-                      - text
-                      - timing
-                      - doseAndRate
               required:
                 - resourceType
                 - id
@@ -250,7 +226,7 @@ properties:
                 resourceType:
                   type: string
                   enum:
-                    - AnotherResourceType
+                    - ResourceType
                 id:
                   type: string
                   format: uuid
@@ -259,4 +235,3 @@ required:
   - id
   - identifier
   - type
- 

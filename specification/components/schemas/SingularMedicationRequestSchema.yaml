@@ -73,7 +73,8 @@ properties:
               system:
                 type: string
                 format: uri
-                enum:  http://terminology.hl7.or/CodeSystem/medicationrequest-category
+                enum:  
+                  - http://terminology.hl7.or/CodeSystem/medicationrequest-category
               code:
                 type: string
                 enum: 
