@@ -1571,7 +1571,7 @@ paths:
                             - system: https://fhir.nhs.uk/R4/ValueSet/Spine-ErrorOrWarningCode-1
                               code: INVALID_PARAMETER
                               display: The Task id supplied is invalid
-  /PractionerRole/{id}:
+  /PractitionerRole/{id}:
     get:
       operationId: get-practitioner-role
       summary: Get practitioner role details
