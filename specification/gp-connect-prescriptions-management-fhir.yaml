@@ -474,6 +474,8 @@ paths:
 
         * id
 
+        * patient
+
         
         ## Use cases
 
@@ -501,6 +503,13 @@ paths:
           schema:
             type: string
             example: '0ae6ac98-6b0f-404f-a95b-c38a4318f686'
+        - in: query
+          name: patient
+          description: The NHS number of the patient for whom the medication request belongs.
+          required: true
+          schema:
+            type: string
+            example: '9000000009'
       responses:
         '200':
           description: Successful request to view current and previous prescription details
@@ -583,6 +592,8 @@ paths:
             | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a MedicationRequest that doesn't exist
             | 422         | INVALID_PARAMETER  | The MedicationRequest id supplied is invalid
+            | 400         | INVALID_NHS_NUMBER | The NHS number provided is invalid, for example it fails format or check digit tests    
+            | 422         | INVALID_PARAMETER  | The patient parameter is not provided                                          
           content:
             application/fhir+json:
               schema:
@@ -1449,6 +1460,8 @@ paths:
 
         * id
 
+        * patient
+
         ## Use cases
 
         Use cases covered by this endpoint include:
@@ -1482,6 +1495,13 @@ paths:
           schema:
             type: string
             example: 'aef77afb-7e3c-427a-8657-2c427f71a271'
+        - in: query
+          name: patient
+          description: The NHS number of the patient
+          required: true
+          schema:
+            type: string
+            example: '9000000009'
       requestBody:
         required: true
         description: Successful Request.
@@ -1548,10 +1568,12 @@ paths:
 
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
-            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid
+            | 400         | INVALID_NHS_NUMBER | The NHS number provided is invalid, for example it fails format or check digit tests    
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that doesn't exist
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been cancelled
             | 404         | RESOURCE_NOT_FOUND | The request is for a Task that has already been actioned
+            | 422         | INVALID_PARAMETER  | The patient parameter is not provided        
+            | 422         | INVALID_PARAMETER  | The Task id supplied is invalid                                  
 
           content:
             application/fhir+json:
@@ -1589,6 +1611,8 @@ paths:
 
         * id
 
+        * patient
+
         ## Use cases
 
         Use cases covered by this endpoint include:
@@ -1606,6 +1630,13 @@ paths:
           schema:
             type: string
             example: 'ed313d93-f470-420f-ae4e-2b7eb91d3f45'
+        - in: query
+          name: patient
+          description: The NHS number of the patient
+          required: true
+          schema:
+            type: string
+            example: '9000000009'
       responses:
         '200':
           description: Successful request to view practitioner role details
@@ -1639,9 +1670,11 @@ paths:
             | HTTP Status | Spine error code   | Description
             |-------------|--------------------|------------
             | 400         | BAD_REQUEST        | X-Request-ID is not present
+            | 400         | INVALID_NHS_NUMBER | The NHS number provided is invalid, for example it fails format or check digit tests  
             | 403         | ACCESS_DENIED      | Access denied, the patient logged in does not have the correct access level
             | 404         | RESOURCE_NOT_FOUND | The request is for a PractitionerRole that doesn't exist
-            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid
+            | 422         | INVALID_PARAMETER  | The PractitionerRole id supplied is invalid  
+            | 422         | INVALID_PARAMETER  | The patient parameter is not provided 
           content:
             application/fhir+json:
               schema:
