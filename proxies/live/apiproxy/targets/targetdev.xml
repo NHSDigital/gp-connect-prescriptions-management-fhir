@@ -1,4 +1,4 @@
-<TargetEndpoint name="gp-connect-prescriptions-management-fhir-target">
+<TargetEndpoint name="gp-connect-prescriptions-management-internal-dev-target">
   <PreFlow>
     <Request>
       <Step>
@@ -106,12 +106,5 @@
       <Property name="request.retain.headers">User-Agent,Referer,Accept-Language</Property>
       <Property name="retain.queryparams">apikey</Property>
     </Properties>
-    <SSLInfo>
-      <Enabled>true</Enabled>
-      <ClientAuthEnabled>true</ClientAuthEnabled>
-      <KeyStore>ref://gpc-client</KeyStore>
-      <KeyAlias>cert</KeyAlias>
-      <TrustStore>ref://identity-service-truststore</TrustStore>
-    </SSLInfo>
   </HTTPTargetConnection>
 </TargetEndpoint>
