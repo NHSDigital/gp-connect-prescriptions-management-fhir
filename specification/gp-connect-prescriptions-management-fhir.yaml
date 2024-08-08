@@ -27,7 +27,7 @@ info:
 
     For example:
 
-    * a patient can view their own medication, request a new instance of a repeat prescription
+    * a patient can check the status of a current prescription request and request a new instance of a repeat prescription
 
     ## Who can use this API
 
