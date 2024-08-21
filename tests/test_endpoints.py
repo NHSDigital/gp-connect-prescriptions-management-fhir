@@ -86,7 +86,7 @@ def test_wait_for_status(proxy_url):
 @pytest.mark.nhsd_apim_authorization({"access": "application", "level": "level0"})
 def test_auth_level0(proxy_url, nhsd_apim_auth_headers):
 
-    resp = requests.get(f"{proxy_url}/documents/Patient/9000000009/MedicationStatement", headers=nhsd_apim_auth_headers)
+    resp = requests.get(f"{proxy_url}/documents/Patient/9000000009/MedicationRequest", headers=nhsd_apim_auth_headers)
     assert resp.status_code == 401
 
 
@@ -107,7 +107,7 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
     headers.update(nhsd_apim_auth_headers)
 
     resp = requests.get(
-        f"{proxy_url}/Patient/9000000009/MedicationStatement",
+        f"{proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
     assert resp.status_code == 200
