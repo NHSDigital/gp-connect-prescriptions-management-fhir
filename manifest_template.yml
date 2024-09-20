@@ -11,9 +11,9 @@ APIGEE_ENVIRONMENTS:
   - name: ref
     display_name: Reference
     has_mock_auth: true
-  # - name: internal-dev-sandbox
-  #   display_name: Internal Development Sandbox
-  #   portal_visibility: false
+  - name: internal-dev-sandbox
+    display_name: Internal Development Sandbox
+    portal_visibility: false
   - name: internal-qa
     display_name: Internal QA
     has_mock_auth: true
@@ -76,11 +76,8 @@ apigee:
             - {{ NAME }}
 {% if ENV.has_mock_auth | default(false) %}
             - identity-service-mock-{{ ENV.name }}
-{% elif ENV.name == 'prod' %}
-          - identity-service-{{ ENV.name }}  
 {% else %}
             - identity-service-{{ ENV.name }}
-            - identity-service-mock-{{ ENV.name }}
 {% endif %}
         scopes:
             - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
