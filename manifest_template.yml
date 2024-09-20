@@ -80,6 +80,7 @@ apigee:
           - identity-service-{{ ENV.name }}  
 {% else %}
             - identity-service-{{ ENV.name }}
+            - identity-service-mock-{{ ENV.name }}
 {% endif %}
         scopes:
             - 'urn:nhsd:apim:user-nhs-login:P9:{{ SERVICE_NAME }}'
