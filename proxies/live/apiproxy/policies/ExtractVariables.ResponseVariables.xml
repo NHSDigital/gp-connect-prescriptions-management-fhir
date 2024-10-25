@@ -1,5 +1,3 @@
-<!-- This policy is to track the failure response from backend target endpoint. Based on this apply AssignMessage.Errors.CatchAllMessage policy in </DefaultFaultRule> for target to avoid double wrapping of response.-->
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ExtractVariables name="ExtractVariables.ResponseVariables" continueOnError="true" enabled="true">
     <Source>response</Source>
     <JSONPayload>
