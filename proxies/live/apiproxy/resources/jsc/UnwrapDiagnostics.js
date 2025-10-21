@@ -1,3 +1,4 @@
+/* eslint-disable javascript:S3504 */
 var rawContent = context.getVariable("response.content");
 
 try {
@@ -19,3 +20,6 @@ try {
   // If diagnostics is not valid JSON, leave the response as-is
   context.setVariable("unwrapDiagnostics.skipped", "Unable to parse diagnostics as JSON — CatchAll logic preserved.");
 }
+/* eslint-enable javascript:S3504 */
+// 'var' is required due to Apigee's Rhino JavaScript engine — ES6 syntax is not supported.
+// Optional chaining not supported in Apigee (Rhino engine)
