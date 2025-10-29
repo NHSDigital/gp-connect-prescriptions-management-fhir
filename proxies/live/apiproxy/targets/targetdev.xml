@@ -92,7 +92,7 @@
         </Step>
         <Condition>
             (fault.name = "ExecutionFailed" and 
-            ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 400)
+            ServiceCallout.AuthenticateAgainstGPCPFSInternalDev.status.code = 500)
         </Condition>
         </FaultRule>
     <FaultRule name="pds_error">
@@ -104,17 +104,12 @@
   </FaultRules>
   <DefaultFaultRule>
     <Step>
-      <Name>ExtractVariables.ResponseVariables</Name>
+      <Name>Javascript.HandleErrorContent</Name>
     </Step>
-    <Step>      
-      <Name>AssignMessage.Errors.CatchAllMessage</Name>
-      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
+    <Step>          
+      <Name>AssignMessage.Errors.CatchAllResponse</Name>
     </Step>
-    <Step>
-      <Name>Javascript.UnwrapDiagnostics</Name>
-      <Condition>(extractvariables.ExtractVariables.ResponseVariables.failed == true)</Condition>
-    </Step>
-  </DefaultFaultRule>
+    </DefaultFaultRule>
   <!--
     To point to a named target server as this is how it SHOULD be implemented:
     For example:
