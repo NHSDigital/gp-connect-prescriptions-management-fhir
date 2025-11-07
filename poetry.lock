@@ -769,26 +769,9 @@ description = "Composable command line interface toolkit"
 optional = false
 python-versions = ">=3.7"
 groups = ["dev"]
-markers = "python_full_version < \"3.14.0\" or platform_python_implementation == \"PyPy\""
 files = [
     {file = "click-8.1.8-py3-none-any.whl", hash = "sha256:63c132bbbed01578a06712a2d1f497bb62d9c1c0d329b7903a866228027263b2"},
     {file = "click-8.1.8.tar.gz", hash = "sha256:ed53c9d8990d83c2a27deae68e4ee337473f6330c040a31d4225c9574d16096a"},
-]
-
-[package.dependencies]
-colorama = {version = "*", markers = "platform_system == \"Windows\""}
-
-[[package]]
-name = "click"
-version = "8.3.0"
-description = "Composable command line interface toolkit"
-optional = false
-python-versions = ">=3.10"
-groups = ["dev"]
-markers = "python_full_version >= \"3.14.0\" and platform_python_implementation != \"PyPy\""
-files = [
-    {file = "click-8.3.0-py3-none-any.whl", hash = "sha256:9b9f285302c6e3064f4330c05f05b81945b2a39544279343e6e7c5f27a9baddc"},
-    {file = "click-8.3.0.tar.gz", hash = "sha256:e7b8232224eba16f4ebe410c25ced9f7875cb5f3263ffc93cc3e8da705e229c4"},
 ]
 
 [package.dependencies]
@@ -879,7 +862,7 @@ description = "cryptography is a package which provides cryptographic recipes an
 optional = false
 python-versions = ">=3.7"
 groups = ["main"]
-markers = "python_full_version >= \"3.9.0\" and python_full_version < \"3.14.0\" or platform_python_implementation == \"PyPy\""
+markers = "python_full_version >= \"3.9.0\" or platform_python_implementation == \"PyPy\""
 files = [
     {file = "cryptography-43.0.3-cp37-abi3-macosx_10_9_universal2.whl", hash = "sha256:bf7a1932ac4176486eab36a19ed4c0492da5d97123f1406cf15e41b05e787d2e"},
     {file = "cryptography-43.0.3-cp37-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:63efa177ff54aec6e1c0aefaa1a241232dcd37413835a9b674b6e3f0ae2bfd3e"},
@@ -930,7 +913,7 @@ description = "cryptography is a package which provides cryptographic recipes an
 optional = false
 python-versions = "!=3.9.0,!=3.9.1,>=3.8"
 groups = ["main"]
-markers = "(python_full_version == \"3.8.*\" or python_full_version >= \"3.14.0\") and platform_python_implementation != \"PyPy\""
+markers = "python_full_version == \"3.8.*\" and platform_python_implementation != \"PyPy\""
 files = [
     {file = "cryptography-46.0.3-cp311-abi3-macosx_10_9_universal2.whl", hash = "sha256:109d4ddfadf17e8e7779c39f9b18111a09efb969a301a31e987416a0191ed93a"},
     {file = "cryptography-46.0.3-cp311-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.whl", hash = "sha256:09859af8466b69bc3c27bdf4f5d84a665e0f7ab5088412e9e2ec49758eca5cbc"},
@@ -989,10 +972,7 @@ files = [
 ]
 
 [package.dependencies]
-cffi = [
-    {version = ">=1.14", markers = "python_full_version == \"3.8.*\" and platform_python_implementation != \"PyPy\""},
-    {version = ">=2.0.0", markers = "python_full_version >= \"3.9.0\" and platform_python_implementation != \"PyPy\""},
-]
+cffi = {version = ">=1.14", markers = "python_full_version == \"3.8.*\" and platform_python_implementation != \"PyPy\""}
 typing-extensions = {version = ">=4.13.2", markers = "python_full_version < \"3.11.0\""}
 
 [package.extras]
@@ -1365,23 +1345,9 @@ description = "brain-dead simple config-ini parsing"
 optional = false
 python-versions = ">=3.8"
 groups = ["main", "dev"]
-markers = "python_full_version < \"3.14.0\" or platform_python_implementation == \"PyPy\""
 files = [
     {file = "iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760"},
     {file = "iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7"},
-]
-
-[[package]]
-name = "iniconfig"
-version = "2.3.0"
-description = "brain-dead simple config-ini parsing"
-optional = false
-python-versions = ">=3.10"
-groups = ["main", "dev"]
-markers = "python_full_version >= \"3.14.0\" and platform_python_implementation != \"PyPy\""
-files = [
-    {file = "iniconfig-2.3.0-py3-none-any.whl", hash = "sha256:f631c04d2c48c52b84d0d0549c99ff3859c98df65b3101406327ecc7d53fbf12"},
-    {file = "iniconfig-2.3.0.tar.gz", hash = "sha256:c76315c77db068650d49c5b56314774a7804df16fee4402c1f19d6d15d8c4730"},
 ]
 
 [[package]]
@@ -2941,7 +2907,6 @@ description = "Pytest plugin accessing NHSDigital's APIM proxies"
 optional = false
 python-versions = "<4.0,>=3.8"
 groups = ["main"]
-markers = "python_full_version < \"3.14.0\" or platform_python_implementation == \"PyPy\""
 files = [
     {file = "pytest_nhsd_apim-5.0.6-py3-none-any.whl", hash = "sha256:b562297c62594275dcce5b08187d7cea4f56e2704f2354f1beb80c8f3db8202e"},
     {file = "pytest_nhsd_apim-5.0.6.tar.gz", hash = "sha256:77be049fe6f840c7b37bb7607ee1650ef6cea17806c29051eab5721c6b272be4"},
@@ -2960,35 +2925,6 @@ pytest = ">=8.2.0,<9.0.0"
 requests = ">=2.32.0,<3.0.0"
 toml = ">=0.10.2,<0.11.0"
 typing-extensions = ">=4.11.0,<5.0.0"
-wheel = ">=0.37.1,<0.39.0"
-
-[[package]]
-name = "pytest-nhsd-apim"
-version = "5.0.14"
-description = "Pytest plugin accessing NHSDigital's APIM proxies"
-optional = false
-python-versions = "<4.0,>=3.13"
-groups = ["main"]
-markers = "python_full_version >= \"3.14.0\" and platform_python_implementation != \"PyPy\""
-files = [
-    {file = "pytest_nhsd_apim-5.0.14-py3-none-any.whl", hash = "sha256:f21a4b299cc28d031ea671a6ad524fff269193d5e4a09a516cd3fb3879f9fb18"},
-    {file = "pytest_nhsd_apim-5.0.14.tar.gz", hash = "sha256:aca221f772e9cb763d2e5addca4000e2d9eb343ec05a8e32ffc6362442a913c5"},
-]
-
-[package.dependencies]
-Authlib = ">=1.3.1,<2.0.0"
-cryptography = ">42.0.0"
-lxml = ">=5.3.1,<6.0.0"
-pycryptodome = ">=3.20.0,<4.0.0"
-pydantic = ">=2.9.2,<3.0.0"
-pydantic-settings = ">=2.2.1,<3.0.0"
-PyJWT = ">=2.8.0,<3.0.0"
-pyotp = ">=2.9.0,<3.0.0"
-pytest = ">=8.2.0,<9.0.0"
-requests = ">=2.32.0,<3.0.0"
-setuptools = ">=78.1.1,<79.0.0"
-toml = ">=0.10.2,<0.11.0"
-typing-extensions = ">=4.12.2,<5.0.0"
 wheel = ">=0.37.1,<0.39.0"
 
 [[package]]
@@ -3350,28 +3286,6 @@ files = [
     {file = "semver-2.13.0-py2.py3-none-any.whl", hash = "sha256:ced8b23dceb22134307c1b8abfa523da14198793d9787ac838e70e29e77458d4"},
     {file = "semver-2.13.0.tar.gz", hash = "sha256:fa0fe2722ee1c3f57eac478820c3a5ae2f624af8264cbdf9000c980ff7f75e3f"},
 ]
-
-[[package]]
-name = "setuptools"
-version = "78.1.1"
-description = "Easily download, build, install, upgrade, and uninstall Python packages"
-optional = false
-python-versions = ">=3.9"
-groups = ["main"]
-markers = "python_full_version >= \"3.14.0\" and platform_python_implementation != \"PyPy\""
-files = [
-    {file = "setuptools-78.1.1-py3-none-any.whl", hash = "sha256:c3a9c4211ff4c309edb8b8c4f1cbfa7ae324c4ba9f91ff254e3d305b9fd54561"},
-    {file = "setuptools-78.1.1.tar.gz", hash = "sha256:fcc17fd9cd898242f6b4adfaca46137a9edef687f43e6f78469692a5e70d851d"},
-]
-
-[package.extras]
-check = ["pytest-checkdocs (>=2.4)", "pytest-ruff (>=0.2.1) ; sys_platform != \"cygwin\"", "ruff (>=0.8.0) ; sys_platform != \"cygwin\""]
-core = ["importlib_metadata (>=6) ; python_version < \"3.10\"", "jaraco.functools (>=4)", "jaraco.text (>=3.7)", "more_itertools", "more_itertools (>=8.8)", "packaging (>=24.2)", "platformdirs (>=4.2.2)", "tomli (>=2.0.1) ; python_version < \"3.11\"", "wheel (>=0.43.0)"]
-cover = ["pytest-cov"]
-doc = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "pygments-github-lexers (==0.0.5)", "pyproject-hooks (!=1.1)", "rst.linker (>=1.9)", "sphinx (>=3.5)", "sphinx-favicon", "sphinx-inline-tabs", "sphinx-lint", "sphinx-notfound-page (>=1,<2)", "sphinx-reredirects", "sphinxcontrib-towncrier", "towncrier (<24.7)"]
-enabler = ["pytest-enabler (>=2.2)"]
-test = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "ini2toml[lite] (>=0.14)", "jaraco.develop (>=7.21) ; python_version >= \"3.9\" and sys_platform != \"cygwin\"", "jaraco.envs (>=2.2)", "jaraco.path (>=3.7.2)", "jaraco.test (>=5.5)", "packaging (>=24.2)", "pip (>=19.1)", "pyproject-hooks (!=1.1)", "pytest (>=6,!=8.1.*)", "pytest-home (>=0.5)", "pytest-perf ; sys_platform != \"cygwin\"", "pytest-subprocess", "pytest-timeout", "pytest-xdist (>=3)", "tomli-w (>=1.0.0)", "virtualenv (>=13.0.0)", "wheel (>=0.44.0)"]
-type = ["importlib_metadata (>=7.0.2) ; python_version < \"3.10\"", "jaraco.develop (>=7.21) ; sys_platform != \"cygwin\"", "mypy (==1.14.*)", "pytest-mypy"]
 
 [[package]]
 name = "six"
