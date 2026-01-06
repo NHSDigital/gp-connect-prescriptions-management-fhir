@@ -20,7 +20,7 @@ resources:
     - repository: common
       type: github
       name: NHSDigital/api-management-utils
-      ref: refs/heads/task-5686
+      ref: refs/heads/edge
       endpoint: NHSDigital
 
 variables:
@@ -29,7 +29,6 @@ extends:
   template: azure/common/apigee-build.yml@common
   parameters:
       service_name: ${{ variables.service_name }}
-      short_service_name: ${{ variables.short_service_name }}
-      python_version: ${{ variables.python_version }}
+      short_service_name: ${{ variables.short_service_name }}      
       post_ecs_push:
           -   template: ./templates/push-mock-receiver-image.yml
