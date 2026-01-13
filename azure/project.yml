@@ -3,4 +3,3 @@ variables:
   short_service_name: gcpmf
   service_base_path: gp-connect/patient-facing/prescriptions-management-fhir/FHIR/R4
   pr_number: ${{ split(variables['Build.SourceBranch'], '/')[2] }}
-
