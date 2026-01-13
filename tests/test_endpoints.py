@@ -112,7 +112,6 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
     )
     assert resp.status_code == 500
 
-
 #@pytest.mark.smoketest
 #@pytest.mark.auth
 #@pytest.mark.debug
