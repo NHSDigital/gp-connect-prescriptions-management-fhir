@@ -9,8 +9,6 @@ from os import getenv
 import pytest
 import requests
 
-from .example_loader import load_example
-
 
 @pytest.fixture()
 def proxy_url():
