@@ -1,10 +1,9 @@
 [tool.poetry]
+package-mode = false
 name = "gp-connect-prescriptions-management-fhir"
 version = "0.0.1-alpha"
 description = "TODO"
-authors = [
-    #TODO add authors
-]
+authors = []
 readme = 'README.md'
 license = "MIT"
 repository = "https://github.com/NHSDigital/gp-connect-prescriptions-management-fhir"
@@ -16,7 +15,7 @@ keywords = ["healthcare", "uk", "nhs"] #TODO add additional keywords
 python = "^3.13"
 pytest-nhsd-apim = "^5.0.14"
 
-[tool.poetry.group.dev.dependencies]
+[tool.poetry.dev-dependencies]
 flake8 = "^7.1.1"
 black = "^24.10.0"
 pip-licenses = "^4.5.0"
