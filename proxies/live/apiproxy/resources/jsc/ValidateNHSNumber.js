@@ -2,7 +2,7 @@ const subNHS = context.getVariable("nhsd.subject.nhs_number");
 
 if (subNHS) {
     const httpverb = String(context.getVariable("request.verb")).toLowerCase();
-    let requestNHS = null;
+    var requestNHS = null;
 
     if (httpverb === 'get' || httpverb === 'patch') {
         let queryParams = context.getVariable("request.querystring");
