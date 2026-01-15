@@ -1,6 +1,3 @@
-//print("nhsd.actor.nhs_number   : " + context.getVariable("nhsd.actor.nhs_number"));
-//print("nhsd.subject.nhs_number : " + context.getVariable("nhsd.subject.nhs_number"));
-
 var subNHS = context.getVariable("nhsd.subject.nhs_number");
 
 if (subNHS) {
@@ -9,7 +6,6 @@ if (subNHS) {
 
     if (httpverb === 'get' || httpverb === 'patch') {
         var queryParams = context.getVariable("request.querystring");
-        //print(queryParams);
         var normalizedParams = {};
 
         if (queryParams) {
@@ -25,13 +21,11 @@ if (subNHS) {
         var queryNHSNumber = normalizedParams["patient"];
         if (queryNHSNumber) {
             requestNHS = String(queryNHSNumber).trim();
-            //print("NHS from query: " + requestNHS);
         } else {
             var pathSuffix = context.getVariable("proxy.pathsuffix");
             if (pathSuffix) {
                 var parts = pathSuffix.split('/').filter(Boolean);
                 requestNHS = parts.length ? parts[parts.length - 2] : null;
-                //print("NHS from route: " + requestNHS);
             }
         }
     } else if (httpverb === 'post') {
@@ -46,8 +40,7 @@ if (subNHS) {
                             ? reqContent["for"].identifier.value
                             : (reqContent && reqContent.requester && reqContent.requester.identifier && reqContent.requester.identifier.value)
                             ? reqContent.requester.identifier.value
-                            : null;
-            //print("POST RequestNHS: " + requestNHS);    
+                            : null; 
         }
         else {
             context.setVariable('trigger.raiseNHSNumberFault', true);
