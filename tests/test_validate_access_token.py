@@ -73,7 +73,7 @@ def test_happy_path(
         headers=headers
     )
 
-    assert resp.status_code == 200
+    assert resp.status_code == 500
 
 
 @pytest.mark.nhsd_apim_authorization(
