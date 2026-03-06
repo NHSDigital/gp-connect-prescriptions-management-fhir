@@ -54,13 +54,13 @@ steps:
   #        pr_no=$(echo $service_name | { grep -oE '[0-9]+$' || true; })
   #        if [ -z $pr_no ]; then
   #          workspace=$APIGEE_ENVIRONMENT
-  #         else
+  #        else
   #          workspace=pr-$pr_no
   #        fi
 
   #        echo Deploy mock provider with following parameters:
   #        echo service_name: $service_name
-  #        echo workspace: $workspace
+  #       echo workspace: $workspace
   #        echo Apigee environment: $APIGEE_ENVIRONMENT
   #        echo pr_no: $pr_no
   #        echo introspection client id: $introspection_client_id
@@ -83,7 +83,7 @@ steps:
   #    fi
   #  displayName: Deploy mock provider
   #  workingDirectory: "$(Pipeline.Workspace)/s/$(SERVICE_NAME)/$(SERVICE_ARTIFACT_NAME)"
-  # retryCountOnTaskFailure: 2
+  #  retryCountOnTaskFailure: 2
 
   - bash: |
       set -e
