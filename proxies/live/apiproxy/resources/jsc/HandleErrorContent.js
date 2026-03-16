@@ -21,6 +21,26 @@ if (parsed && parsed.resourceType === "OperationOutcome") {
     context.setVariable("Error-Handled", "passthrough");
 }
 
+// --- For Body buffer overflow ---
+else if (parsed && parsed.fault && parsed.fault.faultstring === "Body buffer overflow") {
+    error.status.code = "400"
+    responseContent = {
+        resourceType: "OperationOutcome",
+        issue: [
+            {
+                severity: "error",
+                code: "processing",
+                details: {
+                    coding: [{ system: "https://fhir.nhs.uk/R4/CodeSystem/Spine-ErrorOrWarningCode", code: "BAD_GATEWAY_BUFFER_OVERFLOW", display: "Response body exceeded buffer limit" }]
+                },
+                diagnostics: "Body buffer overflow: response exceeded 10MB limit"
+            }
+        ]
+    };
+    context.setVariable("Error-Handled", "transformed-raisefault");
+
+}
+
 // --- Apigee RaiseFault / ServiceCallout format ---
 else if (parsed && parsed.fault && parsed.fault.faultstring) {
     responseContent = {
