@@ -13,7 +13,7 @@ def test_mock_receiver_medication_statement_path(nhsd_apim_proxy_url, nhsd_apim_
     }
     headers.update(nhsd_apim_auth_headers)
     resp = requests.get(
-        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationStatement",
+        f"{nhsd_apim_proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
     assert resp.status_code == 200

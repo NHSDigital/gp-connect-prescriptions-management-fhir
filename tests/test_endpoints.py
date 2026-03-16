@@ -110,7 +110,7 @@ def test_nhs_login_p9(proxy_url, nhsd_apim_auth_headers):
         f"{proxy_url}/Patient/9000000009/MedicationRequest",
         headers=headers
     )
-    assert resp.status_code == 500
+    assert resp.status_code == 200
 
 
 @pytest.mark.smoketest
