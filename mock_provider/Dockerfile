@@ -10,7 +10,7 @@ COPY ./specification ./specification
 RUN yq ".paths |= ($(cat HealthStatusEndpoint.json) + .)" <specification/gp-connect-prescriptions-management-fhir.yaml> updated-spec.yaml
 
 FROM stoplight/prism:latest
-#Inheriting from previous image and copying updated OAS spec file to current container
+#Inheriting from previous image and copying updated OAS specification file to current container 
 COPY --from=0  /specification  /usr/src/prism/packages/cli/gp-connect-prescriptions-management-fhir/specification
 COPY --from=0  /updated-spec.yaml  /usr/src/prism/packages/cli/gp-connect-prescriptions-management-fhir/specification/gp-connect-prescriptions-management-fhir.yaml
 
