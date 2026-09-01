@@ -15,4 +15,4 @@ COPY --from=0  /specification  /usr/src/prism/packages/cli/gp-connect-prescripti
 COPY --from=0  /updated-spec.yaml  /usr/src/prism/packages/cli/gp-connect-prescriptions-management-fhir/specification/gp-connect-prescriptions-management-fhir.yaml
 
 #Running command of mock with OAS file
-CMD ["mock" , "-h", "0.0.0.0", "-p" ,"9000" ,"gp-connect-prescriptions-management-fhir/specification/gp-connect-prescriptions-management-fhir.yaml"]
+CMD ["mock" , "-h", "0.0.0.0", "-p" ,"9000" ,"--multiprocess=false","gp-connect-prescriptions-management-fhir/specification/gp-connect-prescriptions-management-fhir.yaml"]
